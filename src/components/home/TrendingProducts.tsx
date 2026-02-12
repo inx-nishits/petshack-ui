@@ -16,12 +16,12 @@ export const TrendingProducts = () => {
     const scrollPrev = React.useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
     const scrollNext = React.useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
-    // Use top 6 products as requested
-    const trendingList = PRODUCTS.slice(0, 6);
+    // Use top 10 products
+    const trendingList = [...PRODUCTS, ...PRODUCTS].slice(0, 10);
 
     return (
-        <section className="py-[60px] lg:py-24 bg-surface/30 overflow-hidden">
-            <div className="container mx-auto px-4">
+        <section className="py-12 lg:py-16 bg-surface/30 overflow-hidden">
+            <div className="container mx-auto px-6">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
                     <div className="flex-1">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-wider mb-4">
@@ -52,14 +52,14 @@ export const TrendingProducts = () => {
                 <div className="relative" ref={emblaRef}>
                     <div className="flex -ml-4 lg:-ml-8 pb-16 pt-16">
                         {trendingList.map((product, index) => (
-                            <div key={product.id} className="flex-[0_0_80%] sm:flex-[0_0_45%] lg:flex-[0_0_30%] xl:flex-[0_0_25%] pl-4 lg:pl-8 group select-none cursor-pointer">
+                            <div key={`${product.id}-${index}`} className="flex-[0_0_80%] sm:flex-[0_0_45%] lg:flex-[0_0_30%] xl:flex-[0_0_25%] pl-4 lg:pl-8 group select-none cursor-pointer">
                                 <Link href="#" className="relative block h-full">
                                     <div className="relative flex items-end h-full">
-                                        {/* Styled Rank Number - Using Brand Theme Colors */}
+                                        {/* Styled Rank Number - High Intensity Highlight */}
                                         <div className="absolute -bottom-6 -left-4 lg:-left-10 z-0 pointer-events-none select-none">
-                                            <span className="text-[140px] lg:text-[180px] font-black leading-[0.8] text-transparent transition-all group-hover:scale-105 block"
+                                            <span className="text-[140px] lg:text-[180px] font-black leading-[0.8] text-transparent transition-all duration-500 group-hover:scale-110 group-hover:opacity-100 group-hover:text-primary/25 group-hover:drop-shadow-[0_0_30px_rgba(20,167,157,0.4)] block"
                                                 style={{
-                                                    WebkitTextStroke: '2px #14A79D',
+                                                    WebkitTextStroke: '3px #14A79D',
                                                     opacity: 0.15,
                                                     fontFamily: 'system-ui, sans-serif',
                                                     fontWeight: 900,
@@ -112,3 +112,4 @@ export const TrendingProducts = () => {
         </section>
     );
 };
+

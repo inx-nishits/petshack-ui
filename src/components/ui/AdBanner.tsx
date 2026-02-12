@@ -25,3 +25,4 @@ export const AdBanner = ({ className = "", label = "Advertisement" }: AdBannerPr
         </div>
     );
 };
+

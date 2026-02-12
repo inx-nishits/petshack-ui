@@ -26,8 +26,8 @@ const STEPS = [
 
 export const HowItWorks = () => {
     return (
-        <section className="py-[60px] lg:py-24 bg-white overflow-hidden">
-            <div className="container mx-auto px-4">
+        <section id="how-it-works" className="py-12 lg:py-16 bg-white overflow-hidden">
+            <div className="container mx-auto px-6">
                 <div className="mb-16">
                     <h2 className="text-[32px] font-black mb-4 text-foreground">How PetShack Works?</h2>
                     <p className="text-gray-500 max-w-5xl leading-relaxed text-[15px] font-medium">
@@ -67,3 +67,4 @@ export const HowItWorks = () => {
         </section>
     );
 };
+

@@ -22,8 +22,8 @@ export const CategoryGrid = () => {
     });
 
     return (
-        <section className="py-[60px] lg:py-12 bg-white">
-            <div className="container mx-auto px-4">
+        <section className="py-12 lg:py-16 bg-white">
+            <div className="container mx-auto px-6">
                 <h2 className="text-3xl font-black mb-12 text-center lg:text-left">Compare Prices For Your Pet</h2>
 
                 <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
@@ -50,3 +50,4 @@ export const CategoryGrid = () => {
         </section>
     );
 };
+

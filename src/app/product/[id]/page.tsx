@@ -50,12 +50,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 }}
             />
 
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-6 py-12 lg:py-16">
                 {/* Breadcrumbs */}
                 <nav className="flex text-xs text-muted-light mb-8 gap-2">
                     <Link href="/" className="hover:text-primary transition-colors">Home</Link>
                     <span>/</span>
-                    <Link href="/discover" className="hover:text-primary transition-colors">Discover</Link>
+                    <Link href="#" className="hover:text-primary transition-colors">Discover</Link>
                     <span>/</span>
                     <span className="text-muted">{product.name}</span>
                 </nav>

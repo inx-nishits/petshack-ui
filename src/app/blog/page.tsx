@@ -10,7 +10,7 @@ export default function BlogListingPage() {
         <div className="bg-white min-h-screen">
             {/* Breadcrumbs */}
             <div className="bg-surface border-b border-border py-4">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto px-6 sm:px-6 lg:px-8">
                     <nav className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-muted-light">
                         <Link href="/" className="hover:text-primary transition-colors">Home</Link>
                         <ChevronRight className="w-3 h-3" />
@@ -20,8 +20,8 @@ export default function BlogListingPage() {
             </div>
 
             {/* Hero Section - Brand Primary */}
-            <section className="py-[60px] lg:py-32 relative overflow-hidden bg-primary">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <section className="py-12 lg:py-16 relative overflow-hidden bg-primary">
+                <div className="container mx-auto px-6 sm:px-6 lg:px-8 relative z-10 text-center">
                     <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md text-white px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.2em] mb-8 border border-white/30">
                         <Sparkles className="w-4 h-4" /> The PetShack Advice
                     </div>
@@ -42,7 +42,7 @@ export default function BlogListingPage() {
 
             {/* Search & Filter Bar */}
             <div className="relative z-30 -mt-10">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto px-6 sm:px-6 lg:px-8">
                     <div className="bg-white rounded-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-border p-4 flex flex-col md:flex-row gap-4 items-center">
                         <div className="relative flex-1 w-full">
                             <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-light" />
@@ -65,7 +65,7 @@ export default function BlogListingPage() {
             </div>
 
             {/* Blog Grid */}
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-[60px] lg:py-24">
+            <div className="container mx-auto px-6 sm:px-6 lg:px-8 py-12 lg:py-16">
                 <div className="flex items-center justify-between mb-12">
                     <h2 className="text-3xl font-black tracking-tight">Latest News</h2>
                     <div className="h-px flex-1 bg-border mx-8 hidden lg:block" />
@@ -138,8 +138,8 @@ export default function BlogListingPage() {
             </div>
 
             {/* Newsletter CTA - Consistent with Brand */}
-            <section className="pb-[60px] lg:pb-32">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="pb-12 lg:pb-16">
+                <div className="container mx-auto px-6 sm:px-6 lg:px-8">
                     <div className="bg-[#0F172A] rounded-[4rem] p-12 md:p-24 text-center relative overflow-hidden">
                         <div className="relative z-10 max-w-3xl mx-auto">
                             <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tighter">Stay paw-sitively updated.</h2>
@@ -165,3 +165,4 @@ export default function BlogListingPage() {
         </div>
     );
 }
+

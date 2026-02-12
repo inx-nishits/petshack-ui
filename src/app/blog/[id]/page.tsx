@@ -17,7 +17,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
 
     return (
         <div className="bg-white min-h-screen">
-            <div className="container mx-auto px-4 py-12">
+            <div className="container mx-auto px-6 py-12 lg:py-16">
                 <Link href="/blog" className="inline-flex items-center gap-2 text-sm font-bold text-muted hover:text-primary mb-12 transition-colors">
                     <ArrowLeft className="w-4 h-4" /> Back to Blog
                 </Link>

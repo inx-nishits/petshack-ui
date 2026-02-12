@@ -5,8 +5,8 @@ import { AlertCircle, RefreshCcw, ExternalLink, CheckCircle } from 'lucide-react
 
 export default function DisclaimerPage() {
     return (
-        <div className="bg-white min-h-screen py-24">
-            <div className="container mx-auto px-4 max-w-4xl">
+        <div className="bg-white min-h-screen py-12 lg:py-16">
+            <div className="container mx-auto px-6 max-w-4xl">
                 {/* Header Section */}
                 <div className="mb-16">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-wider mb-6">
@@ -102,3 +102,4 @@ export default function DisclaimerPage() {
         </div>
     );
 }
+

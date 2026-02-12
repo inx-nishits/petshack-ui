@@ -51,8 +51,8 @@ export default function FAQPage() {
     return (
         <div className="bg-white min-h-screen">
             {/* Hero Section */}
-            <section className="bg-primary/5 py-[60px] lg:py-24 relative overflow-hidden">
-                <div className="container mx-auto px-4 relative z-10 text-center">
+            <section className="bg-primary/5 py-12 lg:py-16 relative overflow-hidden">
+                <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6">
                         <HelpCircle className="w-4 h-4" /> Help Center
                     </div>
@@ -78,8 +78,8 @@ export default function FAQPage() {
             </section>
 
             {/* Content Section */}
-            <section className="py-[60px] lg:py-24">
-                <div className="container mx-auto px-4 max-w-3xl">
+            <section className="py-12 lg:py-16">
+                <div className="container mx-auto px-6 max-w-3xl">
                     {filteredFaqs.length > 0 ? (
                         <div className="space-y-4">
                             {filteredFaqs.map((faq, index) => (
@@ -118,8 +118,8 @@ export default function FAQPage() {
             </section>
 
             {/* Contact Section */}
-            <section className="py-[60px] lg:py-24 bg-surface/50">
-                <div className="container mx-auto px-4 text-center">
+            <section className="py-12 lg:py-16 bg-surface/50">
+                <div className="container mx-auto px-6 text-center">
                     <h2 className="text-3xl font-black mb-12">Still have questions?</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         <div className="bg-white p-10 rounded-[2.5rem] border border-border shadow-sm flex flex-col items-center text-center group hover:shadow-xl transition-all">
@@ -153,3 +153,4 @@ export default function FAQPage() {
         </div>
     );
 }
+

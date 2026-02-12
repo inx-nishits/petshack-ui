@@ -38,3 +38,4 @@ export const NotifyMeButton = ({ productName, variant = "outline" }: NotifyMeBut
         </>
     );
 };
+

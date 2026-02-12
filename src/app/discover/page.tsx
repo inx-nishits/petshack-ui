@@ -69,7 +69,7 @@ function DiscoverContent() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-6 py-12 lg:py-16">
             {/* Breadcrumbs */}
             <nav className="flex text-xs text-muted-light mb-8 gap-2">
                 <a href="/" className="hover:text-primary transition-colors font-bold">Home</a>
@@ -303,7 +303,7 @@ export default function DiscoverPage() {
     return (
         <div className="bg-white min-h-screen">
             <Suspense fallback={
-                <div className="container mx-auto px-4 py-20 text-center">
+                <div className="container mx-auto px-6 py-20 text-center">
                     <div className="animate-spin w-10 h-10 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
                     <span className="font-black text-muted-light uppercase tracking-widest">Syncing Products...</span>
                 </div>
@@ -313,3 +313,4 @@ export default function DiscoverPage() {
         </div>
     );
 }
+

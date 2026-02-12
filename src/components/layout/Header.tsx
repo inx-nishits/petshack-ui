@@ -3,14 +3,19 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown, User, ArrowRight } from "lucide-react";
+import { Menu, X, ChevronDown, User, ArrowRight, Sparkles, Users, Globe } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 
 const NAV_ITEMS = [
     { label: "Home", href: "/" },
     { label: "Blogs", href: "/blog" },
-    { label: "Membership", href: "https://membership.petshack.au/", external: true },
-    { label: "Become A Partner", href: "https://membership.petshack.au/forpartners", external: true },
+    { label: "About Us", href: "/about-us" },
+    { label: "Contact", href: "/contact" },
+];
+
+const UTILITY_ITEMS = [
+    { label: "Membership", href: "https://membership.petshack.au/", external: true, icon: Sparkles },
+    { label: "Become A Partner", href: "https://membership.petshack.au/forpartners", external: true, icon: Users },
 ];
 
 const MEGA_MENU_DATA = {
@@ -72,10 +77,37 @@ const MEGA_MENU_DATA = {
 export const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
     const headerRef = useRef<HTMLElement>(null);
     const pathname = usePathname();
 
     const isActive = (path: string) => pathname === path;
+
+    // Scroll Logic for Hiding Top Bar
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // At the top check
+            setIsScrolled(currentScrollY > 10);
+
+            // Show/Hide logic
+            if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                // Scrolling down - hide top bar info
+                setIsVisible(false);
+            } else {
+                // Scrolling up - show everything
+                setIsVisible(true);
+            }
+
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [lastScrollY]);
 
     // Close menu when clicking outside
     useEffect(() => {
@@ -107,56 +139,119 @@ export const Header = () => {
     }, [isMenuOpen]);
 
     return (
-        <header ref={headerRef} className="sticky top-0 z-50 w-full bg-white border-b border-border transition-all">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <header
+            ref={headerRef}
+            className={`sticky top-0 z-50 w-full bg-white border-b border-border shadow-sm transition-transform duration-500 ${!isVisible && isScrolled
+                ? "lg:-translate-y-[36px] -translate-y-full"
+                : "translate-y-0"
+                }`}
+        >
+            {/* Utility Top Bar */}
+            <div className="hidden lg:block bg-surface border-b border-border/50 h-9">
+                <div className="container mx-auto px-6 sm:px-6 lg:px-8 h-full">
+                    <div className="flex justify-between items-center h-full text-[11px] font-black uppercase tracking-widest">
+                        <div className="flex items-center gap-6 text-muted-light">
+                            <span className="flex items-center gap-2">
+                                <Globe className="w-3 h-3" /> Australia's #1 Pet Price Tracker
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            {UTILITY_ITEMS.map((item, idx) => (
+                                <Link
+                                    key={item.label}
+                                    href={item.href}
+                                    target={item.external ? "_blank" : undefined}
+                                    rel={item.external ? "noopener noreferrer" : undefined}
+                                    className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all group border ${idx === 0
+                                        ? "bg-primary/10 text-primary border-primary/20 hover:bg-primary hover:text-white"
+                                        : "bg-white text-muted border-border hover:border-primary hover:text-primary"
+                                        }`}
+                                >
+                                    <item.icon className={`w-3 h-3 transition-transform ${idx === 0 ? "group-hover:rotate-12" : "group-hover:scale-110"}`} />
+                                    <span>{item.label}</span>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="container mx-auto px-6 sm:px-6 lg:px-8">
                 <div className="flex h-16 xl:h-20 items-center justify-between">
                     {/* Logo */}
                     <Logo />
 
                     {/* Desktop Navigation */}
                     <nav className="hidden lg:flex items-center gap-4 xl:gap-8 text-[13px] xl:text-[15px] font-semibold">
-                        {NAV_ITEMS.slice(0, 2).map((item) => (
-                            <Link
-                                key={item.label}
-                                href={item.href}
-                                target={item.external ? "_blank" : undefined}
-                                rel={item.external ? "noopener noreferrer" : undefined}
-                                className={`transition-colors relative py-1 ${isActive(item.href) ? "text-primary" : "text-gray-600 hover:text-primary"}`}
-                            >
-                                {item.label}
-                                {isActive(item.href) && (
-                                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full animate-in fade-in zoom-in duration-300" />
-                                )}
-                            </Link>
-                        ))}
+                        {/* Home & About Us */}
+                        <Link
+                            href="/"
+                            className={`transition-colors relative py-1 ${isActive("/") ? "text-primary" : "text-gray-600 hover:text-primary"}`}
+                        >
+                            Home
+                            {isActive("/") && (
+                                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full animate-in fade-in zoom-in duration-300" />
+                            )}
+                        </Link>
+
+                        <Link
+                            href="/about-us"
+                            className={`transition-colors relative py-1 ${isActive("/about-us") ? "text-primary" : "text-gray-600 hover:text-primary"}`}
+                        >
+                            About Us
+                            {isActive("/about-us") && (
+                                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full animate-in fade-in zoom-in duration-300" />
+                            )}
+                        </Link>
+
+                        <Link
+                            href="#"
+                            className={`transition-colors relative py-1 ${isActive("/discover") ? "text-primary" : "text-gray-600 hover:text-primary"}`}
+                        >
+                            Compare
+                            {isActive("/discover") && (
+                                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full animate-in fade-in zoom-in duration-300" />
+                            )}
+                        </Link>
+
+                        <Link
+                            href="/blog"
+                            className={`transition-colors relative py-1 ${isActive("/blog") ? "text-primary" : "text-gray-600 hover:text-primary"}`}
+                        >
+                            Blogs
+                            {isActive("/blog") && (
+                                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full animate-in fade-in zoom-in duration-300" />
+                            )}
+                        </Link>
 
                         {/* Mega Menu Triggers */}
-                        {[
-                            { id: "petTypes", label: "Pet Types" },
-                            { id: "brands", label: "Brands" }
-                        ].map((menu) => (
-                            <div
-                                key={menu.id}
-                                className={`relative group cursor-pointer flex items-center gap-1 transition-colors font-semibold h-16 xl:h-20 ${activeMegaMenu === menu.id ? "text-primary" : "text-gray-600 hover:text-primary"}`}
-                                onMouseEnter={() => setActiveMegaMenu(menu.id)}
-                                onClick={() => setActiveMegaMenu(activeMegaMenu === menu.id ? null : menu.id)}
-                            >
-                                <span>{menu.label}</span>
-                                <ChevronDown className={`w-4 h-4 transition-transform ${activeMegaMenu === menu.id ? "rotate-180" : ""}`} />
-                            </div>
-                        ))}
+                        <div
+                            className={`relative group cursor-pointer flex items-center gap-1 transition-colors font-semibold h-16 xl:h-20 ${activeMegaMenu === "petTypes" ? "text-primary" : "text-gray-600 hover:text-primary"}`}
+                            onMouseEnter={() => setActiveMegaMenu("petTypes")}
+                            onClick={() => setActiveMegaMenu(activeMegaMenu === "petTypes" ? null : "petTypes")}
+                        >
+                            <span>Pet Types</span>
+                            <ChevronDown className={`w-4 h-4 transition-transform ${activeMegaMenu === "petTypes" ? "rotate-180" : ""}`} />
+                        </div>
 
-                        {NAV_ITEMS.slice(2).map((item) => (
-                            <Link
-                                key={item.label}
-                                href={item.href}
-                                target={item.external ? "_blank" : undefined}
-                                rel={item.external ? "noopener noreferrer" : undefined}
-                                className={`transition-colors relative py-1 ${isActive(item.href) ? "text-primary" : "text-gray-600 hover:text-primary"}`}
-                            >
-                                {item.label}
-                            </Link>
-                        ))}
+                        <div
+                            className={`relative group cursor-pointer flex items-center gap-1 transition-colors font-semibold h-16 xl:h-20 ${activeMegaMenu === "brands" ? "text-primary" : "text-gray-600 hover:text-primary"}`}
+                            onMouseEnter={() => setActiveMegaMenu("brands")}
+                            onClick={() => setActiveMegaMenu(activeMegaMenu === "brands" ? null : "brands")}
+                        >
+                            <span>Brands</span>
+                            <ChevronDown className={`w-4 h-4 transition-transform ${activeMegaMenu === "brands" ? "rotate-180" : ""}`} />
+                        </div>
+
+                        <Link
+                            href="/contact"
+                            className={`transition-colors relative py-1 ${isActive("/contact") ? "text-primary" : "text-gray-600 hover:text-primary"}`}
+                        >
+                            Contact
+                            {isActive("/contact") && (
+                                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full animate-in fade-in zoom-in duration-300" />
+                            )}
+                        </Link>
                     </nav>
 
                     {/* Auth CTAs for Desktop */}
@@ -194,7 +289,7 @@ export const Header = () => {
                     className="absolute top-full left-0 w-full animate-in fade-in slide-in-from-top-2 duration-200 z-50 pointer-events-none"
                     onMouseLeave={() => setActiveMegaMenu(null)}
                 >
-                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 pointer-events-auto">
+                    <div className="container mx-auto px-6 sm:px-6 lg:px-8 pointer-events-auto">
                         <div className="max-w-5xl mx-auto bg-white border border-border border-t-4 border-t-primary shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] rounded-b-3xl overflow-hidden">
                             <div className="p-8 lg:p-10 text-left">
                                 {activeMegaMenu === "petTypes" && (
@@ -238,7 +333,7 @@ export const Header = () => {
                                                 We compare the biggest brands across all major Aussie pet retailers.
                                             </p>
                                             <Link
-                                                href="#"
+                                                href="/brands"
                                                 className="inline-flex items-center gap-2 text-primary text-sm font-bold hover:gap-3 transition-all"
                                                 onClick={() => setActiveMegaMenu(null)}
                                             >
@@ -287,14 +382,32 @@ export const Header = () => {
                             <Link
                                 key={item.label}
                                 href={item.href}
-                                target={item.external ? "_blank" : undefined}
-                                rel={item.external ? "noopener noreferrer" : undefined}
                                 className={`py-3 text-base font-semibold transition-all border-b border-dashed border-border/50 ${isActive(item.href) ? "text-primary" : "text-gray-900"}`}
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 {item.label}
                             </Link>
                         ))}
+
+                        {/* Mobile Utility Links */}
+                        <div className="py-4 border-b border-dashed border-border/50">
+                            <h4 className="text-xs font-bold text-muted uppercase tracking-wider mb-4">Pet Services</h4>
+                            <div className="grid grid-cols-1 gap-2">
+                                {UTILITY_ITEMS.map((item) => (
+                                    <Link
+                                        key={item.label}
+                                        href={item.href}
+                                        target={item.external ? "_blank" : undefined}
+                                        rel={item.external ? "noopener noreferrer" : undefined}
+                                        className="flex items-center gap-3 p-3 bg-surface rounded-xl text-sm font-bold text-foreground"
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        <item.icon className="w-4 h-4 text-primary" />
+                                        {item.label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
 
                         <div className="py-4">
                             <h4 className="text-xs font-bold text-muted uppercase tracking-wider mb-4">Categories</h4>
@@ -333,3 +446,4 @@ export const Header = () => {
         </header>
     );
 };
+

@@ -87,3 +87,4 @@ export const NotifyMeModal = ({ isOpen, onClose, productName }: NotifyMeModalPro
         </div>
     );
 };
+

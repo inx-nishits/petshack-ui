@@ -5,8 +5,8 @@ import { MessageSquare, Send, Phone, MapPin, Mail } from "lucide-react";
 export default function ContactPage() {
     return (
         <div className="bg-white min-h-screen">
-            <div className="bg-surface py-[60px] lg:py-20 border-b border-border">
-                <div className="container mx-auto px-4 text-center">
+            <div className="bg-surface py-12 lg:py-16 border-b border-border">
+                <div className="container mx-auto px-6 text-center">
                     <h1 className="text-4xl md:text-5xl font-black text-foreground mb-6">Contact Us & Feedback</h1>
                     <p className="text-lg text-muted max-w-2xl mx-auto">
                         Have a question or suggestion? We'd love to hear from you. Your feedback helps us make Petshack better for everyone.
@@ -14,7 +14,7 @@ export default function ContactPage() {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-[60px] lg:py-20">
+            <div className="container mx-auto px-6 py-12 lg:py-16">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
                     {/* Info Side */}
                     <div className="space-y-12">
@@ -107,3 +107,4 @@ export default function ContactPage() {
         </div>
     );
 }
+

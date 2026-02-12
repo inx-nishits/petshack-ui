@@ -69,7 +69,7 @@ export const Hero = () => {
             <div className="overflow-hidden" ref={emblaRef}>
                 <div className="flex">
                     {BANNERS.map((banner) => (
-                        <div key={banner.id} className={`flex-[0_0_100%] min-w-0 relative ${banner.bgColor} text-white pt-[60px] pb-[120px] lg:py-24 cursor-pointer`}>
+                        <div key={banner.id} className={`flex-[0_0_100%] min-w-0 relative ${banner.bgColor} text-white pt-12 lg:pt-20 pb-24 lg:pb-28 cursor-pointer`}>
                             {/* Stretched Link for Full Slide Clickability */}
                             {banner.external ? (
                                 <a
@@ -87,7 +87,7 @@ export const Hero = () => {
                                 />
                             )}
 
-                            <div className="container mx-auto px-4 relative z-0">
+                            <div className="container mx-auto px-6 relative z-0">
                                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
                                     <div className="max-w-2xl pl-0 lg:pl-12">
                                         <div className="flex items-center gap-2 mb-6">
@@ -148,7 +148,7 @@ export const Hero = () => {
             </button>
 
             {/* Dots */}
-            <div className="absolute bottom-10 lg:bottom-12 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
+            <div className="absolute bottom-10 lg:bottom-16 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
                 {BANNERS.map((_, index) => (
                     <button
                         key={index}
@@ -160,3 +160,4 @@ export const Hero = () => {
         </section>
     );
 };
+

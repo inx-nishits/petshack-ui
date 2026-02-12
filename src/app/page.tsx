@@ -8,6 +8,9 @@ import Link from "next/link";
 import { BrandCarousel } from "@/components/home/BrandCarousel";
 import { ContactForm } from "@/components/home/ContactForm";
 import { TrendingProducts } from "@/components/home/TrendingProducts";
+import { WhyChooseUs } from "@/components/home/WhyChooseUs";
+import { RetailerSlider } from "@/components/home/RetailerSlider";
+import { MerchantShowcase } from "@/components/home/MerchantShowcase";
 
 
 export default function Home() {
@@ -16,7 +19,7 @@ export default function Home() {
       <Hero />
 
       {/* Centered Search Bar */}
-      <div className="container mx-auto px-4 -mt-8 lg:-mt-10 relative z-20">
+      <div className="container mx-auto px-6 -mt-8 lg:-mt-10 relative z-20">
         <form action="#" className="max-w-7xl mx-auto bg-white rounded-full shadow-2xl border border-gray-100 p-1.5 lg:p-2 flex items-center">
           <div className="pl-4 lg:pl-6 text-gray-400 shrink-0">
             <img src="/assets/search-icon.png" className="w-5 h-5 lg:w-6 lg:h-6 opacity-30" alt="Search" />
@@ -31,20 +34,28 @@ export default function Home() {
         </form>
       </div>
 
+      <WhyChooseUs />
+
+      <RetailerSlider />
+
       <HowItWorks />
 
       <CategoryGrid />
 
       <BrandCarousel />
 
-      <TrendingProducts />
+      <div className="hidden">
+        <TrendingProducts />
+      </div>
+
+      <MerchantShowcase />
 
       <FeaturedDeals />
 
 
       {/* Community CTA */}
-      <section className="py-[60px] lg:py-24 bg-surface relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10 text-center lg:text-left">
+      <section className="py-12 lg:py-16 bg-surface relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10 text-center lg:text-left">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16">
             <div>
               <h2 className="text-2xl lg:text-4xl font-black mb-6 lg:mb-8 text-foreground">Join the PetShack Community</h2>
@@ -71,3 +82,4 @@ export default function Home() {
     </div>
   );
 }
+

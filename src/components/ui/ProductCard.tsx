@@ -2,7 +2,7 @@
 
 import { Product } from "@/types";
 import Link from "next/link";
-import { Star, ShieldCheck, Bell } from "lucide-react";
+import { Star, ShieldCheck, Bell, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { NotifyMeModal } from "./NotifyMeModal";
 
@@ -47,7 +47,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
     }, [product.image]);
 
     return (
-        <div className={`group bg-white border border-border rounded-4xl overflow-hidden transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-2 flex relative h-full ${isList ? 'flex-row' : 'flex-col'}`}>
+        <div className={`group bg-white border border-border rounded-3xl overflow-hidden transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-2 flex relative h-full ${isList ? 'flex-row' : 'flex-col'}`}>
             {/* Main Card Link - Ensure it sits on top for clicks but doesn't block rendering */}
             <Link
                 href="#"
@@ -56,7 +56,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
             />
 
             {/* Image Container with Soft Background */}
-            <div className={`relative overflow-hidden bg-surface m-3 rounded-2xl lg:rounded-[1.8rem] z-0 group-hover:bg-white transition-colors duration-500 shrink-0 ${isList ? 'aspect-square w-48 md:w-64' : 'aspect-3/4 min-h-[220px]'}`}>
+            <div className={`relative overflow-hidden bg-surface m-2 rounded-2xl lg:rounded-[1.4rem] z-0 group-hover:bg-white transition-colors duration-500 shrink-0 ${isList ? 'aspect-square w-48 md:w-64' : 'aspect-square min-h-[180px]'}`}>
                 <div className="absolute inset-0 flex items-center justify-center bg-transparent">
                     {!imageError ? (
                         <img
@@ -93,7 +93,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                 )}
             </div>
 
-            <div className={`flex-1 flex flex-col z-20 pointer-events-none p-6 ${isList ? 'pt-6' : 'pt-2'}`}>
+            <div className={`flex-1 flex flex-col z-20 pointer-events-none p-4 lg:p-5 ${isList ? 'pt-6' : 'pt-1'}`}>
                 <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
                         <span className="text-[10px] font-black text-primary uppercase tracking-[0.15em]">{product.brand}</span>
@@ -109,7 +109,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                     </div>
                 </div>
 
-                <h3 className={`font-bold text-foreground group-hover:text-primary transition-colors leading-[1.4] ${isList ? 'text-xl md:text-2xl mb-4' : 'text-[15px] line-clamp-2 mb-4 h-[42px]'}`}>
+                <h3 className={`font-bold text-foreground group-hover:text-primary transition-colors leading-[1.4] ${isList ? 'text-xl md:text-2xl mb-4' : 'text-sm line-clamp-2 mb-3 h-[40px]'}`}>
                     {product.name}
                 </h3>
 
@@ -121,8 +121,8 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
 
                 <div className="mt-auto space-y-5">
                     {/* Price & Retailer Info - Detailed Block */}
-                    <div className={`flex flex-col pt-4 border-t border-gray-100 ${isList ? 'max-w-2xl' : ''}`}>
-                        <div className="flex items-center justify-between mb-4">
+                    <div className={`flex flex-col pt-3 border-t border-gray-100 ${isList ? 'max-w-2xl' : ''}`}>
+                        <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-3">
                                 {/* Store Logo */}
                                 <div className="w-8 h-8 rounded-lg bg-surface border border-border flex items-center justify-center overflow-hidden shrink-0 shadow-sm relative group/logo">
@@ -157,36 +157,45 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                         </div>
                     </div>
 
-                    {/* Actions - Explicitly allow clicks and set highest z-index */}
-                    <div className={`grid grid-cols-2 lg:grid-cols-3 gap-2 pb-1 pointer-events-auto relative z-40 ${isList ? 'max-w-md' : ''}`}>
-                        <button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                            }}
-                            className="py-3 px-2 rounded-xl border border-gray-100 bg-gray-50/50 text-[10px] font-black text-muted hover:text-primary hover:border-primary/20 hover:bg-primary/5 transition-all text-center cursor-pointer flex items-center justify-center gap-1.5"
-                        >
-                            <ShieldCheck className="w-3.5 h-3.5" /> Compare
-                        </button>
-                        <button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setIsNotifyModalOpen(true);
-                            }}
-                            className="py-3 px-2 rounded-xl border border-gray-100 bg-gray-50/50 text-[10px] font-black text-muted hover:text-accent hover:border-accent/20 hover:bg-accent/5 transition-all text-center cursor-pointer flex items-center justify-center gap-1.5"
-                        >
-                            <Bell className="w-3.5 h-3.5" /> Notify Me
-                        </button>
-                        <a
-                            href="#"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="py-3 px-2 rounded-xl bg-primary text-white text-[10px] font-black shadow-lg shadow-primary/25 hover:bg-primary-dark hover:-translate-y-px active:translate-y-0 transition-all text-center flex items-center justify-center gap-1 cursor-pointer col-span-2 lg:col-span-1"
-                        >
-                            View Deal
-                        </a>
+                    {/* Actions Block */}
+                    <div className={`flex flex-col gap-4 mt-auto pointer-events-auto relative z-40 ${isList ? 'max-w-md' : ''}`}>
+                        {/* Compare Utility Link */}
+                        <div className="flex items-center justify-between px-1">
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                }}
+                                className="text-[10px] font-black text-muted-light hover:text-primary transition-all flex items-center gap-1.5 cursor-pointer group/compare"
+                            >
+                                <ShieldCheck className="w-3.5 h-3.5 transition-colors group-hover/compare:text-primary" />
+                                <span className="uppercase tracking-widest border-b border-transparent group-hover/compare:border-primary/30">Compare Prices</span>
+                                <ArrowRight className="w-3.5 h-3.5 transition-all group-hover/compare:translate-x-1 group-hover/compare:text-primary" />
+                            </button>
+                        </div>
+
+                        {/* Main Interaction Row */}
+                        <div className="grid grid-cols-2 gap-2 pb-1">
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setIsNotifyModalOpen(true);
+                                }}
+                                className="py-3 px-2 rounded-xl border border-gray-100 bg-gray-50/50 text-[10px] font-black text-muted hover:text-accent hover:border-accent/20 hover:bg-accent/5 transition-all text-center cursor-pointer flex items-center justify-center gap-1.5"
+                            >
+                                <Bell className="w-3.5 h-3.5" /> Notify Me
+                            </button>
+                            <a
+                                href="#"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="py-3 px-2 rounded-xl bg-primary text-white text-[10px] font-black shadow-lg shadow-primary/25 hover:bg-primary-dark hover:-translate-y-px active:translate-y-0 transition-all text-center flex items-center justify-center gap-1 cursor-pointer"
+                            >
+                                View Deal
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -199,3 +208,4 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
         </div>
     );
 };
+

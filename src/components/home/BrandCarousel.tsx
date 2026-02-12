@@ -29,8 +29,8 @@ export const BrandCarousel = () => {
     const scrollNext = React.useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
     return (
-        <section className="py-[60px] lg:py-20 bg-white border-t border-gray-50">
-            <div className="container mx-auto px-4">
+        <section className="py-12 lg:py-16 bg-white border-t border-gray-50">
+            <div className="container mx-auto px-6">
                 <div className="flex justify-between items-center mb-12">
                     <div>
                         <h2 className="text-3xl font-black mb-2">Search By Top Brands</h2>
@@ -81,3 +81,4 @@ export const BrandCarousel = () => {
         </section>
     );
 };
+

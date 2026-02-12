@@ -4,8 +4,8 @@ import { MessageSquare, Send } from "lucide-react";
 
 export const ContactForm = () => {
     return (
-        <section className="py-[60px] lg:py-24 bg-white border-t border-gray-50">
-            <div className="container mx-auto px-4">
+        <section className="py-12 lg:py-16 bg-white border-t border-gray-50">
+            <div className="container mx-auto px-6">
                 <div className="max-w-4xl mx-auto bg-white border border-border shadow-2xl rounded-[1.5rem] lg:rounded-[2.5rem] p-6 md:p-10 lg:p-16">
                     <div className="text-center mb-8 lg:mb-12">
                         <h2 className="text-2xl lg:text-3xl font-black mb-3 lg:mb-4 flex items-center justify-center gap-2 lg:gap-3">
@@ -54,3 +54,4 @@ export const ContactForm = () => {
         </section>
     );
 };
+

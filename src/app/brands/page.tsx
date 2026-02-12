@@ -11,8 +11,8 @@ export default function BrandsPage() {
 
     return (
         <div className="bg-white min-h-screen">
-            <div className="bg-surface py-20 border-b border-border">
-                <div className="container mx-auto px-4 text-center">
+            <div className="bg-surface py-12 lg:py-16 border-b border-border">
+                <div className="container mx-auto px-6 text-center">
                     <h1 className="text-4xl md:text-5xl font-black text-foreground mb-6">Explore Top Pet Brands</h1>
                     <p className="text-lg text-muted max-w-2xl mx-auto">
                         Search and compare prices for thousands of products from Australia's most trusted manufacturers.
@@ -20,7 +20,7 @@ export default function BrandsPage() {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-16">
+            <div className="container mx-auto px-6 py-12 lg:py-16">
                 {/* Brand Search */}
                 <div className="max-w-2xl mx-auto mb-16 relative">
                     <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-light w-5 h-5" />
@@ -37,7 +37,7 @@ export default function BrandsPage() {
                     {brands.map((brand) => (
                         <Link
                             key={brand}
-                            href={`/discover?brand=${brand.toLowerCase().replace(' ', '-')}`}
+                            href="#"
                             className="aspect-square bg-white border border-border rounded-3xl flex flex-col items-center justify-center p-8 transition-preset hover:shadow-premium hover:-translate-y-1 group"
                         >
                             <div className="w-16 h-16 bg-surface rounded-full flex items-center justify-center mb-4 transition-colors group-hover:bg-primary/5">
@@ -58,7 +58,7 @@ export default function BrandsPage() {
                                 <ul className="space-y-3">
                                     {[1, 2, 3, 4].map(idx => (
                                         <li key={idx}>
-                                            <Link href="/discover" className="text-sm text-muted hover:text-primary transition-colors font-medium">
+                                            <Link href="#" className="text-sm text-muted hover:text-primary transition-colors font-medium">
                                                 {char} Brand Example {idx}
                                             </Link>
                                         </li>
@@ -72,3 +72,4 @@ export default function BrandsPage() {
         </div>
     );
 }
+

@@ -8,7 +8,7 @@ export default function AboutUsPage() {
         <div className="bg-white min-h-screen">
             {/* Breadcrumbs */}
             <div className="bg-surface border-b border-border py-4">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto px-6 sm:px-6 lg:px-8">
                     <nav className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-muted-light">
                         <Link href="/" className="hover:text-primary transition-colors">Home</Link>
                         <ChevronRight className="w-3 h-3" />
@@ -18,8 +18,8 @@ export default function AboutUsPage() {
             </div>
 
             {/* Hero Section - Using Theme Primary #14A79D */}
-            <section className="py-[60px] lg:py-36 relative overflow-hidden bg-primary">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <section className="py-12 lg:py-16 relative overflow-hidden bg-primary">
+                <div className="container mx-auto px-6 sm:px-6 lg:px-8 relative z-10">
                     <div className="text-center">
                         <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md text-white px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.2em] mb-8 border border-white/30">
                             <Sparkles className="w-4 h-4" /> Welcome To PetShack
@@ -42,11 +42,11 @@ export default function AboutUsPage() {
 
             {/* Main Content Sections */}
             <main className="relative z-20 -mt-12">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto px-6 sm:px-6 lg:px-8">
 
                     {/* Intro Block - Floating Card */}
-                    <div className="bg-white rounded-[3rem] p-12 md:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] mb-24 border border-border">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div className="bg-white rounded-3xl md:rounded-[3rem] p-8 md:p-12 lg:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] mb-12 md:mb-16 lg:mb-24 border border-border">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
                             <div className="space-y-8">
                                 <p className="text-2xl md:text-3xl font-black text-foreground leading-[1.2] tracking-tight">
                                     PetShack is your <span className="text-primary italic">best mate</span> for finding the lowest prices on pet products and services in Australia.
@@ -54,7 +54,7 @@ export default function AboutUsPage() {
                                 <p className="text-muted text-lg font-medium leading-relaxed">
                                     Our Aussie community of thousands helps you save money and time by letting you compare prices on furry treats, grooming services, pet sitters, and practically everything else pets need.
                                 </p>
-                                <Link href="/contact" className="inline-flex items-center gap-3 bg-primary text-white px-10 py-5 rounded-2xl font-black text-lg hover:bg-primary-dark transition-all shadow-xl shadow-primary/30">
+                                <Link href="/contact" className="inline-flex items-center gap-3 bg-primary text-white px-6 md:px-10 py-4 md:py-5 rounded-xl md:rounded-2xl font-black text-base md:text-lg hover:bg-primary-dark transition-all shadow-xl shadow-primary/30">
                                     <Mail className="w-5 h-5" /> Contact Us Anytime
                                 </Link>
                             </div>
@@ -71,7 +71,7 @@ export default function AboutUsPage() {
                     </div>
 
                     {/* Who We Are - Clean & Professional */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 lg:gap-20 items-center mb-12 md:mb-20 lg:mb-32">
                         <div className="order-2 lg:order-1 relative">
                             <div className="aspect-4/5 rounded-[3.5rem] overflow-hidden shadow-2xl bg-surface border-12 border-white ring-1 ring-border">
                                 <img
@@ -100,42 +100,42 @@ export default function AboutUsPage() {
                     </div>
 
                     {/* Mission & Vision - Theme Grids */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-32">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12 md:mb-20 lg:mb-32">
                         {/* Mission */}
-                        <div className="bg-primary/5 rounded-[4rem] p-12 md:p-16 text-foreground group overflow-hidden relative border border-primary/10">
+                        <div className="bg-primary/5 rounded-3xl md:rounded-[3rem] lg:rounded-[4rem] p-8 md:p-12 lg:p-16 text-foreground group overflow-hidden relative border border-primary/10">
                             <div className="relative z-10">
-                                <div className="w-16 h-16 bg-primary rounded-[1.5rem] flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg shadow-primary/20">
-                                    <Target className="w-8 h-8 text-white" />
+                                <div className="w-14 h-14 md:w-16 md:h-16 bg-primary rounded-2xl md:rounded-[1.5rem] flex items-center justify-center mb-6 md:mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg shadow-primary/20">
+                                    <Target className="w-6 h-6 md:w-8 md:h-8 text-white" />
                                 </div>
-                                <h3 className="text-4xl font-black mb-8 tracking-tighter">Our Mission</h3>
-                                <p className="text-muted text-lg font-medium leading-relaxed mb-12">
+                                <h3 className="text-3xl md:text-4xl font-black mb-6 md:mb-8 tracking-tighter">Our Mission</h3>
+                                <p className="text-muted text-base md:text-lg font-medium leading-relaxed mb-8 md:mb-12">
                                     To help Aussie pet lovers shop smart and save big. We want to make pet parenting more affordable, convenient, and fun for all Aussies.
                                 </p>
-                                <div className="rounded-4xl bg-white p-6 shadow-sm border border-border">
+                                <div className="rounded-3xl bg-white p-4 md:p-6 shadow-sm border border-border">
                                     <img
                                         src="https://petshack.au/_next/static/media/about-us-img3.7b570e55.png"
                                         alt="Mission"
-                                        className="w-full h-auto object-contain max-h-[200px]"
+                                        className="w-full h-auto object-contain max-h-[160px] md:max-h-[200px]"
                                     />
                                 </div>
                             </div>
                         </div>
 
                         {/* Vision */}
-                        <div className="bg-foreground rounded-[4rem] p-12 md:p-16 text-white group overflow-hidden relative">
+                        <div className="bg-foreground rounded-3xl md:rounded-[3rem] lg:rounded-[4rem] p-8 md:p-12 lg:p-16 text-white group overflow-hidden relative">
                             <div className="relative z-10">
-                                <div className="w-16 h-16 bg-white/20 rounded-[1.5rem] flex items-center justify-center mb-10 group-hover:bg-white group-hover:scale-110 transition-all duration-500">
-                                    <Eye className="w-8 h-8 text-white group-hover:text-foreground transition-colors" />
+                                <div className="w-14 h-14 md:w-16 md:h-16 bg-white/20 rounded-2xl md:rounded-[1.5rem] flex items-center justify-center mb-6 md:mb-10 group-hover:bg-white group-hover:scale-110 transition-all duration-500">
+                                    <Eye className="w-6 h-6 md:w-8 md:h-8 text-white group-hover:text-foreground transition-colors" />
                                 </div>
-                                <h3 className="text-4xl font-black mb-8 tracking-tighter">Our Vision</h3>
-                                <p className="text-white/80 text-lg font-medium leading-relaxed mb-12">
+                                <h3 className="text-3xl md:text-4xl font-black mb-6 md:mb-8 tracking-tighter">Our Vision</h3>
+                                <p className="text-white/80 text-base md:text-lg font-medium leading-relaxed mb-8 md:mb-12">
                                     A world where pet care is smarter, cheaper, and wag-worthy. We envision scoring the best deals is as easy as a belly rub.
                                 </p>
-                                <div className="rounded-4xl bg-white/10 p-6 backdrop-blur-sm border border-white/10">
+                                <div className="rounded-3xl bg-white/10 p-4 md:p-6 backdrop-blur-sm border border-white/10">
                                     <img
                                         src="https://petshack.au/_next/static/media/about-us-img4.70bdee3c.png"
                                         alt="Vision"
-                                        className="w-full h-auto object-contain max-h-[200px]"
+                                        className="w-full h-auto object-contain max-h-[160px] md:max-h-[200px]"
                                     />
                                 </div>
                             </div>
@@ -143,16 +143,16 @@ export default function AboutUsPage() {
                     </div>
 
                     {/* Story - Clean Editorial Section */}
-                    <div className="bg-surface rounded-[4rem] p-12 md:p-24 mb-32 relative overflow-hidden border border-border">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+                    <div className="bg-surface rounded-3xl md:rounded-[3rem] lg:rounded-[4rem] p-8 md:p-16 lg:p-24 mb-12 md:mb-20 lg:mb-32 relative overflow-hidden border border-border">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
                             <div>
                                 <div className="inline-flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[11px] mb-6 bg-primary/10 px-4 py-1.5 rounded-full">
                                     <BookOpen className="w-4 h-4" /> Our Story
                                 </div>
-                                <h2 className="text-4xl md:text-8xl font-black mb-10 tracking-tighter leading-[0.9] text-foreground">
+                                <h2 className="text-4xl md:text-6xl lg:text-8xl font-black mb-6 md:mb-10 tracking-tighter leading-[0.9] text-foreground">
                                     How it all<br /><span className="text-primary italic">started.</span>
                                 </h2>
-                                <div className="space-y-8 text-muted text-xl md:text-2xl font-medium leading-relaxed">
+                                <div className="space-y-6 md:space-y-8 text-muted text-lg md:text-2xl font-medium leading-relaxed">
                                     <p>
                                         Like many Aussie pet lovers, we found ourselves infinitely hopping between sites, trying to find the best price for food, meds, and essentials.
                                     </p>
@@ -172,17 +172,17 @@ export default function AboutUsPage() {
                     </div>
 
                     {/* Need Help? - Integrated UI */}
-                    <div className="mb-32">
-                        <div className="bg-white rounded-[3.5rem] p-12 md:p-20 shadow-2xl border border-border flex flex-col lg:flex-row items-center gap-16 text-center lg:text-left relative overflow-hidden group">
-                            <div className="w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-500">
-                                <MessageSquare className="w-12 h-12 text-primary" />
+                    <div className="mb-12 md:mb-20 lg:mb-32">
+                        <div className="bg-white rounded-3xl md:rounded-[3.5rem] p-8 md:p-12 lg:p-20 shadow-2xl border border-border flex flex-col lg:flex-row items-center gap-10 lg:gap-16 text-center lg:text-left relative overflow-hidden group">
+                            <div className="w-20 h-20 md:w-32 md:h-32 bg-primary/10 rounded-full flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-500">
+                                <MessageSquare className="w-8 h-8 md:w-12 md:h-12 text-primary" />
                             </div>
-                            <div className="flex-1 space-y-6">
-                                <h2 className="text-4xl font-black tracking-tight text-foreground">Need Help?</h2>
-                                <p className="text-muted text-xl font-medium leading-relaxed">
+                            <div className="flex-1 space-y-4 md:space-y-6">
+                                <h2 className="text-3xl md:text-4xl font-black tracking-tight text-foreground">Need Help?</h2>
+                                <p className="text-muted text-base md:text-xl font-medium leading-relaxed">
                                     Got a question or need a hand? The PetShack team is always here to help you hunt for deals or navigate the platform.
                                 </p>
-                                <Link href="/contact" className="inline-flex items-center gap-4 bg-primary text-white px-10 py-5 rounded-2xl font-black text-lg hover:shadow-2xl hover:bg-primary-dark transition-all">
+                                <Link href="/contact" className="inline-flex items-center gap-4 bg-primary text-white px-8 md:px-10 py-4 md:py-5 rounded-xl md:rounded-2xl font-black text-base md:text-lg hover:shadow-2xl hover:bg-primary-dark transition-all">
                                     Get In Touch <ArrowRight className="w-6 h-6" />
                                 </Link>
                             </div>
@@ -199,8 +199,8 @@ export default function AboutUsPage() {
             </main>
 
             {/* Final CTA - High Energy Theme */}
-            <section className="py-[60px] lg:py-32 bg-primary relative overflow-hidden rounded-t-[5rem]">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <section className="py-12 lg:py-16 bg-primary relative overflow-hidden rounded-t-[5rem]">
+                <div className="container mx-auto px-6 sm:px-6 lg:px-8 relative z-10 text-center">
                     <div className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] mb-8 bg-white/20 px-6 py-2 rounded-full border border-white/30 backdrop-blur-md">
                         Join The PetShack Community
                     </div>
@@ -213,7 +213,7 @@ export default function AboutUsPage() {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                         <Link
                             href="/signup"
-                            className="w-full sm:w-auto bg-white text-primary px-14 py-6 rounded-2xl font-black text-xl hover:bg-surface transition-all shadow-2xl shadow-black/10 hover:-translate-y-1"
+                            className="w-full sm:w-auto bg-white text-primary px-8 md:px-14 py-4 md:py-6 rounded-xl md:rounded-2xl font-black text-lg md:text-xl hover:bg-surface transition-all shadow-2xl shadow-black/10 hover:-translate-y-1"
                         >
                             Join Free Today
                         </Link>
@@ -226,7 +226,7 @@ export default function AboutUsPage() {
             </section>
 
             {/* Footer Support */}
-            <div className="container mx-auto px-4 py-16 text-center">
+            <div className="container mx-auto px-6 py-16 text-center">
                 <p className="text-muted font-black text-sm tracking-widest uppercase mb-8 opacity-40">
                     Trusted by thousands of Aussie pet parents
                 </p>
@@ -240,3 +240,4 @@ export default function AboutUsPage() {
         </div>
     );
 }
+
