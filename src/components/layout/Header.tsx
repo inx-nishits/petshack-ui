@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, User, ArrowRight, Sparkles, Users, Globe } from "lucide-react";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { Logo } from "@/components/ui/Logo";
 
 const NAV_ITEMS = [
@@ -271,7 +272,7 @@ export const Header = () => {
                     </div>
 
                     {/* Mobile menu button */}
-                    <div className="flex lg:hidden">
+                    <div className="flex relative left-2.5 lg:hidden">
                         <button
                             type="button"
                             className="text-foreground p-2"
@@ -316,7 +317,7 @@ export const Header = () => {
                                                     className="group/item flex flex-col items-center gap-3 p-4 rounded-2xl hover:bg-surface transition-all border border-transparent hover:border-border/50"
                                                 >
                                                     <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-surface border border-border group-hover/item:border-primary/50 group-hover/item:bg-white transition-all flex items-center justify-center p-3 lg:p-4 shadow-sm group-hover/item:shadow-md">
-                                                        <img src={type.image} alt={type.title} className="w-full h-full object-contain group-hover/item:scale-110 transition-transform duration-300" />
+                                                        <SafeImage src={type.image} alt={type.title} className="w-full h-full object-contain group-hover/item:scale-110 transition-transform duration-300" />
                                                     </div>
                                                     <span className="font-bold text-sm text-foreground group-hover/item:text-primary transition-colors">{type.title}</span>
                                                 </Link>
@@ -349,13 +350,10 @@ export const Header = () => {
                                                     onClick={() => setActiveMegaMenu(null)}
                                                 >
                                                     <div className="w-16 h-16 rounded-2xl bg-white border border-border group-hover:border-primary/30 flex items-center justify-center shrink-0 shadow-sm overflow-hidden relative">
-                                                        <img
+                                                        <SafeImage
                                                             src={brand.logo}
                                                             alt={brand.name}
                                                             className="w-full h-full object-cover transition-all duration-300 rounded-xl"
-                                                            onError={(e) => {
-                                                                (e.target as HTMLImageElement).style.display = 'none';
-                                                            }}
                                                         />
                                                         {/* Initial Placeholder (Always there as backup) */}
                                                         <span className="absolute inset-0 flex items-center justify-center text-xl font-black text-gray-200 group-hover:text-primary/20 transition-colors pointer-events-none uppercase">
@@ -419,7 +417,7 @@ export const Header = () => {
                                         onClick={() => setIsMenuOpen(false)}
                                         className="p-3 bg-surface rounded-xl text-xs font-semibold text-foreground text-center border border-transparent hover:border-primary/20 transition-all flex flex-col items-center gap-2"
                                     >
-                                        <img src={type.image} alt={type.title} className="w-10 h-10 object-contain" />
+                                        <SafeImage src={type.image} alt={type.title} className="w-10 h-10 object-contain" />
                                         {type.title}
                                     </Link>
                                 ))}

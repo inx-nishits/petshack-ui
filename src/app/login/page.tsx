@@ -35,62 +35,62 @@ function LoginContent() {
 
     return (
         <AuthLayout>
-            <div className="mb-10 text-left shrink-0">
+            <div className="mb-6 sm:mb-10 text-left shrink-0">
                 {signupSuccess && (
-                    <div className="mb-8 p-4 bg-green-50 border border-green-100 rounded-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4">
+                    <div className="mb-6 sm:mb-8 p-4 bg-green-50 border border-green-100 rounded-xl sm:rounded-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4">
                         <CheckCircle2 className="w-5 h-5 text-green-500" />
                         <span className="text-sm font-bold text-green-700">Account created! Please sign in.</span>
                     </div>
                 )}
-                <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-3 font-display tracking-tight">Welcome Back</h2>
-                <p className="text-muted font-medium tracking-tight text-sm sm:text-base leading-relaxed">Continue finding the best pet deals.</p>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-2 sm:mb-3 font-display tracking-tight">Welcome Back</h2>
+                <p className="text-muted font-medium tracking-tight text-xs sm:text-base leading-relaxed">Continue finding the best pet deals.</p>
             </div>
 
             {error && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl text-xs font-bold text-red-500 animate-in shake duration-300 shrink-0">
+                <div className="mb-6 p-3 sm:p-4 bg-red-50 border border-red-100 rounded-xl sm:rounded-2xl text-xs font-bold text-red-500 animate-in shake duration-300 shrink-0">
                     {error}
                 </div>
             )}
 
-            <form className="space-y-6" onSubmit={handleLogin}>
-                <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest pl-1">Email Address</label>
+            <form className="space-y-4 sm:space-y-6" onSubmit={handleLogin}>
+                <div className="space-y-1.5 sm:space-y-2">
+                    <label className="text-[9px] sm:text-[10px] font-bold text-foreground/40 uppercase tracking-widest pl-1">Email Address</label>
                     <div className="relative group">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" />
+                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-focus-within:text-primary transition-colors" />
                         <input
                             type="email"
                             required
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            className="w-full bg-surface border border-border rounded-xl pl-12 pr-4 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-sm"
+                            className="w-full bg-surface border border-border rounded-xl pl-10 sm:pl-12 pr-4 py-3 sm:py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-base sm:text-sm"
                             placeholder="name@email.com"
                         />
                     </div>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1.5 sm:space-y-2">
                     <div className="flex justify-between items-center px-1">
-                        <label className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Password</label>
-                        <Link href="/forgot-password" className="text-[10px] font-bold text-primary hover:underline cursor-pointer">
+                        <label className="text-[9px] sm:text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Password</label>
+                        <Link href="/forgot-password" className="text-[9px] sm:text-[10px] font-bold text-primary hover:underline cursor-pointer">
                             Forgot password?
                         </Link>
                     </div>
                     <div className="relative group">
-                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" />
+                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-focus-within:text-primary transition-colors" />
                         <input
                             type={showPassword ? "text" : "password"}
                             required
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                            className="w-full bg-surface border border-border rounded-xl pl-12 pr-12 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-sm"
+                            className="w-full bg-surface border border-border rounded-xl pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-base sm:text-sm"
                             placeholder="••••••••"
                         />
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary cursor-pointer transition-colors"
+                            className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary cursor-pointer transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                         >
-                            {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                            {showPassword ? <Eye className="w-4 h-4 sm:w-5 sm:h-5" /> : <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" />}
                         </button>
                     </div>
                 </div>
@@ -98,17 +98,17 @@ function LoginContent() {
                 <button
                     type="submit"
                     disabled={isLoggingIn}
-                    className="w-full bg-primary text-white py-5 rounded-2xl font-bold text-lg shadow-[0_20px_40px_-5px_rgba(20,167,157,0.3)] hover:translate-y-[-2px] hover:shadow-[0_25px_50px_-12px_rgba(20,167,157,0.4)] active:translate-y-px transition-all flex items-center justify-center gap-2 group cursor-pointer disabled:opacity-50 disabled:cursor-wait shrink-0"
+                    className="w-full bg-primary text-white py-3 sm:py-5 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg shadow-[0_20px_40px_-5px_rgba(20,167,157,0.3)] hover:translate-y-[-2px] hover:shadow-[0_25px_50px_-12px_rgba(20,167,157,0.4)] active:translate-y-px transition-all flex items-center justify-center gap-2 group cursor-pointer disabled:opacity-50 disabled:cursor-wait shrink-0 min-h-[44px]"
                 >
                     {isLoggingIn ? "Logging in..." : (
                         <>
-                            Sign In <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                            Sign In <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
                         </>
                     )}
                 </button>
             </form>
 
-            <p className="text-center mt-12 text-sm text-muted font-semibold tracking-tight pb-4 shrink-0">
+            <p className="text-center mt-8 sm:mt-12 text-xs sm:text-sm text-muted font-semibold tracking-tight pb-4 shrink-0">
                 New to PetShack? {" "}
                 <Link href="/signup" className="text-primary font-bold hover:underline cursor-pointer transition-colors">
                     Join free today

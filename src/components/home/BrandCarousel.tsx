@@ -29,14 +29,14 @@ export const BrandCarousel = () => {
     const scrollNext = React.useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
     return (
-        <section className="py-12 lg:py-16 bg-white border-t border-gray-50">
-            <div className="container mx-auto px-6">
-                <div className="flex justify-between items-center mb-12">
+        <section className="py-8 sm:py-12 lg:py-16 bg-white border-t border-gray-50">
+            <div className="container mx-auto px-4 sm:px-6">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-8 sm:mb-10 lg:mb-12">
                     <div>
-                        <h2 className="text-3xl font-black mb-2">Search By Top Brands</h2>
-                        <p className="text-muted text-sm font-medium">Explore products from Australia's most trusted pet brands.</p>
+                        <h2 className="text-xl sm:text-2xl lg:text-3xl font-black mb-2">Search By Top Brands</h2>
+                        <p className="text-muted text-xs sm:text-sm font-medium">Explore products from Australia's most trusted pet brands.</p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="hidden sm:flex gap-2">
                         <button
                             onClick={scrollPrev}
                             className="p-2 rounded-full border border-border hover:bg-surface transition-colors"
@@ -55,26 +55,26 @@ export const BrandCarousel = () => {
                 </div>
 
                 <div className="overflow-hidden" ref={emblaRef}>
-                    <div className="flex -ml-6">
+                    <div className="flex -ml-4 sm:-ml-6">
                         {BRANDS.map((brand, index) => (
-                            <div key={index} className="flex-[0_0_50%] md:flex-[0_0_33.33%] lg:flex-[0_0_20%] pl-6">
+                            <div key={index} className="flex-[0_0_50%] md:flex-[0_0_33.33%] lg:flex-[0_0_20%] pl-4 sm:pl-6">
                                 <Link
                                     href="#"
-                                    className="aspect-square bg-white border border-border rounded-4xl flex flex-col items-center justify-center p-6 grayscale hover:grayscale-0 transition-preset cursor-pointer hover:shadow-premium group h-full"
+                                    className="aspect-square bg-white border border-border rounded-2xl sm:rounded-3xl lg:rounded-4xl flex flex-col items-center justify-center p-4 sm:p-6 grayscale hover:grayscale-0 transition-preset cursor-pointer hover:shadow-premium group h-full"
                                 >
-                                    <div className="w-16 h-16 bg-surface rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/5 transition-colors">
-                                        <span className="text-2xl font-black text-gray-300 group-hover:text-primary">{brand.name[0]}</span>
+                                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-surface rounded-full flex items-center justify-center mb-3 sm:mb-4 group-hover:bg-primary/5 transition-colors">
+                                        <span className="text-lg sm:text-2xl font-black text-gray-300 group-hover:text-primary">{brand.name[0]}</span>
                                     </div>
-                                    <span className="text-sm font-black text-gray-400 group-hover:text-primary transition-colors text-center">{brand.name}</span>
+                                    <span className="text-xs sm:text-sm font-black text-gray-400 group-hover:text-primary transition-colors text-center">{brand.name}</span>
                                 </Link>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="mt-12 text-center">
-                    <Link href="#" className="text-primary font-black hover:underline text-sm uppercase tracking-widest inline-flex items-center gap-2">
-                        View All Brands <ChevronRight className="w-4 h-4" />
+                <div className="mt-8 sm:mt-10 lg:mt-12 text-center">
+                    <Link href="#" className="text-primary font-black hover:underline text-xs sm:text-sm uppercase tracking-widest inline-flex items-center gap-2">
+                        View All Brands <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
                     </Link>
                 </div>
             </div>

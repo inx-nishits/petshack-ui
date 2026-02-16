@@ -47,7 +47,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
     }, [product.image]);
 
     return (
-        <div className={`group bg-white border border-border rounded-3xl overflow-hidden transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-2 flex relative h-full ${isList ? 'flex-row' : 'flex-col'}`}>
+        <div className={`group bg-white border border-border rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-2 flex relative h-full ${isList ? 'flex-row' : 'flex-col'}`}>
             {/* Main Card Link - Ensure it sits on top for clicks but doesn't block rendering */}
             <Link
                 href="#"
@@ -56,7 +56,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
             />
 
             {/* Image Container with Soft Background */}
-            <div className={`relative overflow-hidden bg-surface m-2 rounded-2xl lg:rounded-[1.4rem] z-0 group-hover:bg-white transition-colors duration-500 shrink-0 ${isList ? 'aspect-square w-48 md:w-64' : 'aspect-square min-h-[180px]'}`}>
+            <div className={`relative overflow-hidden bg-surface m-1.5 sm:m-2 rounded-xl sm:rounded-2xl lg:rounded-[1.4rem] z-0 group-hover:bg-white transition-colors duration-500 shrink-0 ${isList ? 'aspect-square w-48 md:w-64' : 'aspect-square min-h-[160px] sm:min-h-[180px]'}`}>
                 <div className="absolute inset-0 flex items-center justify-center bg-transparent">
                     {!imageError ? (
                         <img
@@ -75,7 +75,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                 </div>
 
                 {/* Glassmorphism Badges */}
-                <div className="absolute top-3 left-3 flex flex-col gap-2 z-20">
+                <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1.5 sm:gap-2 z-20">
                     {product.bestOffer?.stockStatus && (
                         <span className={`text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full backdrop-blur-md shadow-sm border ${product.bestOffer.stockStatus.toLowerCase().includes('in stock')
                             ? 'bg-green-500/10 text-green-700 border-green-500/20'
@@ -87,13 +87,13 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                 </div>
 
                 {!isList && retailerCount > 1 && (
-                    <div className="absolute bottom-3 right-3 text-[10px] font-black uppercase tracking-tighter bg-white/80 backdrop-blur-md text-primary px-3 py-1.5 rounded-full border border-primary/10 shadow-sm z-20">
+                    <div className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 text-[9px] sm:text-[10px] font-black uppercase tracking-tighter bg-white/80 backdrop-blur-md text-primary px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-primary/10 shadow-sm z-20">
                         {retailerCount} Stores Compared
                     </div>
                 )}
             </div>
 
-            <div className={`flex-1 flex flex-col z-20 pointer-events-none p-4 lg:p-5 ${isList ? 'pt-6' : 'pt-1'}`}>
+            <div className={`flex-1 flex flex-col z-20 pointer-events-none p-4 sm:p-4 lg:p-5 ${isList ? 'pt-6' : 'pt-1'}`}>
                 <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
                         <span className="text-[10px] font-black text-primary uppercase tracking-[0.15em]">{product.brand}</span>
@@ -182,16 +182,16 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                                     e.stopPropagation();
                                     setIsNotifyModalOpen(true);
                                 }}
-                                className="py-3 px-2 rounded-xl border border-gray-100 bg-gray-50/50 text-[10px] font-black text-muted hover:text-accent hover:border-accent/20 hover:bg-accent/5 transition-all text-center cursor-pointer flex items-center justify-center gap-1.5"
+                                className="py-2.5 sm:py-3 px-2 rounded-xl border border-gray-100 bg-gray-50/50 text-[9px] sm:text-[10px] font-black text-muted hover:text-accent hover:border-accent/20 hover:bg-accent/5 transition-all text-center cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 min-h-[44px]"
                             >
-                                <Bell className="w-3.5 h-3.5" /> Notify Me
+                                <Bell className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Notify Me
                             </button>
                             <a
                                 href="#"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="py-3 px-2 rounded-xl bg-primary text-white text-[10px] font-black shadow-lg shadow-primary/25 hover:bg-primary-dark hover:-translate-y-px active:translate-y-0 transition-all text-center flex items-center justify-center gap-1 cursor-pointer"
+                                className="py-2.5 sm:py-3 px-2 rounded-xl bg-primary text-white text-[9px] sm:text-[10px] font-black shadow-lg shadow-primary/25 hover:bg-primary-dark hover:-translate-y-px active:translate-y-0 transition-all text-center flex items-center justify-center gap-1 cursor-pointer min-h-[44px]"
                             >
                                 View Deal
                             </a>

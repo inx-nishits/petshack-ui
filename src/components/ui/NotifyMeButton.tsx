@@ -30,9 +30,9 @@ export const NotifyMeButton = ({ productName, variant = "outline" }: NotifyMeBut
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="flex-1 border border-border py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:bg-surface transition-colors"
+                className="flex-1 min-w-[120px] border border-border py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 hover:bg-surface transition-colors min-h-[44px]"
             >
-                <Bell className="w-4 h-4" /> Notify Me
+                <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Notify Me
             </button>
             <NotifyMeModal productName={productName} isOpen={isOpen} onClose={() => setIsOpen(false)} />
         </>

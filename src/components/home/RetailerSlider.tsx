@@ -1,4 +1,5 @@
 import React from 'react';
+import { SafeImage } from '@/components/ui/SafeImage';
 
 const RETAILERS = [
     { name: 'Pet Circle', logo: '/assets/stores-logo/pet-circle.webp' },
@@ -23,15 +24,15 @@ export const RetailerSlider = () => {
     const scrollingList = [...RETAILERS, ...RETAILERS, ...RETAILERS];
 
     return (
-        <section className="py-6 bg-white overflow-hidden border-b border-gray-50 relative z-10">
+        <section className="py-4 sm:py-6 bg-white overflow-hidden border-b border-gray-50 relative z-10">
             <div className="relative flex overflow-x-hidden">
-                <div className="flex animate-marquee whitespace-nowrap items-center py-4">
+                <div className="flex animate-marquee whitespace-nowrap items-center py-2 sm:py-4">
                     {scrollingList.map((retailer, index) => (
                         <div
                             key={index}
-                            className="mx-10 lg:mx-16 flex items-center justify-center group cursor-default h-12 lg:h-16 shrink-0"
+                            className="mx-6 sm:mx-10 lg:mx-16 flex items-center justify-center group cursor-default h-10 sm:h-12 lg:h-16 shrink-0"
                         >
-                            <img
+                            <SafeImage
                                 src={retailer.logo}
                                 alt={retailer.name}
                                 title={retailer.name}
@@ -42,13 +43,13 @@ export const RetailerSlider = () => {
                 </div>
 
                 {/* Second set for seamless loop */}
-                <div className="absolute top-0 flex animate-marquee2 whitespace-nowrap items-center h-full py-4">
+                <div className="absolute top-0 flex animate-marquee2 whitespace-nowrap items-center h-full py-2 sm:py-4">
                     {scrollingList.map((retailer, index) => (
                         <div
                             key={`clone-${index}`}
-                            className="mx-10 lg:mx-16 flex items-center justify-center group cursor-default h-12 lg:h-16 shrink-0"
+                            className="mx-6 sm:mx-10 lg:mx-16 flex items-center justify-center group cursor-default h-10 sm:h-12 lg:h-16 shrink-0"
                         >
-                            <img
+                            <SafeImage
                                 src={retailer.logo}
                                 alt={retailer.name}
                                 title={retailer.name}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Star, ChevronRight, ChevronLeft } from "lucide-react";
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
+import { SafeImage } from '@/components/ui/SafeImage';
 
 const BANNERS = [
     {
@@ -69,7 +70,7 @@ export const Hero = () => {
             <div className="overflow-hidden" ref={emblaRef}>
                 <div className="flex">
                     {BANNERS.map((banner) => (
-                        <div key={banner.id} className={`flex-[0_0_100%] min-w-0 relative ${banner.bgColor} text-white pt-12 lg:pt-20 pb-24 lg:pb-28 cursor-pointer`}>
+                        <div key={banner.id} className={`flex-[0_0_100%] min-w-0 relative ${banner.bgColor} text-white pt-8 sm:pt-12 lg:pt-20 pb-20 sm:pb-24 lg:pb-28 cursor-pointer`}>
                             {/* Stretched Link for Full Slide Clickability */}
                             {banner.external ? (
                                 <a
@@ -87,38 +88,38 @@ export const Hero = () => {
                                 />
                             )}
 
-                            <div className="container mx-auto px-6 relative z-0">
-                                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
-                                    <div className="max-w-2xl pl-0 lg:pl-12">
-                                        <div className="flex items-center gap-2 mb-6">
-                                            <span className="text-lg font-bold tracking-tight">Australia's #1 Pet Comparison Site</span>
+                            <div className="container mx-auto px-4 sm:px-6 relative z-0">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-12">
+                                    <div className="max-w-2xl lg:pl-12 text-center lg:text-left">
+                                        <div className="flex items-center justify-center lg:justify-start gap-2 mb-4 sm:mb-6">
+                                            <span className="text-sm sm:text-base lg:text-lg font-bold tracking-tight">Australia's #1 Pet Comparison Site</span>
                                         </div>
 
-                                        <h1 className="text-3xl md:text-6xl font-black mb-8 leading-[1.1]">
+                                        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black mb-4 sm:mb-6 lg:mb-8 leading-[1.1]">
                                             {banner.title}
                                         </h1>
 
-                                        <p className="text-base md:text-xl text-white/90 mb-10 leading-relaxed max-w-xl">
+                                        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 lg:mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0">
                                             {banner.subtitle}
                                         </p>
 
-                                        <div className="space-y-6">
-                                            <div className="inline-block bg-[#2b2b2b] text-white px-8 lg:px-10 py-3 lg:py-4 rounded-full font-black text-base lg:text-lg hover:bg-black transition-all shadow-xl shadow-black/20 relative z-20 pointer-events-none text-center">
+                                        <div className="space-y-4 sm:space-y-6">
+                                            <div className="flex bg-[#2b2b2b] text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-3.5 lg:py-4 rounded-full font-black text-sm sm:text-base lg:text-lg hover:bg-black transition-all shadow-xl shadow-black/20 relative z-20 pointer-events-none text-center min-h-[44px] items-center justify-center">
                                                 {banner.cta}
                                             </div>
 
-                                            <div className="flex items-center gap-2 mt-8">
+                                            <div className="flex items-center justify-center lg:justify-start gap-2 mt-6 sm:mt-8">
                                                 <div className="flex text-yellow-400">
-                                                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className={`w-4 h-4 md:w-5 md:h-5 fill-current ${i === 5 ? 'opacity-50' : ''}`} />)}
+                                                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className={`w-4 h-4 sm:w-5 sm:h-5 fill-current ${i === 5 ? 'opacity-50' : ''}`} />)}
                                                 </div>
-                                                <span className="text-xs md:text-sm font-bold">4.8/5 from Aussie Pet Owners</span>
+                                                <span className="text-xs sm:text-sm font-bold">4.8/5 from Aussie Pet Owners</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="hidden lg:flex justify-end relative pr-12">
                                         <div className="relative w-full max-w-lg aspect-square">
-                                            <img
+                                            <SafeImage
                                                 src={banner.image}
                                                 alt={banner.title}
                                                 className="w-full h-full object-contain relative z-20 drop-shadow-2xl"
@@ -130,8 +131,8 @@ export const Hero = () => {
                                 </div>
                             </div>
 
-                            {/* Decorative patterns */}
-                            <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+                            {/* Decorative patterns - Behind content */}
+                            <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none -z-10">
                                 <svg width="100%" height="100%"><pattern id={`pattern-${banner.id}`} width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="40" fill="none" stroke="white" strokeWidth="1" /></pattern><rect width="100%" height="100%" fill={`url(#pattern-${banner.id})`} /></svg>
                             </div>
                         </div>
