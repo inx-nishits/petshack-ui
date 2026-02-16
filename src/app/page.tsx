@@ -1,5 +1,5 @@
 import { Hero } from "@/components/home/Hero";
-import { CategoryGrid } from "@/components/home/CategoryGrid";
+import { CategorySlider } from "@/components/home/CategorySlider";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { FeaturedDeals } from "@/components/home/FeaturedDeals";
 import { Send } from "lucide-react";
@@ -40,7 +40,7 @@ export default function Home() {
 
       <HowItWorks />
 
-      <CategoryGrid />
+      <CategorySlider />
 
       <BrandCarousel />
 
