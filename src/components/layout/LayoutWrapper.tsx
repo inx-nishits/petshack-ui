@@ -5,6 +5,7 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { Chatbot } from "@/components/ui/Chatbot";
 import { CompareProvider } from "@/context/CompareContext";
+import { ModalProvider } from "@/context/ModalContext";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -17,14 +18,16 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
 
     return (
         <CompareProvider>
-            <div className="flex flex-col min-h-screen">
-                <Header />
-                <main className="grow">
-                    {children}
-                </main>
-                <Footer />
-                <Chatbot />
-            </div>
+            <ModalProvider>
+                <div className="flex flex-col min-h-screen">
+                    <Header />
+                    <main className="grow">
+                        {children}
+                    </main>
+                    <Footer />
+                    <Chatbot />
+                </div>
+            </ModalProvider>
         </CompareProvider>
     );
 }

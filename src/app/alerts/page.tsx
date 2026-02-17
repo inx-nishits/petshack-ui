@@ -74,9 +74,14 @@ export default function AlertsPage() {
                                     </div>
 
                                     <div className="flex items-center gap-4 w-full md:w-auto">
-                                        <Link href={`/product/${alert.product.id}`} className="flex-1 md:flex-none px-6 py-3 border border-border rounded-xl text-center text-xs font-black uppercase tracking-widest hover:bg-surface hover:text-primary transition-colors min-h-[44px] flex items-center justify-center">
-                                            View Product
-                                        </Link>
+                                        <a
+                                            href={alert.product.bestOffer?.offerUrl || '#'}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex-1 md:flex-none px-6 py-3 border border-border rounded-xl text-center text-xs font-black uppercase tracking-widest hover:bg-surface hover:text-primary transition-colors min-h-[44px] flex items-center justify-center"
+                                        >
+                                            View Deal
+                                        </a>
                                         <button
                                             onClick={() => removeAlert(alert.id)}
                                             className="p-3 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
