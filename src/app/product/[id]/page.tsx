@@ -1,5 +1,5 @@
 import { PRODUCTS, RETAILERS } from "@/data/mock";
-import { ShieldCheck, ArrowUpRight, Clock, Info, Share2, Heart } from "lucide-react";
+import { ShieldCheck, ArrowUpRight, Clock, Info, Share2, Heart, ChevronDown, Check, Star } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NotifyMeButton } from "@/components/ui/NotifyMeButton";
@@ -23,8 +23,24 @@ export default async function ProductDetailPage({ params }: PageProps) {
     // Helper to get retailer name and logo
     const getRetailer = (id: string) => RETAILERS.find(r => r.id === id);
 
+    // Mock Specs Data
+    const specs = [
+        { label: "SKU", value: product.sku },
+        { label: "Brand", value: product.brand },
+        { label: "Life Stage", value: product.lifeStage },
+        { label: "Animal", value: product.animalType },
+        ...Object.entries(product.attributes).map(([key, value]) => ({ label: key, value }))
+    ];
+
+    // Mock FAQs
+    const faqs = [
+        { q: "Is this suitable for sensitive stomachs?", a: "Yes, this formula is specifically designed with easily digestible ingredients." },
+        { q: "What is the shelf life?", a: "Typically 12-18 months from manufacture date. Check the expiration on the bag." },
+        { q: "Can I return if my pet doesn't like it?", a: "Most of our partner retailers offer a palatability guarantee. Check individual store policies." },
+    ];
+
     return (
-        <div className="bg-white min-h-screen">
+        <div className="bg-white min-h-screen pb-12">
             {/* JSON-LD for SEO */}
             <script
                 type="application/ld+json"
@@ -51,7 +67,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 }}
             />
 
-            <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 lg:py-12">
+            {/* Sponsored Top Banner Placeholder */}
+            <div className="container mx-auto px-4 py-4">
+                <div className="w-full h-24 bg-gray-100 rounded-xl border border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 text-xs uppercase tracking-widest">
+                    <span>Sponsored Advertisement</span>
+                </div>
+            </div>
+
+            <div className="container mx-auto px-4 sm:px-6 py-4">
                 {/* Breadcrumbs */}
                 <nav className="flex text-[10px] sm:text-xs text-muted-light mb-4 sm:mb-6 gap-2">
                     <Link href="/" className="hover:text-primary transition-colors">Home</Link>
@@ -61,9 +84,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     <span className="text-muted truncate max-w-[150px] sm:max-w-xs">{product.name}</span>
                 </nav>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-16 mb-8 sm:mb-12 lg:mb-16">
-                    {/* Product Image */}
-                    <div className="space-y-3 sm:space-y-4">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-16 mb-8 lg:mb-12">
+                    {/* Left Column: Image & Thumbnails */}
+                    <div className="lg:col-span-5 space-y-4">
                         <div className="aspect-square rounded-2xl sm:rounded-3xl overflow-hidden border border-border bg-surface relative group">
                             <SafeImage
                                 src={product.image}
@@ -83,13 +106,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
                         </div>
                     </div>
 
-                    {/* Product Overview */}
-                    <div className="flex flex-col">
+                    {/* Middle Column: Product Details */}
+                    <div className="lg:col-span-4 flex flex-col">
                         <div className="mb-4 sm:mb-6">
                             <span className="inline-block bg-primary/10 text-primary text-[10px] sm:text-xs font-bold px-2 py-0.5 sm:px-3 sm:py-1 rounded-full mb-2 sm:mb-3">
                                 {product.brand}
                             </span>
-                            <h1 className="text-xl sm:text-3xl md:text-4xl font-black text-foreground mb-2 sm:mb-3 leading-tight">
+                            <h1 className="text-xl sm:text-3xl md:text-3xl font-black text-foreground mb-2 sm:mb-3 leading-tight">
                                 {product.name}
                             </h1>
                             <div className="flex flex-wrap items-center gap-4 sm:gap-6">
@@ -107,7 +130,16 @@ export default async function ProductDetailPage({ params }: PageProps) {
                             </div>
                         </div>
 
-                        <div className="bg-surface rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-border mb-6 sm:mb-8 lg:mb-10 shadow-sm">
+                        <div className="prose prose-sm text-muted mb-6">
+                            <p>{product.description}</p>
+                        </div>
+
+                        {/* Sponsored Inline Block */}
+                        <div className="w-full h-16 bg-gray-50 border border-dashed border-gray-200 rounded-lg flex items-center justify-center mb-6">
+                            <span className="text-[10px] text-gray-400 uppercase tracking-widest">Sponsored</span>
+                        </div>
+
+                        <div className="bg-surface rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-border mb-6 shadow-sm">
                             <div className="flex items-end justify-between mb-4 sm:mb-6">
                                 <div>
                                     <span className="text-xs sm:text-sm text-muted block mb-0.5 sm:mb-1">Lowest price found</span>
@@ -119,27 +151,15 @@ export default async function ProductDetailPage({ params }: PageProps) {
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <span className="text-[10px] sm:text-xs font-bold text-green-600 flex items-center justify-end gap-1 mb-0.5 sm:mb-1">
-                                        <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Verified Deal
-                                    </span>
-                                    <p className="text-[10px] sm:text-xs text-muted-light">At {getRetailer(bestOffer?.retailerId || '')?.name}</p>
+                                    <div className="w-8 h-8 rounded-md bg-white border border-border flex items-center justify-center text-[9px] font-black overflow-hidden mb-1 ml-auto">
+                                        {getRetailer(bestOffer?.retailerId || '')?.name.substring(0, 2)}
+                                    </div>
+                                    <p className="text-[10px] sm:text-xs font-bold text-foreground">At {getRetailer(bestOffer?.retailerId || '')?.name}</p>
                                 </div>
                             </div>
                             <button className="w-full bg-accent text-white py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:bg-accent-hover transition-preset shadow-lg shadow-accent/20 flex items-center justify-center gap-2 min-h-[44px]">
                                 Get This Deal <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
                             </button>
-                        </div>
-
-                        <div className="space-y-4 sm:space-y-6 mb-6 sm:mb-8">
-                            <h3 className="font-bold text-sm sm:text-lg border-b border-border pb-2">Quick Attributes</h3>
-                            <div className="grid grid-cols-2 gap-y-3 sm:gap-y-4 gap-x-4 sm:gap-x-8">
-                                {Object.entries(product.attributes).map(([key, value]) => (
-                                    <div key={key}>
-                                        <dt className="text-[10px] sm:text-xs text-muted-light uppercase font-bold mb-0.5 sm:mb-1">{key}</dt>
-                                        <dd className="text-xs sm:text-sm font-semibold">{value}</dd>
-                                    </div>
-                                ))}
-                            </div>
                         </div>
 
                         <div className="flex flex-wrap gap-3 sm:gap-4">
@@ -149,13 +169,25 @@ export default async function ProductDetailPage({ params }: PageProps) {
                             <NotifyMeButton productName={product.name} />
                         </div>
                     </div>
+
+                    {/* Right Column: Sponsored Sidebar (Desktop) */}
+                    <div className="hidden lg:block lg:col-span-3">
+                        <div className="sticky top-24 space-y-4">
+                            <div className="w-full h-[600px] bg-gray-50 border border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center text-center p-4">
+                                <span className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-2">Sponsored</span>
+                                <div className="w-16 h-16 bg-gray-200 rounded-full mb-4" />
+                                <h4 className="font-bold text-gray-400 mb-2">Ad Space</h4>
+                                <p className="text-xs text-gray-300">Boost your brand visibility here.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Price Comparison Table */}
                 <section className="mb-8 sm:mb-12 lg:mb-16">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mb-4 sm:mb-6">
                         <h2 className="text-lg sm:text-2xl font-bold flex items-center gap-2 sm:gap-3">
-                            Price Comparison <span className="text-[10px] sm:text-sm font-normal text-muted bg-surface px-2 sm:px-3 py-1 rounded-full border border-border">{product.offers.length} Sellers</span>
+                            Compare Prices <span className="text-[10px] sm:text-sm font-normal text-muted bg-surface px-2 sm:px-3 py-1 rounded-full border border-border">{product.offers.length} Sellers</span>
                         </h2>
                         <div className="hidden sm:flex items-center gap-2 text-xs text-muted-light">
                             <Info className="w-4 h-4" /> Prices exclude shipping unless stated
@@ -163,7 +195,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     </div>
 
                     {/* Mobile: Card View, Desktop: Table View */}
-                    <div className="hidden sm:block overflow-hidden border border-border rounded-3xl shadow-sm">
+                    <div className="hidden sm:block overflow-hidden border border-border rounded-3xl shadow-sm bg-white">
                         <table className="w-full text-left">
                             <thead className="bg-surface text-xs font-bold text-muted-light uppercase tracking-wider">
                                 <tr>
@@ -182,8 +214,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
                                         <tr key={offer.retailerId} className={`group ${isBest ? 'bg-primary/5' : 'hover:bg-surface'} transition-colors`}>
                                             <td className="px-6 py-5">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-12 h-12 bg-white rounded-xl border border-border flex items-center justify-center p-2 group-hover:scale-110 transition-transform shadow-sm">
-                                                        <span className="text-[10px] font-black">{retailer?.name.substring(0, 2)}</span>
+                                                    <div className="w-12 h-12 bg-white rounded-xl border border-border flex items-center justify-center p-2 group-hover:scale-110 transition-transform shadow-sm text-xs font-black">
+                                                        {retailer?.name.substring(0, 2)}
                                                     </div>
                                                     <div>
                                                         <span className="font-bold text-foreground block">{retailer?.name}</span>
@@ -233,8 +265,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
                                 <div key={offer.retailerId} className={`border border-border rounded-2xl p-4 ${isBest ? 'bg-primary/5 border-primary/20 shadow-sm' : 'bg-white shadow-sm'}`}>
                                     <div className="flex items-start justify-between mb-3">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-white rounded-xl border border-border flex items-center justify-center shadow-sm">
-                                                <span className="text-[10px] font-black">{retailer?.name.substring(0, 2)}</span>
+                                            <div className="w-10 h-10 bg-white rounded-xl border border-border flex items-center justify-center shadow-sm text-xs font-black">
+                                                {retailer?.name.substring(0, 2)}
                                             </div>
                                             <div>
                                                 <span className="font-bold text-sm block">{retailer?.name}</span>
@@ -269,20 +301,91 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     </div>
                 </section>
 
-                {/* Product Description */}
-                <section className="max-w-4xl">
-                    <h2 className="text-lg sm:text-2xl font-bold mb-3 sm:mb-6">Product Information</h2>
-                    <div className="prose prose-sm sm:prose-blue text-muted leading-relaxed">
-                        <p className="mb-3 sm:mb-4 text-sm sm:text-base">{product.description}</p>
-                        <h4 className="font-bold text-foreground mb-2 text-sm sm:text-base">Key Benefits:</h4>
-                        <ul className="list-disc pl-5 space-y-1 sm:space-y-2 mb-4 sm:mb-6 text-sm sm:text-base">
-                            <li>Formulated for medium breed adult dogs (11-25kg)</li>
-                            <li>Supports digestive health and balanced intestinal flora</li>
-                            <li>Contains high-quality protein for muscle maintenance</li>
-                            <li>Enriched with Omega-3 fatty acids for skin and coat health</li>
-                        </ul>
+                {/* Rich Content - Specifications & Details */}
+                <section className="bg-surface rounded-3xl p-6 sm:p-8 lg:p-10 mb-8 border border-border/50">
+                    <h3 className="text-xl sm:text-2xl font-black mb-6">Product Specifications</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {specs.map((spec, i) => (
+                            <div key={i} className="flex justify-between border-b border-border py-3">
+                                <span className="font-bold text-muted text-sm">{spec.label}</span>
+                                <span className="font-medium text-foreground text-sm">{spec.value}</span>
+                            </div>
+                        ))}
                     </div>
                 </section>
+
+                {/* Usage Guide */}
+                <section className="mb-8 p-6 sm:p-8 border border-border rounded-3xl">
+                    <h3 className="text-xl sm:text-2xl font-black mb-4">Usage Guide</h3>
+                    <p className="text-muted leading-relaxed mb-4">
+                        Always ensure fresh water is available for your pet. Transition to new food gradually over a period of 7 days to avoid digestive upset. Store in a cool, dry place.
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-muted text-sm">
+                        <li>Day 1-2: 25% new food, 75% old food</li>
+                        <li>Day 3-4: 50% new food, 50% old food</li>
+                        <li>Day 5-6: 75% new food, 25% old food</li>
+                        <li>Day 7: 100% new food</li>
+                    </ul>
+                </section>
+
+                {/* FAQs Accordion */}
+                <section className="mb-12">
+                    <h3 className="text-xl sm:text-2xl font-black mb-6">Frequently Asked Questions</h3>
+                    <div className="space-y-4">
+                        {faqs.map((faq, idx) => (
+                            <details key={idx} className="group bg-surface rounded-2xl border border-border p-4 open:bg-white open:shadow-lg transition-all">
+                                <summary className="flex items-center justify-between font-bold cursor-pointer list-none">
+                                    <span>{faq.q}</span>
+                                    <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180 text-muted-light" />
+                                </summary>
+                                <div className="mt-4 text-muted text-sm leading-relaxed animate-in slide-in-from-top-2 duration-200">
+                                    {faq.a}
+                                </div>
+                            </details>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Sponsored Bottom Carousel Placeholder */}
+                <div className="w-full h-40 bg-gray-50 border border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center mb-12">
+                    <span className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-2">Sponsored Products</span>
+                    <div className="flex gap-4">
+                        {[1, 2, 3, 4].map(i => (
+                            <div key={i} className="w-24 h-24 bg-gray-100 rounded-lg" />
+                        ))}
+                    </div>
+                </div>
+
+                {/* Reviews Section */}
+                <section className="mb-12">
+                    <div className="flex items-center justify-between mb-6">
+                        <h3 className="text-xl sm:text-2xl font-black">Customer Reviews</h3>
+                        <button className="text-primary font-bold hover:underline">Write a Review</button>
+                    </div>
+                    <div className="bg-surface p-6 rounded-3xl border border-border">
+                        <div className="flex items-start gap-4 mb-6 border-b border-border pb-6">
+                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">JD</div>
+                            <div>
+                                <h5 className="font-bold">John Doe</h5>
+                                <div className="flex items-center gap-1 my-1">
+                                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                                </div>
+                                <p className="text-sm text-muted">Great product, my dog loves it! Delivered quickly too.</p>
+                            </div>
+                        </div>
+                        <div className="flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">SM</div>
+                            <div>
+                                <h5 className="font-bold">Sarah M.</h5>
+                                <div className="flex items-center gap-1 my-1">
+                                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                                </div>
+                                <p className="text-sm text-muted">A bit expensive but worth it for the quality.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
         </div>
     );

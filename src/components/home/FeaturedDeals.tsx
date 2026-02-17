@@ -71,7 +71,7 @@ export const FeaturedDeals = () => {
 
                 <div className="mt-8 sm:mt-10 md:mt-12 text-center">
                     <Link
-                        href="#"
+                        href="/discover"
                         className="inline-flex items-center justify-center w-full sm:w-auto bg-white border border-border px-8 sm:px-12 py-3 sm:py-3.5 rounded-full text-xs sm:text-[11px] lg:text-sm font-black shadow-sm hover:shadow-premium transition-all uppercase tracking-widest text-center whitespace-nowrap min-h-[44px]"
                     >
                         Browse All Deals

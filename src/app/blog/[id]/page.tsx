@@ -16,6 +16,8 @@ export default async function BlogDetailPage({ params }: PageProps) {
         notFound();
     }
 
+    const relatedPosts = BLOG_POSTS.filter(p => p.id !== post.id).slice(0, 3);
+
     return (
         <div className="bg-white min-h-screen">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 lg:py-16">
@@ -27,7 +29,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                     <header className="mb-8 sm:mb-12">
                         <div className="flex items-center gap-2 sm:gap-4 mb-3 sm:mb-6 flex-wrap">
                             <span className="bg-primary/5 text-primary text-[10px] sm:text-xs font-black px-2 sm:px-3 py-1 rounded-full uppercase tracking-widest">
-                                {post.category}
+                                {post.tags[0]}
                             </span>
                             <span className="text-muted-light hidden sm:inline">·</span>
                             <span className="text-[10px] sm:text-sm text-muted font-medium flex items-center gap-1.5">
@@ -96,7 +98,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                         </p>
                     </div>
 
-                    <footer className="bg-surface border border-border rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center mb-8 sm:mb-12">
+                    <footer className="bg-surface border border-border rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center mb-12 sm:mb-16">
                         <h3 className="text-lg sm:text-2xl font-black mb-3 sm:mb-4">Found this advice helpful?</h3>
                         <p className="text-xs sm:text-base text-muted mb-6 sm:mb-8 max-w-md mx-auto">
                             Sign up for our newsletter to get weekly expert tips and the best price alerts for your pets.
@@ -112,6 +114,40 @@ export default async function BlogDetailPage({ params }: PageProps) {
                             </button>
                         </div>
                     </footer>
+
+                    {/* More from Author/PetShack */}
+                    <div className="border-t border-border pt-12 sm:pt-16 pb-8">
+                        <h3 className="text-xl sm:text-2xl font-black mb-6 sm:mb-8 flex items-center gap-3">
+                            <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <User className="w-4 h-4" />
+                            </span>
+                            More from PetShack
+                        </h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                            {relatedPosts.map((relatedPost) => (
+                                <Link key={relatedPost.id} href={`/blog/${relatedPost.id}`} className="group block h-full flex flex-col">
+                                    <div className="aspect-video rounded-2xl overflow-hidden mb-4 bg-gray-100 border border-border relative">
+                                        <SafeImage
+                                            src={relatedPost.image}
+                                            alt={relatedPost.title}
+                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
+                                        <div className="absolute top-3 left-3">
+                                            <span className="bg-black/30 backdrop-blur-md text-white text-[9px] font-black px-2 py-1 rounded-full uppercase tracking-widest">
+                                                {relatedPost.tags[0]}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <h4 className="font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-tight mb-2 text-lg">
+                                        {relatedPost.title}
+                                    </h4>
+                                    <div className="mt-auto flex items-center gap-2 text-xs font-bold text-muted-light uppercase tracking-widest">
+                                        <Clock className="w-3 h-3" /> {relatedPost.date}
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
                 </article>
             </div>
         </div>

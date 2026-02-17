@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown, User, ArrowRight, Sparkles, Users, Globe } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, X, ChevronDown, User, ArrowRight, Sparkles, Users, Globe, Search } from "lucide-react";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { Logo } from "@/components/ui/Logo";
 
@@ -77,12 +77,15 @@ const MEGA_MENU_DATA = {
 
 export const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const headerRef = useRef<HTMLElement>(null);
     const pathname = usePathname();
+    const [searchQuery, setSearchQuery] = useState("");
+    const router = useRouter(); // You'll need to import useRouter
 
     const isActive = (path: string) => pathname === path;
 
@@ -125,11 +128,12 @@ export const Header = () => {
     useEffect(() => {
         setActiveMegaMenu(null);
         setIsMenuOpen(false);
+        setIsSearchOpen(false);
     }, [pathname]);
 
     // Prevent body scroll when mobile menu is open
     useEffect(() => {
-        if (isMenuOpen) {
+        if (isMenuOpen || isSearchOpen) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "";
@@ -137,7 +141,15 @@ export const Header = () => {
         return () => {
             document.body.style.overflow = "";
         };
-    }, [isMenuOpen]);
+    }, [isMenuOpen, isSearchOpen]);
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            router.push(`/discover?q=${encodeURIComponent(searchQuery)}`);
+            setIsSearchOpen(false);
+        }
+    };
 
     return (
         <header
@@ -272,7 +284,14 @@ export const Header = () => {
                     </div>
 
                     {/* Mobile menu button */}
-                    <div className="flex relative left-2.5 lg:hidden">
+                    <div className="flex items-center gap-2 relative left-2.5 lg:hidden">
+                        <button
+                            type="button"
+                            className="text-foreground p-2"
+                            onClick={() => setIsSearchOpen(!isSearchOpen)}
+                        >
+                            <Search className="w-6 h-6" />
+                        </button>
                         <button
                             type="button"
                             className="text-foreground p-2"
@@ -283,6 +302,24 @@ export const Header = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Mobile Search Overlay */}
+            {isSearchOpen && (
+                <div className="lg:hidden absolute top-auto left-0 w-full bg-white p-4 animate-in slide-in-from-top-2 duration-200 border-b border-border shadow-md z-40">
+                    <form onSubmit={handleSearch} className="relative">
+                        <input
+                            type="text"
+                            placeholder="Search products..."
+                            className="w-full bg-surface border border-border rounded-xl px-4 py-3 pl-10 focus:outline-none focus:ring-2 focus:ring-primary/20 font-bold text-sm h-[44px]"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            autoFocus
+                        />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-light" />
+                        <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-primary text-xs font-black uppercase tracking-widest">Go</button>
+                    </form>
+                </div>
+            )}
 
             {/* Mega Menu Dropdown */}
             {activeMegaMenu && (

@@ -6,7 +6,17 @@ import Link from "next/link";
 import { Clock, User, ChevronRight, Search, Sparkles, Filter, Calendar, BookOpen } from "lucide-react";
 import { SafeImage } from "@/components/ui/SafeImage";
 
+import { useState } from "react";
+
 export default function BlogListingPage() {
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 6;
+    const totalPages = Math.ceil(BLOG_POSTS.length / itemsPerPage);
+    const paginatedPosts = BLOG_POSTS.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
     return (
         <div className="bg-white min-h-screen">
             {/* Breadcrumbs */}
@@ -75,56 +85,91 @@ export default function BlogListingPage() {
                     </div>
                 </div>
 
-                {BLOG_POSTS.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-                        {BLOG_POSTS.map((post) => (
-                            <Link
-                                key={post.id}
-                                href={`/blog/${post.id}`}
-                                className="group flex flex-col bg-white rounded-2xl sm:rounded-[2.5rem] overflow-hidden border border-border transition-all hover:-translate-y-2 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)]"
-                            >
-                                <div className="w-full h-[200px] sm:h-[250px] overflow-hidden bg-gray-50 border-b border-border relative">
-                                    <SafeImage
-                                        src={post.image}
-                                        alt={post.title}
-                                        className="w-full h-full object-cover block transition-transform duration-700 group-hover:scale-105"
-                                    />
-                                    <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
-                                        <span className="text-[9px] sm:text-[10px] font-black text-white px-3 sm:px-4 py-1.5 sm:py-2 bg-black/30 backdrop-blur-md rounded-full uppercase tracking-widest">
-                                            {post.category}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="p-6 sm:p-10 flex-1 flex flex-col">
-                                    <div className="flex items-center gap-3 sm:gap-4 text-[10px] sm:text-xs font-bold text-muted-light mb-4 sm:mb-6 uppercase tracking-widest">
-                                        <div className="flex items-center gap-1.5">
-                                            <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> {post.date}
-                                        </div>
-                                        <div className="flex items-center gap-1.5">
-                                            <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> 5 Min Read
+                {paginatedPosts.length > 0 ? (
+                    <>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 mb-12 sm:mb-16">
+                            {paginatedPosts.map((post) => (
+                                <Link
+                                    key={post.id}
+                                    href={`/blog/${post.id}`}
+                                    className="group flex flex-col bg-white rounded-2xl sm:rounded-[2.5rem] overflow-hidden border border-border transition-all hover:-translate-y-2 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)]"
+                                >
+                                    <div className="w-full h-[200px] sm:h-[250px] overflow-hidden bg-gray-50 border-b border-border relative">
+                                        <SafeImage
+                                            src={post.image}
+                                            alt={post.title}
+                                            className="w-full h-full object-cover block transition-transform duration-700 group-hover:scale-105"
+                                        />
+                                        <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
+                                            <span className="text-[9px] sm:text-[10px] font-black text-white px-3 sm:px-4 py-1.5 sm:py-2 bg-black/30 backdrop-blur-md rounded-full uppercase tracking-widest">
+                                                {post.tags[0]}
+                                            </span>
                                         </div>
                                     </div>
-                                    <h2 className="text-xl sm:text-2xl font-black text-foreground mb-4 sm:mb-6 leading-[1.2] group-hover:text-primary transition-colors">
-                                        {post.title}
-                                    </h2>
-                                    <p className="text-muted text-base sm:text-lg font-medium line-clamp-3 mb-6 sm:mb-10 leading-relaxed">
-                                        {post.excerpt}
-                                    </p>
-                                    <div className="mt-auto pt-6 sm:pt-8 border-t border-border flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
-                                                <User className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                                    <div className="p-6 sm:p-10 flex-1 flex flex-col">
+                                        <div className="flex items-center gap-3 sm:gap-4 text-[10px] sm:text-xs font-bold text-muted-light mb-4 sm:mb-6 uppercase tracking-widest">
+                                            <div className="flex items-center gap-1.5">
+                                                <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> {post.date}
                                             </div>
-                                            <span className="text-xs sm:text-sm font-black text-foreground">{post.author}</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> 5 Min Read
+                                            </div>
                                         </div>
-                                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-surface border border-border flex items-center justify-center group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
-                                            <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
+                                        <h2 className="text-xl sm:text-2xl font-black text-foreground mb-4 sm:mb-6 leading-[1.2] group-hover:text-primary transition-colors">
+                                            {post.title}
+                                        </h2>
+                                        <p className="text-muted text-base sm:text-lg font-medium line-clamp-3 mb-6 sm:mb-10 leading-relaxed">
+                                            {post.excerpt}
+                                        </p>
+                                        <div className="mt-auto pt-6 sm:pt-8 border-t border-border flex items-center justify-between">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+                                                    <User className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                                                </div>
+                                                <span className="text-xs sm:text-sm font-black text-foreground">{post.author}</span>
+                                            </div>
+                                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-surface border border-border flex items-center justify-center group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
+                                                <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
+                                </Link>
+                            ))}
+                        </div>
+
+                        {/* Pagination Controls */}
+                        {totalPages > 1 && (
+                            <div className="flex justify-center">
+                                <nav className="flex items-center gap-2 sm:gap-3">
+                                    <button
+                                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                        disabled={currentPage === 1}
+                                        className="px-6 py-3 sm:px-8 sm:py-4 border border-border rounded-xl sm:rounded-2xl text-[10px] sm:text-sm font-black hover:bg-surface transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest min-h-[44px]"
+                                    >
+                                        Prev
+                                    </button>
+
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                        <button
+                                            key={page}
+                                            onClick={() => setCurrentPage(page)}
+                                            className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl text-[10px] sm:text-sm font-black transition-all flex items-center justify-center ${page === currentPage ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-110' : 'hover:bg-surface text-foreground border border-transparent hover:border-border'}`}
+                                        >
+                                            {page}
+                                        </button>
+                                    ))}
+
+                                    <button
+                                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                        disabled={currentPage === totalPages}
+                                        className="px-6 py-3 sm:px-8 sm:py-4 border border-border rounded-xl sm:rounded-2xl text-[10px] sm:text-sm font-black hover:bg-surface transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest min-h-[44px]"
+                                    >
+                                        Next
+                                    </button>
+                                </nav>
+                            </div>
+                        )}
+                    </>
                 ) : (
                     <div className="text-center py-20 sm:py-32 bg-surface rounded-3xl sm:rounded-[4rem] border border-dashed border-border">
                         <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 shadow-sm">

@@ -13,26 +13,15 @@ import { RetailerSlider } from "@/components/home/RetailerSlider";
 import { MerchantShowcase } from "@/components/home/MerchantShowcase";
 
 
+import { SearchBar } from "@/components/home/SearchBar";
+
 export default function Home() {
   return (
     <div className="flex flex-col">
       <Hero />
 
       {/* Centered Search Bar */}
-      <div className="container mx-auto px-4 sm:px-6 -mt-6 sm:-mt-8 lg:-mt-10 relative z-20">
-        <form action="#" className="max-w-7xl mx-auto bg-white rounded-full shadow-2xl border border-gray-100 p-1 sm:p-1.5 lg:p-2 flex items-center">
-          <div className="pl-3 sm:pl-4 lg:pl-6 text-gray-400 shrink-0">
-            <img src="/assets/search-icon.png" className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 opacity-30" alt="Search" />
-          </div>
-          <input
-            name="q"
-            type="text"
-            placeholder="Search for pet products..."
-            className="flex-1 px-2 sm:px-3 lg:px-4 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg focus:outline-none placeholder:text-gray-300 font-medium"
-          />
-          <button type="submit" className="hidden">Search</button>
-        </form>
-      </div>
+      <SearchBar />
 
       <WhyChooseUs />
 

@@ -11,17 +11,25 @@ interface NotifyMeModalProps {
 
 export const NotifyMeModal = ({ isOpen, onClose, productName }: NotifyMeModalProps) => {
     const [firstName, setFirstName] = useState("");
+    const [email, setEmail] = useState("");
     const [submitted, setSubmitted] = useState(false);
 
     if (!isOpen) return null;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        // Basic mock validation
+        if (!email.includes("@")) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
         setSubmitted(true);
         setTimeout(() => {
             onClose();
             setSubmitted(false);
             setFirstName("");
+            setEmail("");
         }, 3000);
     };
 
@@ -30,13 +38,13 @@ export const NotifyMeModal = ({ isOpen, onClose, productName }: NotifyMeModalPro
             <div className="bg-white rounded-2xl sm:rounded-[2.5rem] w-full max-w-lg overflow-hidden shadow-2xl relative animate-in zoom-in-95 duration-300">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 rounded-full bg-surface text-muted hover:text-primary transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+                    className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 rounded-full bg-surface text-muted hover:text-primary transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center z-10"
                     aria-label="Close modal"
                 >
                     <X className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
 
-                <div className="p-6 sm:p-10 lg:p-12">
+                <div className="p-6 sm:p-10 lg:p-12 relative">
                     {!submitted ? (
                         <>
                             <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-xl sm:rounded-2xl flex items-center justify-center mb-6 sm:mb-8">
@@ -61,9 +69,22 @@ export const NotifyMeModal = ({ isOpen, onClose, productName }: NotifyMeModalPro
                                         required
                                     />
                                 </div>
+                                <div className="space-y-2 sm:space-y-3">
+                                    <label className="text-xs sm:text-sm font-black uppercase tracking-widest text-muted-light block">
+                                        Email Address <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full bg-surface border border-border rounded-xl px-4 py-3 sm:px-5 sm:py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-bold text-base sm:text-lg min-h-[44px]"
+                                        placeholder="Enter your email address"
+                                        required
+                                    />
+                                </div>
                                 <button
                                     type="submit"
-                                    className="w-full bg-primary text-white py-3 sm:py-5 rounded-xl font-black text-base sm:text-lg shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all min-h-[44px]"
+                                    className="w-full bg-primary text-white py-3 sm:py-5 rounded-xl font-black text-base sm:text-lg shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all min-h-[44px] mt-2"
                                 >
                                     Activate Alert
                                 </button>
@@ -78,9 +99,15 @@ export const NotifyMeModal = ({ isOpen, onClose, productName }: NotifyMeModalPro
                                 <CheckCircle2 className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
                             </div>
                             <h2 className="text-2xl sm:text-3xl font-black mb-3 sm:mb-4">Alert Active!</h2>
-                            <p className="text-muted text-sm sm:text-base font-medium leading-relaxed">
-                                Thanks <span className="text-primary font-bold">{firstName}</span>! We've sniffed out your request and will notify you of any price changes for this product.
+                            <p className="text-muted text-sm sm:text-base font-medium leading-relaxed mb-6">
+                                Thanks <span className="text-primary font-bold">{firstName}</span>! We've sent a confirmation email to <span className="text-foreground font-bold">{email}</span>. We'll notify you of any price changes.
                             </p>
+                            <button
+                                onClick={onClose}
+                                className="w-full bg-surface border border-border text-foreground hover:bg-gray-50 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base transition-all min-h-[44px]"
+                            >
+                                Close
+                            </button>
                         </div>
                     )}
                 </div>

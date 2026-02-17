@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { Chatbot } from "@/components/ui/Chatbot";
+import { CompareProvider } from "@/context/CompareContext";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -15,14 +16,16 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
     }
 
     return (
-        <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="grow">
-                {children}
-            </main>
-            <Footer />
-            <Chatbot />
-        </div>
+        <CompareProvider>
+            <div className="flex flex-col min-h-screen">
+                <Header />
+                <main className="grow">
+                    {children}
+                </main>
+                <Footer />
+                <Chatbot />
+            </div>
+        </CompareProvider>
     );
 }
 
