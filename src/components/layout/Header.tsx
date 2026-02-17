@@ -206,7 +206,7 @@ export const Header = () => {
                         </Link>
 
                         <Link
-                            href="#"
+                            href="/discover"
                             className={`transition-colors relative py-1 ${isActive("/discover") ? "text-primary" : "text-gray-600 hover:text-primary"}`}
                         >
                             Compare
@@ -301,7 +301,7 @@ export const Header = () => {
                                                 Find the perfect products specifically tailored for your furry, feathered, or scaled friends.
                                             </p>
                                             <Link
-                                                href="#"
+                                                href="/discover"
                                                 className="inline-flex items-center gap-2 text-primary text-sm font-bold hover:gap-3 transition-all"
                                                 onClick={() => setActiveMegaMenu(null)}
                                             >
@@ -312,7 +312,7 @@ export const Header = () => {
                                             {MEGA_MENU_DATA.petTypes.map((type) => (
                                                 <Link
                                                     key={type.title}
-                                                    href="#"
+                                                    href={`/discover?animal=${encodeURIComponent(type.title)}`}
                                                     onClick={() => setActiveMegaMenu(null)}
                                                     className="group/item flex flex-col items-center gap-3 p-4 rounded-2xl hover:bg-surface transition-all border border-transparent hover:border-border/50"
                                                 >
@@ -345,7 +345,7 @@ export const Header = () => {
                                             {MEGA_MENU_DATA.brands.map((brand, idx) => (
                                                 <Link
                                                     key={idx}
-                                                    href="#"
+                                                    href={`/discover?brand=${encodeURIComponent(brand.name)}`}
                                                     className="group flex flex-col items-center gap-3 p-5 rounded-3xl hover:bg-surface transition-all border border-transparent hover:border-border/50 hover:shadow-premium"
                                                     onClick={() => setActiveMegaMenu(null)}
                                                 >
@@ -413,7 +413,7 @@ export const Header = () => {
                                 {MEGA_MENU_DATA.petTypes.map(type => (
                                     <Link
                                         key={type.title}
-                                        href="#"
+                                        href={`/discover?animal=${encodeURIComponent(type.title)}`}
                                         onClick={() => setIsMenuOpen(false)}
                                         className="p-3 bg-surface rounded-xl text-xs font-semibold text-foreground text-center border border-transparent hover:border-primary/20 transition-all flex flex-col items-center gap-2"
                                     >

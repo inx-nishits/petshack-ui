@@ -3,6 +3,7 @@ import { ShieldCheck, ArrowUpRight, Clock, Info, Share2, Heart } from "lucide-re
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NotifyMeButton } from "@/components/ui/NotifyMeButton";
+import { SafeImage } from "@/components/ui/SafeImage";
 
 interface PageProps {
     params: Promise<{ id: string }>;
@@ -64,7 +65,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     {/* Product Image */}
                     <div className="space-y-3 sm:space-y-4">
                         <div className="aspect-square rounded-2xl sm:rounded-3xl overflow-hidden border border-border bg-surface relative group">
-                            <img
+                            <SafeImage
                                 src={product.image}
                                 alt={product.name}
                                 className="w-full h-full object-cover"
@@ -76,7 +77,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                         <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 sm:pb-0 scrollbar-hide">
                             {[1, 2, 3].map((i) => (
                                 <div key={i} className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-xl sm:rounded-2xl border border-border overflow-hidden bg-surface cursor-pointer hover:border-primary transition-colors shrink-0">
-                                    <img src={product.image} className="w-full h-full object-cover opacity-50 hover:opacity-100" />
+                                    <SafeImage src={product.image} className="w-full h-full object-cover opacity-50 hover:opacity-100" alt={`${product.name} thumbnail ${i}`} />
                                 </div>
                             ))}
                         </div>

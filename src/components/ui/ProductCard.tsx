@@ -50,7 +50,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
         <div className={`group bg-white border border-border rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-2 flex relative h-full ${isList ? 'flex-row' : 'flex-col'}`}>
             {/* Main Card Link - Ensure it sits on top for clicks but doesn't block rendering */}
             <Link
-                href="#"
+                href={`/product/${product.id}`}
                 className="absolute inset-0 z-30 cursor-pointer"
                 aria-label={`View details for ${product.name}`}
             />
