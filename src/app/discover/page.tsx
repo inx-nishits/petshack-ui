@@ -142,7 +142,7 @@ function DiscoverContent() {
         }
     };
 
-    const itemsPerPage = 6;
+    const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
 
     // Reset to page 1 when filters change
@@ -348,9 +348,9 @@ function DiscoverContent() {
                         </div>
                     )}
 
-                    {/* Pagination - Static for Mock */}
+                    {/* Pagination - Dynamic with Ellipsis */}
                     {filteredAndSortedProducts.length > itemsPerPage && (
-                        <div className="mt-12 sm:mt-20 flex justify-center">
+                        <div className="mt-12 sm:mt-20 flex flex-col items-center gap-6">
                             <nav className="flex items-center gap-2 sm:gap-3">
                                 <button
                                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
@@ -360,15 +360,45 @@ function DiscoverContent() {
                                     Prev
                                 </button>
 
-                                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                                    <button
-                                        key={page}
-                                        onClick={() => setCurrentPage(page)}
-                                        className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl text-[10px] sm:text-sm font-black transition-all flex items-center justify-center ${page === currentPage ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-110' : 'hover:bg-surface text-foreground border border-transparent hover:border-border'}`}
-                                    >
-                                        {page}
-                                    </button>
-                                ))}
+                                {(() => {
+                                    const pages = [];
+                                    const padding = 2; // Show 2 pages on each side of current
+
+                                    if (totalPages <= 8) {
+                                        for (let i = 1; i <= totalPages; i++) pages.push(i);
+                                    } else {
+                                        // Always show first page
+                                        pages.push(1);
+
+                                        const start = Math.max(2, currentPage - padding);
+                                        const end = Math.min(totalPages - 1, currentPage + padding);
+
+                                        if (start > 2) pages.push('...');
+
+                                        for (let i = start; i <= end; i++) {
+                                            if (!pages.includes(i)) pages.push(i);
+                                        }
+
+                                        if (end < totalPages - 1) pages.push('...');
+
+                                        // Always show last page
+                                        if (!pages.includes(totalPages)) pages.push(totalPages);
+                                    }
+
+                                    return pages.map((page, idx) => (
+                                        typeof page === 'number' ? (
+                                            <button
+                                                key={idx}
+                                                onClick={() => setCurrentPage(page)}
+                                                className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl text-[10px] sm:text-sm font-black transition-all flex items-center justify-center ${page === currentPage ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-110' : 'hover:bg-surface text-foreground border border-transparent hover:border-border'}`}
+                                            >
+                                                {page}
+                                            </button>
+                                        ) : (
+                                            <span key={idx} className="w-8 text-center text-muted font-black tracking-widest flex items-center justify-center">...</span>
+                                        )
+                                    ));
+                                })()}
 
                                 <button
                                     onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
@@ -378,6 +408,10 @@ function DiscoverContent() {
                                     Next
                                 </button>
                             </nav>
+
+                            <div className="text-[10px] sm:text-xs font-black text-muted-light uppercase tracking-widest bg-gray-50 px-4 py-2 rounded-full border border-border/50 shadow-sm animate-pulse-slow">
+                                Note: Prices last updated yesterday at 15:03 AEST
+                            </div>
                         </div>
                     )}
                 </main>

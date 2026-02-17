@@ -1,4 +1,4 @@
-import { Product, Retailer, BlogPost } from '@/types';
+import { Product, Retailer, BlogPost, AnimalType, LifeStage } from '@/types';
 
 export const RETAILERS: Retailer[] = [
     { id: 'petcircle', name: 'Pet Circle', logo: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=200', rating: 4.8 },
@@ -573,7 +573,31 @@ export const PRODUCTS: Product[] = [
             retailerLogo: '',
             offerUrl: 'https://www.woolworths.com.au/'
         }
-    }
+    },
+    // Adding 80 more products to trigger pagination ellipsis with 10 items per page
+    ...Array.from({ length: 80 }).map((_, i) => ({
+        id: `${25 + i}`,
+        sku: `MOCK-${100 + i}`,
+        name: `Pet Product ${i + 1} - Value Pack`,
+        brand: ['Royal Canin', 'Black Hawk', 'Hills', 'Advance'][i % 4],
+        category: ['Food', 'Health', 'Toys', 'Accessories'][i % 4],
+        animalType: (['dog', 'cat', 'bird', 'fish'][i % 4] as AnimalType),
+        lifeStage: ('Adult' as LifeStage),
+        description: 'High quality pet supply with guaranteed lowest price across all stores.',
+        image: `https://images.unsplash.com/photo-${1500000000000 + (i * 1000)}?q=80&w=800`,
+        attributes: { 'Size': 'Standard', 'Weight': '5kg' },
+        offers: [
+            { retailerId: 'petcircle', price: 50 + i, currency: 'USD', stockStatus: ('in-stock' as const), shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-16T10:00:00Z' }
+        ],
+        bestPrice: 50 + i,
+        bestOffer: {
+            shippingPrice: 0.00,
+            stockStatus: 'In Stock',
+            retailerName: 'Pet Circle',
+            retailerLogo: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=200',
+            offerUrl: 'https://www.petcircle.com.au/'
+        }
+    }))
 ];
 
 export const BLOG_POSTS: BlogPost[] = [
