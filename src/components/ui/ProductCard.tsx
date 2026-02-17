@@ -216,17 +216,17 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                     <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-dashed border-border pointer-events-auto z-20">
                         {isHome && !isList ? (
                             /* COMPACT HOMEPAGE GRID LAYOUT */
-                            <div className="flex flex-col gap-3">
-                                <div className="flex items-center justify-between">
+                            <div className="flex flex-col gap-2.5">
+                                <div className="flex items-center justify-between gap-2">
                                     {retailerCount > 1 ? (
                                         <button
                                             onClick={toggleStores}
-                                            className="text-[10px] font-black text-primary hover:underline flex items-center gap-1 group/btn"
+                                            className="text-[10px] font-black text-primary hover:underline flex items-center gap-1 group/btn shrink-0"
                                         >
                                             {retailerCount} Stores <ArrowRight className={`w-3 h-3 transition-transform ${showStoresDropdown ? 'rotate-90' : ''} group-hover/btn:translate-x-0.5`} />
                                         </button>
                                     ) : (
-                                        <span className="text-[10px] font-bold text-muted uppercase tracking-widest">Single Retailer</span>
+                                        <span className="text-[10px] font-bold text-muted uppercase tracking-widest shrink-0">Single Retailer</span>
                                     )}
 
                                     <button
@@ -235,7 +235,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                                             e.stopPropagation();
                                             openNotifyModal(product.name, product.bestPrice);
                                         }}
-                                        className="flex items-center gap-1.5 text-[10px] font-black text-muted hover:text-accent transition-colors"
+                                        className="flex items-center gap-1.5 text-[10px] font-black text-muted hover:text-accent transition-colors shrink-0"
                                         title="Notify Me"
                                     >
                                         <Bell className="w-3.5 h-3.5 text-primary" /> Notify Me
@@ -254,11 +254,11 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                             </div>
                         ) : (
                             /* STANDARD LAYOUT (DISCOVER PAGE, ETC) */
-                            <div className="flex items-center justify-between">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 {retailerCount > 1 ? (
                                     <button
                                         onClick={toggleStores}
-                                        className="text-[10px] sm:text-xs font-black text-primary hover:underline flex items-center gap-1 group/btn"
+                                        className="text-[10px] sm:text-xs font-black text-primary hover:underline flex items-center gap-1 group/btn w-fit"
                                     >
                                         View Other Stores <ArrowRight className={`w-3 h-3 transition-transform ${showStoresDropdown ? 'rotate-90' : ''} group-hover/btn:translate-x-0.5`} />
                                     </button>
@@ -266,14 +266,14 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                                     <span className="text-[10px] font-bold text-muted uppercase tracking-widest">Single Retailer</span>
                                 )}
 
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-2 w-full sm:w-auto">
                                     <button
                                         onClick={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
                                             openNotifyModal(product.name, product.bestPrice);
                                         }}
-                                        className="p-2.5 rounded-xl border border-border text-muted hover:text-accent hover:bg-accent/5 transition-all"
+                                        className="p-2.5 rounded-xl border border-border text-muted hover:text-accent hover:bg-accent/5 transition-all shrink-0"
                                         title="Notify Me"
                                     >
                                         <Bell className="w-4 h-4" />
@@ -283,7 +283,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         onClick={(e) => e.stopPropagation()}
-                                        className="py-2.5 px-5 sm:px-7 rounded-xl bg-primary text-white text-[10px] sm:text-xs font-black shadow-lg shadow-primary/20 hover:bg-primary-dark hover:-translate-y-px active:translate-y-0 transition-all flex items-center gap-2"
+                                        className="flex-1 sm:flex-none py-2.5 px-5 sm:px-7 rounded-xl bg-primary text-white text-[10px] sm:text-xs font-black shadow-lg shadow-primary/20 hover:bg-primary-dark hover:-translate-y-px active:translate-y-0 transition-all flex items-center justify-center gap-2 whitespace-nowrap"
                                     >
                                         Go To Store <ExternalLink className="w-3.5 h-3.5" />
                                     </a>
