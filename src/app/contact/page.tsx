@@ -14,7 +14,7 @@ export default function ContactPage() {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+            <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-10">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 lg:gap-16">
                     {/* Info Side */}
                     <div className="space-y-8 sm:space-y-12">

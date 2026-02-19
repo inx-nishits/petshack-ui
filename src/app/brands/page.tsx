@@ -20,7 +20,7 @@ export default function BrandsPage() {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+            <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-10">
                 {/* Brand Search */}
                 <div className="max-w-2xl mx-auto mb-10 sm:mb-16 relative">
                     <Search className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-muted-light w-4 h-4 sm:w-5 sm:h-5" />

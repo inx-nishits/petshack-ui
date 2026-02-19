@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product } from '@/types';
+import { useModal } from './ModalContext';
 
 // SOW: Maximum 4 products for comparison
 const MAX_COMPARE = 4;
@@ -18,6 +19,7 @@ const CompareContext = createContext<CompareContextType | undefined>(undefined);
 
 export const CompareProvider = ({ children }: { children: ReactNode }) => {
     const [compareList, setCompareList] = useState<Product[]>([]);
+    const { showAlert } = useModal();
 
     // Load from local storage on mount
     useEffect(() => {
@@ -38,7 +40,7 @@ export const CompareProvider = ({ children }: { children: ReactNode }) => {
 
     const addToCompare = (product: Product) => {
         if (compareList.length >= MAX_COMPARE) {
-            alert(`You can compare up to ${MAX_COMPARE} products.`);
+            showAlert(`You can compare up to ${MAX_COMPARE} products. Remove an item to add a new one.`, "Comparison Limit");
             return;
         }
         if (!compareList.find(p => p.id === product.id)) {

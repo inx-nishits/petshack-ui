@@ -4,19 +4,54 @@ import { useCompare } from "@/context/CompareContext";
 import { useModal } from "@/context/ModalContext";
 import { SafeImage } from "@/components/ui/SafeImage";
 import Link from "next/link";
-import { X, Search, ExternalLink, Bell, ChevronDown, Clock, Truck } from "lucide-react";
-import { useState } from "react";
+import { X, Search, ExternalLink, Bell, ChevronDown, Clock, Truck, ArrowRight } from "lucide-react";
+import { useState, useRef, MouseEvent } from "react";
 import { formatDistanceToNow } from "date-fns";
 
 export default function ComparePage() {
     const { compareList, removeFromCompare, clearCompare } = useCompare();
     const { openNotifyModal } = useModal();
     const [expandedStores, setExpandedStores] = useState<Record<string, boolean>>({});
+    const [showDifferences, setShowDifferences] = useState(false);
+
+    // Drag to scroll logic
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+
+    const onMouseDown = (e: MouseEvent) => {
+        if (!scrollRef.current) return;
+        setIsDragging(true);
+        setStartX(e.pageX - scrollRef.current.offsetLeft);
+        setScrollLeft(scrollRef.current.scrollLeft);
+    };
+
+    const onMouseLeave = () => {
+        setIsDragging(false);
+    };
+
+    const onMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+        if (!isDragging || !scrollRef.current) return;
+        e.preventDefault();
+        const x = e.pageX - scrollRef.current.offsetLeft;
+        const walk = (x - startX) * 2; // scroll-fast
+        scrollRef.current.scrollLeft = scrollLeft - walk;
+    };
 
     const toggleStores = (productId: string) => {
         setExpandedStores(prev => ({ ...prev, [productId]: !prev[productId] }));
     };
 
+    const hasDifferences = (key: string) => {
+        if (compareList.length < 2) return true;
+        const firstVal = compareList[0].attributes[key];
+        return compareList.some(p => p.attributes[key] !== firstVal);
+    };
 
     if (compareList.length === 0) {
         return (
@@ -36,183 +71,212 @@ export default function ComparePage() {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8 sm:py-12">
-            <div className="flex items-center justify-between mb-8">
+        <div className="w-full max-w-[1920px] mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 sm:mb-8">
                 <div>
-                    <h1 className="text-2xl sm:text-4xl font-black mb-2">Compare Products</h1>
-                    <p className="text-muted font-bold">Side-by-side analysis of the best pet deals in Australia.</p>
+                    <h1 className="text-xl sm:text-3xl font-black mb-1">Compare Products</h1>
+                    <p className="text-muted text-xs sm:text-sm font-bold">Side-by-side analysis of the best pet deals.</p>
                 </div>
-                <button
-                    onClick={clearCompare}
-                    className="px-6 py-3 bg-red-50 text-red-600 rounded-xl font-black text-sm hover:bg-red-100 transition-colors"
-                >
-                    Clear All
-                </button>
+                <div className="flex items-center gap-2 sm:gap-3 self-start sm:self-auto">
+                    <label className="flex items-center gap-2 cursor-pointer bg-white border border-border px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[10px] sm:text-xs font-bold shadow-sm hover:bg-surface transition-colors select-none">
+                        <input
+                            type="checkbox"
+                            checked={showDifferences}
+                            onChange={(e) => setShowDifferences(e.target.checked)}
+                            className="rounded border-gray-300 text-primary focus:ring-primary w-3.5 h-3.5"
+                        />
+                        <span>Differences Only</span>
+                    </label>
+                    <button
+                        onClick={clearCompare}
+                        className="px-4 sm:px-6 py-1.5 sm:py-2 bg-red-50 text-red-600 rounded-xl font-black text-[10px] sm:text-xs hover:bg-red-100 transition-colors whitespace-nowrap"
+                    >
+                        Clear All
+                    </button>
+                </div>
             </div>
 
-            <div className="overflow-x-auto pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
-                <div className="min-w-[1000px]">
-                    <table className="w-full text-left border-collapse bg-white rounded-3xl overflow-hidden shadow-sm border border-border">
+            {/* Mobile Scroll Hint */}
+            <div className="sm:hidden flex items-center gap-2 mb-2 text-[10px] font-bold text-muted justify-end px-1 animate-pulse">
+                <span>Scroll for more</span> <ArrowRight className="w-3 h-3" />
+            </div>
+
+            <div
+                ref={scrollRef}
+                onMouseDown={onMouseDown}
+                onMouseLeave={onMouseLeave}
+                onMouseUp={onMouseUp}
+                onMouseMove={onMouseMove}
+                className={`overflow-x-auto pb-6 -mx-2 sm:mx-0 px-2 sm:px-0 scrollbar-hide snap-x snap-mandatory ${isDragging ? 'cursor-grabbing snap-none' : 'cursor-grab'}`}
+            >
+                <div className="inline-block min-w-full align-middle">
+                    <table className="min-w-full text-left border-collapse bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm border border-border">
                         <thead>
                             <tr className="bg-surface/50">
-                                <th className="p-6 w-56 border-b border-border">
-                                    <div className="text-[10px] font-black uppercase tracking-widest text-muted-light">Product Detail</div>
+                                <th className="hidden md:table-cell p-3 lg:p-4 w-40 lg:w-48 border-b border-border align-bottom pb-4 sticky left-0 bg-surface z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">
+                                    <div className="text-[10px] font-black uppercase tracking-widest text-muted-light">Product Overview</div>
                                 </th>
-                                {compareList.map(product => (
-                                    <th key={product.id} className="p-6 w-72 align-top border-l border-b border-border relative group">
-                                        <button
-                                            onClick={() => removeFromCompare(product.id)}
-                                            className="absolute top-4 right-4 p-2 bg-white text-muted hover:text-red-500 rounded-full shadow-sm transition-all z-10 hover:scale-110"
-                                            aria-label="Remove product"
-                                        >
-                                            <X className="w-4 h-4" />
-                                        </button>
-                                        <div className="w-full aspect-square relative rounded-2xl overflow-hidden mb-4 border border-border bg-surface group-hover:scale-[1.02] transition-transform duration-500">
-                                            <SafeImage src={product.image} alt={product.name} className="w-full h-full object-contain p-4 absolute inset-0" />
-                                        </div>
-                                        <a
-                                            href={product.bestOffer?.offerUrl || '#'}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="font-black text-foreground hover:text-primary line-clamp-2 mb-3 leading-tight text-lg"
-                                        >
-                                            {product.name}
-                                        </a>
-                                        <div className="flex flex-col gap-1">
-                                            <div className="flex items-baseline gap-1">
-                                                <span className="text-[10px] text-muted font-bold uppercase">From</span>
-                                                <span className="text-2xl font-black text-primary">${product.bestPrice.toFixed(2)}</span>
+                                {compareList.map(product => {
+                                    const isLowest = product.bestPrice === Math.min(...compareList.map(p => p.bestPrice));
+                                    return (
+                                        <th key={product.id} className={`p-2 sm:p-3 lg:p-4 w-[85vw] sm:w-48 lg:w-60 align-top border-l border-b border-border relative group min-w-[260px] sm:min-w-[190px] lg:min-w-[220px] snap-center h-full ${isLowest ? 'bg-green-50/30' : ''}`}>
+                                            <div className="flex flex-col h-full">
+                                                <button
+                                                    onClick={() => removeFromCompare(product.id)}
+                                                    className="absolute top-2 right-2 p-1 bg-white text-muted hover:text-red-500 rounded-full shadow-sm transition-all z-10 hover:scale-110"
+                                                    aria-label="Remove product"
+                                                >
+                                                    <X className="w-3 h-3" />
+                                                </button>
+
+                                                {/* Image */}
+                                                <div className="w-full h-28 sm:h-auto sm:aspect-4/3 relative rounded-lg sm:rounded-xl overflow-hidden mb-2 sm:mb-3 border border-border bg-white group-hover:scale-[1.02] transition-transform duration-500 shrink-0">
+                                                    <SafeImage src={product.image} alt={product.name} className="w-full h-full object-cover absolute inset-0" />
+                                                </div>
+
+                                                {/* Title - Fixed Height for Alignment */}
+                                                <div className="h-[2.4em] mb-1.5 sm:mb-3 shrink-0 overflow-hidden">
+                                                    <a
+                                                        href={product.bestOffer?.offerUrl || '#'}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="font-black text-gray-900 hover:text-primary line-clamp-2 leading-tight text-xs sm:text-sm block"
+                                                        title={product.name}
+                                                    >
+                                                        {product.name}
+                                                    </a>
+                                                </div>
+
+                                                {/* Price & Badge */}
+                                                <div className="flex flex-col gap-0.5 mb-2 sm:mb-3 shrink-0">
+                                                    <div className="flex items-center gap-1.5 sm:gap-2">
+                                                        <span className="text-xl sm:text-2xl font-black text-gray-900">
+                                                            ${product.bestPrice.toFixed(2)}
+                                                        </span>
+                                                        {isLowest && (
+                                                            <span className="bg-green-100 text-green-800 text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wide whitespace-nowrap">
+                                                                Best Deal
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <div className="hidden sm:flex items-center gap-1.5 text-[10px] font-bold text-gray-500">
+                                                        <Clock className="w-3 h-3" />
+                                                        {product.offers[0]?.lastUpdated ? formatDistanceToNow(new Date(product.offers[0].lastUpdated), { addSuffix: true }) : "recently"}
+                                                    </div>
+                                                </div>
+
+                                                {/* Store Info */}
+                                                <div className="flex items-center gap-2 mb-2 p-0 sm:p-0 bg-transparent rounded-none border-0 shrink-0">
+                                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded bg-surface border border-border flex items-center justify-center text-[10px] font-black text-muted overflow-hidden shrink-0">
+                                                        {product.bestOffer?.retailerLogo ? (
+                                                            <img src={product.bestOffer.retailerLogo} alt={product.bestOffer.retailerName} className="w-full h-full object-cover" />
+                                                        ) : (
+                                                            product.bestOffer?.retailerName?.substring(0, 2)
+                                                        )}
+                                                    </div>
+                                                    <div className="flex flex-col min-w-0">
+                                                        <span className="font-bold text-[10px] sm:text-xs text-gray-900 leading-none truncate">{product.bestOffer?.retailerName}</span>
+                                                        <div className="flex flex-wrap gap-x-1 sm:gap-x-1.5 text-[9px] text-gray-500 font-medium mt-0.5 leading-none">
+                                                            <span className="whitespace-nowrap">
+                                                                {product.bestOffer?.shippingPrice === 0 ? 'Free Shipping' : `+$${product.bestOffer?.shippingPrice} Shipping`}
+                                                            </span>
+                                                            <span className="text-gray-300">|</span>
+                                                            <span className={`${product.bestOffer?.stockStatus?.toLowerCase().includes('in stock') ? 'text-green-700' : 'text-red-700'} whitespace-nowrap truncate max-w-[60px] sm:max-w-none`}>
+                                                                {product.bestOffer?.stockStatus === 'In Stock' ? 'In Stock' : product.bestOffer?.stockStatus}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Actions */}
+                                                <div className="flex flex-col gap-1.5 sm:gap-2 mt-auto">
+                                                    {/* Other Stores Toggle - Moved up to align with user screenshot flow (Price -> Info -> Other Stores -> CTA) */}
+                                                    <div className="relative mb-1">
+                                                        <button
+                                                            onClick={() => toggleStores(product.id)}
+                                                            className="text-left text-[10px] sm:text-xs font-medium text-gray-500 hover:text-primary hover:underline transition-colors flex items-center gap-1 group/btn"
+                                                        >
+                                                            <span>
+                                                                {expandedStores[product.id] ? 'Hide other stores' : `View ${product.offers.length - 1} other stores`}
+                                                            </span>
+                                                            <ArrowRight className={`w-3 h-3 transition-transform group-hover/btn:translate-x-0.5 ${expandedStores[product.id] ? 'rotate-180' : ''}`} />
+                                                        </button>
+
+                                                        {expandedStores[product.id] && (
+                                                            <div className="mt-2 space-y-1.5 animate-in slide-in-from-top-1 absolute left-0 right-0 bg-white p-3 rounded-xl shadow-xl border border-border z-20">
+                                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Other Offers</h4>
+                                                                {product.offers.slice(1).map((offer, idx) => (
+                                                                    <div key={idx} className="flex items-center justify-between py-1.5 border-b border-gray-100 last:border-0">
+                                                                        <span className="text-[11px] font-bold text-gray-900 truncate max-w-[80px]">{offer.retailerId}</span>
+                                                                        <div className="flex items-center gap-2">
+                                                                            <span className="text-[11px] font-bold text-gray-900">${offer.price.toFixed(2)}</span>
+                                                                            <a href={offer.url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary"><ExternalLink className="w-3 h-3" /></a>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                                {product.offers.length <= 1 && (
+                                                                    <div className="text-[9px] text-gray-400 text-center italic">No other stores available</div>
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                    </div>
+
+                                                    <div className="flex gap-1.5 sm:block sm:space-y-2">
+                                                        <a
+                                                            href={product.bestOffer?.offerUrl || '#'}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="flex-1 w-full py-2 bg-primary text-white text-center rounded-lg font-black text-[10px] sm:text-xs shadow-sm hover:bg-primary-dark transition-all flex items-center justify-center gap-1.5 whitespace-nowrap"
+                                                        >
+                                                            Go <span className="hidden sm:inline">To Store</span> <ExternalLink className="w-3 h-3" />
+                                                        </a>
+
+                                                        <button
+                                                            onClick={() => openNotifyModal(product.name, product.bestPrice)}
+                                                            className="flex-1 text-[10px] font-bold text-primary hover:underline hover:bg-primary/5 rounded-lg flex items-center justify-center gap-1 w-full text-center py-2 sm:py-1 border sm:border-0 border-primary/20"
+                                                        >
+                                                            <Bell className="w-3 h-3" /> <span className="hidden sm:inline">Set Price </span>Alert
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className="flex items-center gap-2 text-[10px] font-bold text-muted-light">
-                                                <Clock className="w-3 h-3" />
-                                                Updated {product.offers[0]?.lastUpdated ? formatDistanceToNow(new Date(product.offers[0].lastUpdated), { addSuffix: true }) : "recently"}
-                                            </div>
-                                        </div>
-                                    </th>
-                                ))}
+                                        </th>
+                                    );
+                                })}
                             </tr>
                         </thead>
 
                         <tbody className="divide-y divide-border">
-                            {/* Brand */}
+                            {/* --- Product Details Section --- */}
                             <tr>
-                                <th className="p-6 text-xs font-black text-muted-light uppercase tracking-widest bg-surface/30">Brand</th>
-                                {compareList.map(product => (
-                                    <td key={product.id} className="p-6 border-l border-border font-black text-sm text-foreground">{product.brand}</td>
-                                ))}
+                                <th colSpan={compareList.length + 1} className="bg-surface/50 p-2 text-[10px] font-black uppercase tracking-widest text-primary border-y border-border text-center">
+                                    Technical Specifications
+                                </th>
                             </tr>
 
-                            {/* Best Store & Logo */}
                             <tr>
-                                <th className="p-6 text-xs font-black text-muted-light uppercase tracking-widest bg-surface/30">Best Store</th>
+                                <th className="hidden md:table-cell p-3 lg:p-4 w-40 lg:w-48 text-xs font-black text-muted-light uppercase tracking-widest align-middle sticky left-0 bg-surface z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Brand</th>
                                 {compareList.map(product => (
-                                    <td key={product.id} className="p-6 border-l border-border">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center text-[10px] font-black text-muted overflow-hidden shadow-sm">
-                                                {product.bestOffer?.retailerLogo ? (
-                                                    <img src={product.bestOffer.retailerLogo} alt={product.bestOffer.retailerName} className="w-full h-full object-cover" />
-                                                ) : (
-                                                    product.bestOffer?.retailerName?.substring(0, 2)
-                                                )}
-                                            </div>
-                                            <span className="font-black text-sm text-foreground">{product.bestOffer?.retailerName}</span>
-                                        </div>
+                                    <td key={product.id} className="p-3 sm:p-3 lg:p-4 border-l border-border font-bold text-sm text-foreground align-middle min-w-[280px] sm:min-w-[190px] lg:min-w-[220px] snap-center">
+                                        <span className="block md:hidden text-[9px] text-muted font-bold uppercase mb-1">Brand</span>
+                                        {product.brand}
                                     </td>
                                 ))}
                             </tr>
 
-                            {/* Shipping Price */}
                             <tr>
-                                <th className="p-6 text-xs font-black text-muted-light uppercase tracking-widest bg-surface/30">Shipping</th>
+                                <th className="hidden md:table-cell p-3 lg:p-4 w-40 lg:w-48 text-xs font-black text-muted-light uppercase tracking-widest align-top pt-4 sticky left-0 bg-surface z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Specs</th>
                                 {compareList.map(product => (
-                                    <td key={product.id} className="p-6 border-l border-border">
-                                        <div className="flex items-center gap-2 font-black text-sm text-foreground">
-                                            <Truck className="w-4 h-4 text-muted-light" />
-                                            {product.bestOffer?.shippingPrice === 0 ? (
-                                                <span className="text-green-600">FREE</span>
-                                            ) : (
-                                                `$${product.bestOffer?.shippingPrice?.toFixed(2)}`
-                                            )}
-                                        </div>
-                                    </td>
-                                ))}
-                            </tr>
-
-                            {/* Stock Status */}
-                            <tr>
-                                <th className="p-6 text-xs font-black text-muted-light uppercase tracking-widest bg-surface/30">Stock Status</th>
-                                {compareList.map(product => (
-                                    <td key={product.id} className="p-6 border-l border-border">
-                                        <span className={`px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm border ${product.bestOffer?.stockStatus?.toLowerCase().includes('in stock') ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200'}`}>
-                                            {product.bestOffer?.stockStatus}
-                                        </span>
-                                    </td>
-                                ))}
-                            </tr>
-
-                            {/* Specs */}
-                            <tr>
-                                <th className="p-6 text-xs font-black text-muted-light uppercase tracking-widest bg-surface/30">Specifications</th>
-                                {compareList.map(product => (
-                                    <td key={product.id} className="p-6 border-l border-border">
-                                        <div className="grid grid-cols-1 gap-2">
-                                            {Object.entries(product.attributes).map(([key, val]) => (
-                                                <div key={key} className="flex justify-between items-center py-1 border-b border-border/50 text-[11px]">
-                                                    <span className="text-muted font-bold">{key}</span>
-                                                    <span className="text-foreground font-black">{val}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </td>
-                                ))}
-                            </tr>
-
-                            {/* Actions & Notify */}
-                            <tr>
-                                <th className="p-6 text-xs font-black text-muted-light uppercase tracking-widest bg-surface/30">Actions</th>
-                                {compareList.map(product => (
-                                    <td key={product.id} className="p-6 border-l border-border">
-                                        <div className="flex flex-col gap-3">
-                                            <a
-                                                href={product.bestOffer?.offerUrl || '#'}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="w-full py-4 px-6 bg-primary text-white text-center rounded-2xl font-black text-sm shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all flex items-center justify-center gap-2 group/btn"
-                                            >
-                                                Go To Store <ExternalLink className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5" />
-                                            </a>
-                                            <button
-                                                onClick={() => openNotifyModal(product.name, product.bestPrice)}
-                                                className="w-full py-4 px-6 bg-accent/10 text-accent text-center rounded-2xl font-black text-sm hover:bg-accent hover:text-white transition-all flex items-center justify-center gap-2 border border-accent/20"
-                                            >
-                                                <Bell className="w-4 h-4" /> Notify Me
-                                            </button>
-                                            <button
-                                                onClick={() => toggleStores(product.id)}
-                                                className="w-full py-3 text-primary text-center font-black text-[10px] uppercase tracking-widest hover:underline flex items-center justify-center gap-1"
-                                            >
-                                                View Other Stores <ChevronDown className={`w-3 h-3 transition-transform ${expandedStores[product.id] ? 'rotate-180' : ''}`} />
-                                            </button>
-
-                                            {/* Other Stores Inline Accordion */}
-                                            {expandedStores[product.id] && (
-                                                <div className="mt-2 space-y-2 animate-in slide-in-from-top-2 duration-200">
-                                                    {product.offers.slice(1).map((offer, idx) => (
-                                                        <div key={idx} className="p-3 bg-surface border border-border rounded-xl flex items-center justify-between">
-                                                            <div className="flex flex-col">
-                                                                <span className="text-[10px] font-black text-foreground">{offer.retailerId.substring(0, 2).toUpperCase()}</span>
-                                                                <span className="text-[9px] font-bold text-muted">${offer.price.toFixed(2)}</span>
-                                                            </div>
-                                                            <a href={offer.url} target="_blank" rel="noopener noreferrer" className="p-1.5 bg-white border border-border rounded-lg shadow-sm">
-                                                                <ExternalLink className="w-3 h-3" />
-                                                            </a>
-                                                        </div>
-                                                    ))}
-                                                    {product.offers.length <= 1 && (
-                                                        <div className="p-3 text-[10px] text-muted text-center italic font-bold">No other stores found</div>
-                                                    )}
-                                                </div>
-                                            )}
+                                    <td key={product.id} className="p-3 sm:p-3 lg:p-4 border-l border-border align-top min-w-[280px] sm:min-w-[190px] lg:min-w-[220px] snap-center">
+                                        <div className="space-y-2">
+                                            {Object.entries(product.attributes)
+                                                .filter(([key]) => !showDifferences || hasDifferences(key))
+                                                .map(([key, val]) => (
+                                                    <div key={key} className="flex flex-col border-b border-border/40 pb-1 last:border-0">
+                                                        <span className="text-[9px] text-muted font-bold uppercase">{key}</span>
+                                                        <span className="text-xs font-medium text-foreground">{val}</span>
+                                                    </div>
+                                                ))}
                                         </div>
                                     </td>
                                 ))}

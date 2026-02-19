@@ -33,6 +33,7 @@ function DiscoverContent() {
     const [priceRange, setPriceRange] = useState(500);
     const [sortOption, setSortOption] = useState("Best Match");
     const [showFilters, setShowFilters] = useState(false);
+    const [showSortDropdown, setShowSortDropdown] = useState(false);
 
     // Sync search query from URL on load
     // Sync search query from URL on load
@@ -157,32 +158,15 @@ function DiscoverContent() {
     );
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+        <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-10">
             {/* Breadcrumbs */}
             <nav className="flex text-[10px] sm:text-xs text-muted-light mb-6 sm:mb-8 gap-2">
                 <a href="/" className="hover:text-primary transition-colors font-bold">Home</a>
                 <span>/</span>
-                <span className="text-muted font-bold">Discover Products (USD)</span>
+                <span className="text-muted font-bold">Discover Products</span>
             </nav>
 
-            {/* Module Definition Info Section (Task 2) */}
-            <div className="mb-8 sm:mb-10 bg-primary/5 border border-primary/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 relative overflow-hidden group">
-                <div className="flex flex-col lg:flex-row justify-between gap-6 sm:gap-8 relative z-10">
-                    <div className="max-w-2xl">
-                        <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                            <Target className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
-                            <h2 className="text-xs sm:text-sm font-black uppercase tracking-widest text-primary">Module Definition Spec (e3060)</h2>
-                        </div>
-                        <h3 className="text-xl sm:text-2xl font-black mb-2">{MODULE_DATA.module}</h3>
-                        <p className="text-xs sm:text-sm text-gray-500 font-bold mb-3 sm:mb-4 flex items-center gap-2">
-                            <Cpu className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Sub-Module: {MODULE_DATA.subModule}
-                        </p>
-                        <p className="text-gray-600 font-medium leading-relaxed text-sm">
-                            {MODULE_DATA.description}
-                        </p>
-                    </div>
-                </div>
-            </div>
+
 
             <div className="flex flex-col lg:flex-row gap-6 sm:gap-8">
                 {/* Mobile Filter Toggle */}
@@ -195,11 +179,11 @@ function DiscoverContent() {
                 </button>
 
                 {/* Sidebar Filters */}
-                <aside className={`w-full lg:w-72 shrink-0 space-y-6 sm:space-y-8 ${showFilters ? 'block' : 'hidden lg:block'}`}>
-                    <div className="bg-white border border-border rounded-2xl sm:rounded-4xl p-6 sm:p-8 shadow-sm">
-                        <div className="flex items-center justify-between mb-6 sm:mb-8">
-                            <h3 className="font-black text-lg sm:text-xl flex items-center gap-2">
-                                <Filter className="w-4 h-4 sm:w-5 sm:h-5" /> Filters
+                <aside className={`w-full lg:w-64 shrink-0 space-y-4 sm:space-y-6 ${showFilters ? 'block' : 'hidden lg:block'}`}>
+                    <div className="bg-white border border-border rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm">
+                        <div className="flex items-center justify-between mb-4 sm:mb-5">
+                            <h3 className="font-black text-base sm:text-lg flex items-center gap-2">
+                                <Filter className="w-4 h-4" /> Filters
                             </h3>
                             <button
                                 onClick={() => {
@@ -217,66 +201,102 @@ function DiscoverContent() {
                             </button>
                         </div>
 
-                        <div className="space-y-6 sm:space-y-8">
-                            {/* Pet Stores (SOW Req) */}
-                            <div className="border-b border-border pb-6 sm:pb-8">
-                                <h4 className="font-bold mb-4 sm:mb-5 text-[10px] sm:text-xs uppercase tracking-widest text-muted-light">Pet Stores</h4>
-                                <div className="space-y-3 sm:space-y-4">
-                                    {RETAILERS.map((retailer) => (
-                                        <label key={retailer.id} className="flex items-center gap-3 cursor-pointer group min-h-[32px]">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedStores.includes(retailer.id)}
-                                                onChange={() => toggleFilter(selectedStores, setSelectedStores, retailer.id)}
-                                                className="w-5 h-5 rounded-lg border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
-                                            />
-                                            <span className={`text-sm font-bold transition-colors ${selectedStores.includes(retailer.id) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{retailer.name}</span>
-                                        </label>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Life Stage (SOW Req) */}
-                            <div className="border-b border-border pb-6 sm:pb-8">
-                                <h4 className="font-bold mb-4 sm:mb-5 text-[10px] sm:text-xs uppercase tracking-widest text-muted-light">Life Stage</h4>
-                                <div className="space-y-3 sm:space-y-4">
-                                    {['Puppy', 'Adult', 'Senior', 'Kitten', 'All Ages'].map((item) => (
-                                        <label key={item} className="flex items-center gap-3 cursor-pointer group min-h-[32px]">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedLifeStages.includes(item)}
-                                                onChange={() => toggleFilter(selectedLifeStages, setSelectedLifeStages, item)}
-                                                className="w-5 h-5 rounded-lg border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
-                                            />
-                                            <span className={`text-sm font-bold transition-colors ${selectedLifeStages.includes(item) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{item}</span>
-                                        </label>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Animal Type */}
-                            <div className="border-b border-border pb-6 sm:pb-8">
-                                <h4 className="font-bold mb-4 sm:mb-5 text-[10px] sm:text-xs uppercase tracking-widest text-muted-light">Target Animal</h4>
-                                <div className="space-y-3 sm:space-y-4">
+                        <div className="space-y-4 sm:space-y-5">
+                            {/* 1. Pet Type (Target Animal) */}
+                            <div className="border-b border-border pb-3 sm:pb-4">
+                                <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Pet Type</h4>
+                                <div className="space-y-1.5 sm:space-y-2">
                                     {['Dog', 'Cat', 'Bird', 'Fish', 'Small Pet', 'Reptile'].map((item) => (
-                                        <label key={item} className="flex items-center gap-3 cursor-pointer group min-h-[32px]">
+                                        <label key={item} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
                                             <input
                                                 type="checkbox"
                                                 checked={selectedAnimals.includes(item)}
                                                 onChange={() => toggleFilter(selectedAnimals, setSelectedAnimals, item)}
-                                                className="w-5 h-5 rounded-lg border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
+                                                className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
                                             />
-                                            <span className={`text-sm font-bold transition-colors ${selectedAnimals.includes(item) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{item}</span>
+                                            <span className={`text-xs font-bold transition-colors ${selectedAnimals.includes(item) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{item}</span>
                                         </label>
                                     ))}
                                 </div>
                             </div>
 
-                            {/* Price Range */}
-                            <div className="pb-4">
-                                <div className="flex justify-between items-center mb-4 sm:mb-5">
-                                    <h4 className="font-bold text-[10px] sm:text-xs uppercase tracking-widest text-muted-light">Max Price (USD)</h4>
-                                    <span className="text-sm font-black text-primary">${priceRange}</span>
+                            {/* 2. Brand (New) */}
+                            <div className="border-b border-border pb-3 sm:pb-4">
+                                <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Brand</h4>
+                                <div className="space-y-1.5 sm:space-y-2 max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+                                    {Array.from(new Set(PRODUCTS.map(p => p.brand))).sort().map((brand) => (
+                                        <label key={brand} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedBrands.includes(brand)}
+                                                onChange={() => toggleFilter(selectedBrands, setSelectedBrands, brand)}
+                                                className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
+                                            />
+                                            <span className={`text-xs font-bold transition-colors ${selectedBrands.includes(brand) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{brand}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* 3. Category (New) */}
+                            <div className="border-b border-border pb-3 sm:pb-4">
+                                <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Category</h4>
+                                <div className="space-y-1.5 sm:space-y-2 max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+                                    {Array.from(new Set(PRODUCTS.map(p => p.category))).sort().map((cat) => (
+                                        <label key={cat} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedCategories.includes(cat)}
+                                                onChange={() => toggleFilter(selectedCategories, setSelectedCategories, cat)}
+                                                className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
+                                            />
+                                            <span className={`text-xs font-bold transition-colors ${selectedCategories.includes(cat) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{cat}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* 4. Age Group (Life Stage) */}
+                            <div className="border-b border-border pb-3 sm:pb-4">
+                                <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Age Group</h4>
+                                <div className="space-y-1.5 sm:space-y-2">
+                                    {['Puppy', 'Adult', 'Senior', 'Kitten', 'All Ages'].map((item) => (
+                                        <label key={item} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedLifeStages.includes(item)}
+                                                onChange={() => toggleFilter(selectedLifeStages, setSelectedLifeStages, item)}
+                                                className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
+                                            />
+                                            <span className={`text-xs font-bold transition-colors ${selectedLifeStages.includes(item) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{item}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* 5. Pet Shop (Pet Stores) */}
+                            <div className="border-b border-border pb-3 sm:pb-4">
+                                <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Pet Shop</h4>
+                                <div className="space-y-1.5 sm:space-y-2">
+                                    {RETAILERS.map((retailer) => (
+                                        <label key={retailer.id} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedStores.includes(retailer.id)}
+                                                onChange={() => toggleFilter(selectedStores, setSelectedStores, retailer.id)}
+                                                className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
+                                            />
+                                            <span className={`text-xs font-bold transition-colors ${selectedStores.includes(retailer.id) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{retailer.name}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* 6. Price Range */}
+                            <div className="pb-2">
+                                <div className="flex justify-between items-center mb-2 sm:mb-3">
+                                    <h4 className="font-bold text-[10px] uppercase tracking-widest text-muted-light">Max Price</h4>
+                                    <span className="text-xs font-black text-primary">${priceRange}</span>
                                 </div>
                                 <input
                                     type="range"
@@ -285,9 +305,9 @@ function DiscoverContent() {
                                     step="10"
                                     value={priceRange}
                                     onChange={(e) => setPriceRange(parseInt(e.target.value))}
-                                    className="w-full h-2 bg-surface rounded-lg appearance-none cursor-pointer accent-primary"
+                                    className="w-full h-1.5 bg-surface rounded-lg appearance-none cursor-pointer accent-primary"
                                 />
-                                <div className="flex justify-between text-[10px] font-black text-muted-light mt-3 sm:mt-4 uppercase">
+                                <div className="flex justify-between text-[9px] font-black text-muted-light mt-2 uppercase">
                                     <span>$0</span>
                                     <span>$500+</span>
                                 </div>
@@ -316,19 +336,44 @@ function DiscoverContent() {
                         <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
                             <div />
 
-                            <div className="relative flex-1 sm:flex-none">
-                                <select
-                                    className="appearance-none bg-white border border-border rounded-xl pl-4 pr-10 py-3 text-xs sm:text-sm font-bold focus:outline-none focus:ring-4 focus:ring-primary/10 w-full cursor-pointer shadow-sm hover:border-primary transition-colors min-h-[44px]"
-                                    value={sortOption}
-                                    onChange={(e) => setSortOption(e.target.value)}
+                            <div className="relative flex-1 sm:flex-none min-w-[200px]">
+                                <button
+                                    onClick={() => setShowSortDropdown(!showSortDropdown)}
+                                    className="w-full appearance-none bg-white border border-border rounded-xl px-4 py-3 text-xs sm:text-sm font-bold focus:outline-none focus:ring-4 focus:ring-primary/10 cursor-pointer shadow-sm hover:border-primary transition-colors min-h-[44px] text-left flex items-center justify-between group"
+                                    type="button"
                                 >
-                                    <option>Best Match</option>
-                                    <option>Price: Low to High</option>
-                                    <option>Price: High to Low</option>
-                                    {/* SOW Requirement */}
-                                    <option>Last Price Update</option>
-                                </select>
-                                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                    <span className="truncate mr-2">{sortOption}</span>
+                                    <ChevronDown className={`w-4 h-4 text-gray-400 group-hover:text-primary transition-transform duration-200 ${showSortDropdown ? 'rotate-180' : ''}`} />
+                                </button>
+
+                                {showSortDropdown && (
+                                    <>
+                                        <div
+                                            className="fixed inset-0 z-40 bg-transparent"
+                                            onClick={() => setShowSortDropdown(false)}
+                                        />
+                                        <div className="absolute top-full right-0 mt-2 w-full bg-white border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-100 origin-top-right">
+                                            <div className="py-1">
+                                                {["Best Match", "Price: Low to High", "Price: High to Low", "Last Price Update"].map((option) => (
+                                                    <button
+                                                        key={option}
+                                                        className={`w-full text-left px-4 py-2.5 text-xs sm:text-sm font-bold transition-colors ${sortOption === option
+                                                            ? 'bg-primary text-white'
+                                                            : 'text-foreground hover:bg-surface hover:text-primary'
+                                                            }`}
+                                                        onClick={() => {
+                                                            setSortOption(option);
+                                                            setShowSortDropdown(false);
+                                                        }}
+                                                        type="button"
+                                                    >
+                                                        {option}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>

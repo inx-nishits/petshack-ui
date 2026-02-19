@@ -10,9 +10,18 @@ import { useState } from "react";
 
 export default function BlogListingPage() {
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState("");
+
+    // Filter posts based on search query
+    const filteredPosts = BLOG_POSTS.filter(post =>
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.author.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     const itemsPerPage = 6;
-    const totalPages = Math.ceil(BLOG_POSTS.length / itemsPerPage);
-    const paginatedPosts = BLOG_POSTS.slice(
+    const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
+    const paginatedPosts = filteredPosts.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
@@ -60,6 +69,11 @@ export default function BlogListingPage() {
                             <input
                                 type="text"
                                 placeholder="Search articles, tips, or guides..."
+                                value={searchQuery}
+                                onChange={(e) => {
+                                    setSearchQuery(e.target.value);
+                                    setCurrentPage(1);
+                                }}
                                 className="w-full pl-10 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-surface focus:outline-none focus:ring-2 focus:ring-primary/20 font-medium text-sm sm:text-base min-h-[44px]"
                             />
                         </div>
@@ -67,7 +81,10 @@ export default function BlogListingPage() {
                             <button className="flex-1 md:flex-none inline-flex items-center justify-center gap-2 bg-surface text-foreground px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold hover:bg-gray-100 transition-colors border border-border text-sm sm:text-base min-h-[44px]">
                                 <Filter className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Filter
                             </button>
-                            <button className="flex-1 md:flex-none bg-primary text-white px-6 sm:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-black hover:bg-primary-dark transition-all shadow-lg shadow-primary/20 text-sm sm:text-base min-h-[44px]">
+                            <button
+                                onClick={() => {/* Already handled by real-time input */ }}
+                                className="flex-1 md:flex-none bg-primary text-white px-6 sm:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-black hover:bg-primary-dark transition-all shadow-lg shadow-primary/20 text-sm sm:text-base min-h-[44px]"
+                            >
                                 Search
                             </button>
                         </div>
@@ -81,7 +98,7 @@ export default function BlogListingPage() {
                     <h2 className="text-2xl sm:text-3xl font-black tracking-tight">Latest News</h2>
                     <div className="h-px flex-1 bg-border mx-4 sm:mx-8 hidden lg:block" />
                     <div className="flex gap-2">
-                        <span className="text-xs sm:text-sm font-bold text-muted uppercase tracking-widest">Showing {BLOG_POSTS.length} Articles</span>
+                        <span className="text-xs sm:text-sm font-bold text-muted uppercase tracking-widest">Showing {filteredPosts.length} Articles</span>
                     </div>
                 </div>
 
@@ -175,9 +192,9 @@ export default function BlogListingPage() {
                         <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 shadow-sm">
                             <BookOpen className="w-8 h-8 sm:w-10 sm:h-10 text-muted-light" />
                         </div>
-                        <h3 className="text-xl sm:text-2xl font-black mb-3 sm:mb-4">No Latest News!</h3>
+                        <h3 className="text-xl sm:text-2xl font-black mb-3 sm:mb-4">No matches found</h3>
                         <p className="text-sm sm:text-base text-muted font-medium max-w-sm mx-auto px-4">
-                            We're currently digging up some fresh content for you. Check back soon for the latest pet insights.
+                            Try adjusting your search terms to find the latest pet insights.
                         </p>
                     </div>
                 )}
