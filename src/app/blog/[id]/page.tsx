@@ -8,6 +8,8 @@ interface PageProps {
     params: Promise<{ id: string }>;
 }
 
+import { ShareActions } from "@/components/blog/ShareActions";
+
 export default async function BlogDetailPage({ params }: PageProps) {
     const { id } = await params;
     const post = BLOG_POSTS.find(p => p.id === id);
@@ -49,17 +51,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                                     <span className="text-[10px] sm:text-xs text-muted font-medium uppercase tracking-wide">Verified Expert</span>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2 sm:gap-3 self-start sm:self-auto">
-                                <button className="p-2 sm:p-2.5 rounded-full border border-border hover:bg-surface transition-colors min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] flex items-center justify-center">
-                                    <Facebook className="w-4 h-4" />
-                                </button>
-                                <button className="p-2 sm:p-2.5 rounded-full border border-border hover:bg-surface transition-colors min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] flex items-center justify-center">
-                                    <Twitter className="w-4 h-4" />
-                                </button>
-                                <button className="p-2 sm:p-2.5 rounded-full border border-border hover:bg-surface transition-colors min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] flex items-center justify-center">
-                                    <Link2 className="w-4 h-4" />
-                                </button>
-                            </div>
+                            <ShareActions />
                         </div>
                     </header>
 
@@ -107,7 +99,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                             <input
                                 type="email"
                                 placeholder="Enter your email"
-                                className="flex-grow px-4 sm:px-6 py-3 sm:py-4 rounded-xl border border-border focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all min-h-[44px] text-sm sm:text-base"
+                                className="grow px-4 sm:px-6 py-3 sm:py-4 rounded-xl border border-border focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all min-h-[44px] text-sm sm:text-base"
                             />
                             <button className="bg-primary text-white px-8 sm:px-10 py-3 sm:py-4 rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-preset min-h-[44px] text-sm sm:text-base">
                                 Join
@@ -121,11 +113,11 @@ export default async function BlogDetailPage({ params }: PageProps) {
                             <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                                 <User className="w-4 h-4" />
                             </span>
-                            More from PetShack
+                            More from {post.author}
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                             {relatedPosts.map((relatedPost) => (
-                                <Link key={relatedPost.id} href={`/blog/${relatedPost.id}`} className="group block h-full flex flex-col">
+                                <Link key={relatedPost.id} href={`/blog/${relatedPost.id}`} className="group flex flex-col h-full">
                                     <div className="aspect-video rounded-2xl overflow-hidden mb-4 bg-gray-100 border border-border relative">
                                         <SafeImage
                                             src={relatedPost.image}

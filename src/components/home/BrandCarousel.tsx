@@ -59,7 +59,7 @@ export const BrandCarousel = () => {
                         {BRANDS.map((brand, index) => (
                             <div key={index} className="flex-[0_0_50%] md:flex-[0_0_33.33%] lg:flex-[0_0_20%] pl-4 sm:pl-6">
                                 <Link
-                                    href="#"
+                                    href={`/discover?brand=${encodeURIComponent(brand.name)}`}
                                     className="aspect-square bg-white border border-border rounded-2xl sm:rounded-3xl lg:rounded-4xl flex flex-col items-center justify-center p-4 sm:p-6 grayscale hover:grayscale-0 transition-preset cursor-pointer hover:shadow-premium group h-full"
                                 >
                                     <div className="w-12 h-12 sm:w-16 sm:h-16 bg-surface rounded-full flex items-center justify-center mb-3 sm:mb-4 group-hover:bg-primary/5 transition-colors">
@@ -73,7 +73,7 @@ export const BrandCarousel = () => {
                 </div>
 
                 <div className="mt-8 sm:mt-10 lg:mt-12 text-center">
-                    <Link href="#" className="text-primary font-black hover:underline text-xs sm:text-sm uppercase tracking-widest inline-flex items-center gap-2">
+                    <Link href="/discover" className="text-primary font-black hover:underline text-xs sm:text-sm uppercase tracking-widest inline-flex items-center gap-2">
                         View All Brands <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
                     </Link>
                 </div>

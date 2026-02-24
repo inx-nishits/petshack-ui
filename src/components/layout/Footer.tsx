@@ -49,6 +49,7 @@ export const Footer = () => {
                             <li><Link href="/blog" className="text-muted hover:text-primary transition-colors">Pet Blog</Link></li>
                             <li><Link href="/faqs" className="text-muted hover:text-primary transition-colors">FAQs</Link></li>
                             <li><Link href="/contact" className="text-muted hover:text-primary transition-colors">Contact Support</Link></li>
+                            <li><Link href="/admin" className="text-muted hover:text-primary transition-colors flex items-center gap-1.5 justify-center sm:justify-start">Admin Portal <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-black">Staff</span></Link></li>
                         </ul>
                     </div>
 

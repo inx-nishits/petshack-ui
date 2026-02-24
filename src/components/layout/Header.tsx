@@ -1,16 +1,29 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, X, ChevronDown, User, ArrowRight, Sparkles, Users, Globe, Search } from "lucide-react";
-import { SafeImage } from "@/components/ui/SafeImage";
+import {
+    Menu,
+    X,
+    Search,
+    ChevronDown,
+    ShieldCheck,
+    ArrowRight,
+    User,
+    Sparkles,
+    Users,
+    Globe,
+    ExternalLink
+} from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
+import { SafeImage } from "@/components/ui/SafeImage";
 
 const NAV_ITEMS = [
     { label: "Home", href: "/" },
-    { label: "Blogs", href: "/blog" },
     { label: "About Us", href: "/about-us" },
+    { label: "Compare", href: "/discover" },
+    { label: "Blogs", href: "/blog" },
     { label: "Contact", href: "/contact" },
 ];
 
@@ -85,7 +98,7 @@ export const Header = () => {
     const headerRef = useRef<HTMLElement>(null);
     const pathname = usePathname();
     const [searchQuery, setSearchQuery] = useState("");
-    const router = useRouter(); // You'll need to import useRouter
+    const router = useRouter();
 
     const isActive = (path: string) => pathname === path;
 
@@ -93,19 +106,12 @@ export const Header = () => {
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-
-            // At the top check
             setIsScrolled(currentScrollY > 10);
-
-            // Show/Hide logic
             if (currentScrollY > lastScrollY && currentScrollY > 50) {
-                // Scrolling down - hide top bar info
                 setIsVisible(false);
             } else {
-                // Scrolling up - show everything
                 setIsVisible(true);
             }
-
             setLastScrollY(currentScrollY);
         };
 
@@ -196,7 +202,6 @@ export const Header = () => {
 
                     {/* Desktop Navigation */}
                     <nav className="hidden lg:flex items-center gap-4 xl:gap-8 text-[13px] xl:text-[15px] font-semibold">
-                        {/* Home & About Us */}
                         <Link
                             href="/"
                             className={`transition-colors relative py-1 ${isActive("/") ? "text-primary" : "text-gray-600 hover:text-primary"}`}
@@ -481,4 +486,3 @@ export const Header = () => {
         </header>
     );
 };
-

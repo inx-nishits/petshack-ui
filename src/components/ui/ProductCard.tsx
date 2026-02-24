@@ -3,12 +3,12 @@
 import { Product } from "@/types";
 import { Star, ShieldCheck, Bell, ArrowRight, X, ExternalLink, Clock, Truck } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useCompare } from "@/context/CompareContext";
 import { useModal } from "@/context/ModalContext";
 import { formatDistanceToNow } from "date-fns";
 import { usePathname } from "next/navigation";
 
 import { PriceComparisonModal } from "./PriceComparisonModal";
+import { RETAILERS } from "@/data/mock";
 
 interface ProductCardProps {
     product: Product;
@@ -20,29 +20,10 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
     const lowestPrice = product.bestPrice;
     const retailerCount = product.offers.length;
     const [imageError, setImageError] = useState(false);
-    const [showComparisonModal, setShowComparisonModal] = useState(false); // Used for Full Modal
-    const { addToCompare, removeFromCompare, isInCompare } = useCompare();
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const { openNotifyModal } = useModal();
     const pathname = usePathname();
     const isHome = pathname === "/";
-
-    const isCompared = isInCompare(product.id);
-
-    const toggleCompare = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (isCompared) {
-            removeFromCompare(product.id);
-        } else {
-            addToCompare(product);
-        }
-    };
-
-    const toggleStores = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setShowComparisonModal(true);
-    };
 
     useEffect(() => {
         setImageError(false);
@@ -56,8 +37,8 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
     const lastUpdated = bestOffer?.lastUpdated ? formatDistanceToNow(new Date(bestOffer.lastUpdated), { addSuffix: true }) : "recently";
 
     return (
-        <div className="group bg-white border border-border rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1 flex flex-col relative w-full h-full">
-            <div className={`flex flex-col ${isList ? 'sm:flex-row' : ''} h-full`}>
+        <div id={`product-${product.id}`} className={`group bg-white border border-border rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1 flex flex-col relative w-full h-full`}>
+            <div className={`flex flex-col ${isList ? 'sm:flex-row' : ''}`}>
 
                 {/* Image Section */}
                 <div className={`relative overflow-hidden bg-surface flex items-center justify-center border-border group-hover:bg-primary/5 transition-colors
@@ -87,16 +68,6 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                             <div className="flex flex-col gap-1">
                                 <span className="text-[10px] font-black text-primary uppercase tracking-widest">{product.brand}</span>
                             </div>
-
-                            {/* Compare Checkbox */}
-                            <button
-                                onClick={toggleCompare}
-                                className={`pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all z-20 hover:scale-105 active:scale-95 border ${isCompared ? 'bg-primary text-white border-primary shadow-md shadow-primary/20' : 'bg-surface text-muted-light border-border hover:text-primary hover:border-primary/30'}`}
-                                title={isCompared ? 'Remove from Compare' : 'Add to Compare'}
-                            >
-                                <span className="text-[10px] font-black uppercase tracking-widest">Compare</span>
-                                {isCompared ? <ShieldCheck className="w-3.5 h-3.5" /> : <div className="w-3.5 h-3.5 border-2 border-current rounded-sm" />}
-                            </button>
                         </div>
 
                         <h3 className={`font-black text-gray-900 leading-tight group-hover:text-primary transition-colors pointer-events-auto line-clamp-2
@@ -174,10 +145,14 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                                 <div className="flex items-center justify-between gap-2">
                                     {retailerCount > 1 ? (
                                         <button
-                                            onClick={toggleStores}
-                                            className="text-[10px] font-bold text-gray-500 hover:text-primary hover:underline flex items-center gap-1 group/btn shrink-0"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setIsModalOpen(true);
+                                            }}
+                                            className={`text-[10px] font-bold text-gray-500 hover:text-primary hover:underline flex items-center gap-1 group/btn shrink-0 transition-colors`}
                                         >
-                                            {retailerCount} Stores <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" />
+                                            {retailerCount} Stores <ArrowRight className={`w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform`} />
                                         </button>
                                     ) : (
                                         <span className="text-[10px] font-bold text-muted uppercase tracking-widest shrink-0">Single Retailer</span>
@@ -211,10 +186,14 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                                 {retailerCount > 1 ? (
                                     <button
-                                        onClick={toggleStores}
-                                        className="text-xs font-bold text-gray-500 hover:text-primary flex items-center gap-1 group/btn"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            setIsModalOpen(true);
+                                        }}
+                                        className={`text-xs font-bold text-gray-500 hover:text-primary flex items-center gap-1 group/btn transition-colors`}
                                     >
-                                        View {retailerCount - 1} other stores <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+                                        View {retailerCount - 1} other stores <ArrowRight className={`w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform`} />
                                     </button>
                                 ) : ( // Consistent placeholder for alignment
                                     <span className="text-xs font-bold text-muted opacity-50">Single Retailer</span>
@@ -249,10 +228,9 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                 </div>
             </div>
 
-            {/* Price Comparison Modal */}
             <PriceComparisonModal
-                isOpen={showComparisonModal}
-                onClose={() => setShowComparisonModal(false)}
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
                 product={product}
             />
         </div>

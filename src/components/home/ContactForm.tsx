@@ -1,8 +1,32 @@
 "use client";
 
-import { MessageSquare, Send } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { MessageSquare, Send, ChevronDown } from "lucide-react";
 
 export const ContactForm = () => {
+    const [topic, setTopic] = useState("General Feedback");
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const topics = [
+        "General Feedback",
+        "Product Pricing Error",
+        "Missing Retailer",
+        "Feature Request",
+        "Bug Report"
+    ];
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
     return (
         <section className="py-8 sm:py-12 lg:py-16 bg-white border-t border-gray-50">
             <div className="container mx-auto px-4 sm:px-6">
@@ -18,6 +42,45 @@ export const ContactForm = () => {
                     </div>
 
                     <form className="space-y-4 sm:space-y-6 lg:space-y-8">
+                        <div className="space-y-2 lg:space-y-3">
+                            <label className="text-xs sm:text-sm font-bold">Topic</label>
+                            <div className="relative" ref={dropdownRef}>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsOpen(!isOpen)}
+                                    className="w-full bg-surface border border-border rounded-xl px-4 pr-12 py-2.5 sm:py-3 lg:py-3.5 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all text-left text-sm sm:text-base min-h-[44px] font-medium flex items-center justify-between group"
+                                >
+                                    <span className="truncate">{topic}</span>
+                                    <div className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                                        <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-primary" />
+                                    </div>
+                                </button>
+
+                                {isOpen && (
+                                    <div className="absolute top-full left-0 w-full mt-2 bg-white border border-border rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                                        <div className="p-1">
+                                            {topics.map((item) => (
+                                                <button
+                                                    key={item}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setTopic(item);
+                                                        setIsOpen(false);
+                                                    }}
+                                                    className={`w-full text-left px-4 py-2.5 text-sm sm:text-base font-medium rounded-lg transition-colors ${topic === item
+                                                        ? 'bg-primary text-white'
+                                                        : 'hover:bg-surface text-foreground hover:text-primary'
+                                                        }`}
+                                                >
+                                                    {item}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
                             <div className="space-y-2 lg:space-y-3">
                                 <label className="text-xs sm:text-sm font-bold">Your Name</label>
@@ -30,18 +93,7 @@ export const ContactForm = () => {
                         </div>
 
                         <div className="space-y-2 lg:space-y-3">
-                            <label className="text-xs sm:text-sm font-bold">Topic</label>
-                            <select className="w-full bg-surface border border-border rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 lg:py-3.5 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all appearance-none cursor-pointer text-sm sm:text-base min-h-[44px]">
-                                <option>General Feedback</option>
-                                <option>Product Pricing Error</option>
-                                <option>Missing Retailer</option>
-                                <option>Feature Request</option>
-                                <option>Bug Report</option>
-                            </select>
-                        </div>
-
-                        <div className="space-y-2 lg:space-y-3">
-                            <label className="text-xs sm:text-sm font-bold">Your Message</label>
+                            <label className="text-xs sm:text-sm font-bold">Notes</label>
                             <textarea rows={4} className="w-full bg-surface border border-border rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 lg:py-3.5 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all text-sm sm:text-base" placeholder="Tell us how we can help..."></textarea>
                         </div>
 

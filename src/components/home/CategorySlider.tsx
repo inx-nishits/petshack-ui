@@ -7,14 +7,14 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { SafeImage } from '@/components/ui/SafeImage';
 
 const CATEGORIES = [
-    { name: "Dog", image: "/assets/cat-dog.png", href: "#", color: "from-blue-500/10 to-blue-600/10", hoverColor: "group-hover:from-blue-500/20 group-hover:to-blue-600/20" },
-    { name: "Cat", image: "/assets/cat-cat.png", href: "#", color: "from-purple-500/10 to-purple-600/10", hoverColor: "group-hover:from-purple-500/20 group-hover:to-purple-600/20" },
-    { name: "Fish", image: "/assets/cat-fish.png", href: "#", color: "from-cyan-500/10 to-cyan-600/10", hoverColor: "group-hover:from-cyan-500/20 group-hover:to-cyan-600/20" },
-    { name: "Reptile", image: "/assets/cat-fish.png", href: "#", color: "from-green-500/10 to-green-600/10", hoverColor: "group-hover:from-green-500/20 group-hover:to-green-600/20" },
-    { name: "Bird", image: "/assets/cat-bird.png", href: "#", color: "from-yellow-500/10 to-yellow-600/10", hoverColor: "group-hover:from-yellow-500/20 group-hover:to-yellow-600/20" },
-    { name: "Horse", image: "/assets/cat-dog.png", href: "#", color: "from-amber-500/10 to-amber-600/10", hoverColor: "group-hover:from-amber-500/20 group-hover:to-amber-600/20" },
-    { name: "Wildlife", image: "/assets/cat-bird.png", href: "#", color: "from-emerald-500/10 to-emerald-600/10", hoverColor: "group-hover:from-emerald-500/20 group-hover:to-emerald-600/20" },
-    { name: "Small Animals", image: "/assets/cat-small.png", href: "#", color: "from-pink-500/10 to-pink-600/10", hoverColor: "group-hover:from-pink-500/20 group-hover:to-pink-600/20" },
+    { name: "Dog", image: "/assets/cat-dog.png", href: "/discover?animal=Dog", color: "from-blue-500/10 to-blue-600/10", hoverColor: "group-hover:from-blue-500/20 group-hover:to-blue-600/20" },
+    { name: "Cat", image: "/assets/cat-cat.png", href: "/discover?animal=Cat", color: "from-purple-500/10 to-purple-600/10", hoverColor: "group-hover:from-purple-500/20 group-hover:to-purple-600/20" },
+    { name: "Fish", image: "/assets/cat-fish.png", href: "/discover?animal=Fish", color: "from-cyan-500/10 to-cyan-600/10", hoverColor: "group-hover:from-cyan-500/20 group-hover:to-cyan-600/20" },
+    { name: "Reptile", image: "/assets/cat-fish.png", href: "/discover?animal=Reptile", color: "from-green-500/10 to-green-600/10", hoverColor: "group-hover:from-green-500/20 group-hover:to-green-600/20" },
+    { name: "Bird", image: "/assets/cat-bird.png", href: "/discover?animal=Bird", color: "from-yellow-500/10 to-yellow-600/10", hoverColor: "group-hover:from-yellow-500/20 group-hover:to-yellow-600/20" },
+    { name: "Horse", image: "/assets/cat-dog.png", href: "/discover?animal=Horse", color: "from-amber-500/10 to-amber-600/10", hoverColor: "group-hover:from-amber-500/20 group-hover:to-amber-600/20" },
+    { name: "Wildlife", image: "/assets/cat-bird.png", href: "/discover?animal=Wildlife", color: "from-emerald-500/10 to-emerald-600/10", hoverColor: "group-hover:from-emerald-500/20 group-hover:to-emerald-600/20" },
+    { name: "Small Animals", image: "/assets/cat-small.png", href: "/discover?animal=Small%20Animals", color: "from-pink-500/10 to-pink-600/10", hoverColor: "group-hover:from-pink-500/20 group-hover:to-pink-600/20" },
 ];
 
 export const CategorySlider = () => {

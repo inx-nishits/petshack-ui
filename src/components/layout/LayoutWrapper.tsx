@@ -4,8 +4,6 @@ import { usePathname } from "next/navigation";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { Chatbot } from "@/components/ui/Chatbot";
-import { CompareFloatingBar } from "@/components/ui/CompareFloatingBar";
-import { CompareProvider } from "@/context/CompareContext";
 import { ModalProvider } from "@/context/ModalContext";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
@@ -19,17 +17,14 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
 
     return (
         <ModalProvider>
-            <CompareProvider>
-                <div className="flex flex-col min-h-screen">
-                    <Header />
-                    <main className="grow">
-                        {children}
-                    </main>
-                    <Footer />
-                    <Chatbot />
-                    <CompareFloatingBar />
-                </div>
-            </CompareProvider>
+            <div className="flex flex-col min-h-screen">
+                <Header />
+                <main className="grow">
+                    {children}
+                </main>
+                <Footer />
+                <Chatbot />
+            </div>
         </ModalProvider>
     );
 }

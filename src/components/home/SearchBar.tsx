@@ -16,7 +16,11 @@ const SUGGESTIONS = [
     "Puppy Treats"
 ];
 
-export const SearchBar = () => {
+interface SearchBarProps {
+    variant?: 'hero' | 'simple';
+}
+
+export const SearchBar = ({ variant = 'hero' }: SearchBarProps) => {
     const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -62,8 +66,8 @@ export const SearchBar = () => {
     };
 
     return (
-        <div ref={wrapperRef} className="container mx-auto px-4 sm:px-6 -mt-6 sm:-mt-8 lg:-mt-10 relative z-30">
-            <form onSubmit={handleSearch} className="max-w-7xl mx-auto bg-white rounded-3xl sm:rounded-full shadow-2xl border border-gray-100 p-2 sm:p-2 lg:p-3 flex items-center relative z-20">
+        <div ref={wrapperRef} className={`${variant === 'hero' ? 'container mx-auto px-4 sm:px-6 -mt-6 sm:-mt-8 lg:-mt-10' : 'w-full px-4 sm:px-6 pt-2'} relative z-30`}>
+            <form onSubmit={handleSearch} className={`${variant === 'hero' ? 'max-w-7xl' : 'max-w-[1400px]'} mx-auto bg-white rounded-3xl sm:rounded-full shadow-2xl border border-gray-100 p-2 sm:p-2 lg:p-3 flex items-center relative z-20`}>
                 <div className="pl-3 sm:pl-4 lg:pl-6 text-gray-400 shrink-0">
                     <Search className="w-5 h-5 sm:w-6 sm:h-6 opacity-30" />
                 </div>

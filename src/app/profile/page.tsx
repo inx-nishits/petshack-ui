@@ -59,7 +59,9 @@ export default function ProfilePage() {
                                     {user.avatar ? (
                                         <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
                                     ) : (
-                                        <User className="w-10 h-10 sm:w-12 sm:h-12 text-primary/40" />
+                                        <div className="w-full h-full flex items-center justify-center bg-primary text-white font-black text-2xl sm:text-3xl tracking-tighter">
+                                            {user.firstName[0]}{user.lastName[0]}
+                                        </div>
                                     )}
                                     {/* Overlay */}
                                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">

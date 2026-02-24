@@ -15,6 +15,74 @@ const MODULE_DATA = {
     clientComments: "Ensure filtering feels snappy and brands are easily searchable."
 };
 
+import { SearchBar } from "@/components/home/SearchBar";
+
+const CATEGORY_SEO_CONTENT: Record<string, { title: string; description: string; gradient: string }> = {
+    "Accessories": {
+        title: "Essential Pet Accessories",
+        description: "From durable leashes and comfortable collars to grooming kits and travel essentials, find everything you need to enhance your pet's lifestyle. Our curated selection of accessories combines functionality with style, ensuring your furry friend is ready for every adventure.",
+        gradient: "from-blue-50 to-indigo-50"
+    },
+    "Bedding": {
+        title: "Premium Pet Bedding & Comfort",
+        description: "Give your pet the gift of a good night's sleep with our range of luxury bedding. Whether they prefer orthopedic support, plush cushions, or cozy nesting spots, we compare prices on top-rated beds designed for maximum comfort and durability across Australia.",
+        gradient: "from-purple-50 to-pink-50"
+    },
+    "Bowls": {
+        title: "Feeding Bowls & Hydration",
+        description: "Discover a wide variety of feeding solutions, including stainless steel, ceramic, and elevated bowls. Our comparison engine helps you find the best value on ergonomic designs that promote healthy eating habits and stylish patterns that complement your home decor.",
+        gradient: "from-amber-50 to-orange-50"
+    },
+    "Clothing": {
+        title: "Trendy Pet Apparel & Fashion",
+        description: "Keep your pet stylish and protected from the elements with our collection of apparel. From warm winter coats and waterproof rain jackets to lightweight summer shirts, we track the best deals on fashionable pet clothing for every breed and size.",
+        gradient: "from-rose-50 to-red-50"
+    },
+    "Equipment": {
+        title: "Training & Safety Equipment",
+        description: "Invest in high-quality training tools and safety gear to ensure a harmonious relationship with your pet. Compare prices on harnesses, training clickers, safety gates, and GPS trackers from Australia's leading pet retailers and give your pet the best protection.",
+        gradient: "from-emerald-50 to-teal-50"
+    },
+    "Food": {
+        title: "Nutritious Pet Food $ Diet",
+        description: "Proper nutrition is the foundation of a healthy life. Browse an extensive selection of premium dry kibble, wet food, and specialized diets for all life stages. We compare prices across major stores to help you save on the brands your pet loves most.",
+        gradient: "from-green-50 to-emerald-50"
+    },
+    "Toys": {
+        title: "Interactive Toys & Entertainment",
+        description: "Stimulate your pet's mind and body with our range of engaging toys. From durable chew toys and interactive puzzles to plush squeakers and high-energy fetch gear, find the perfect entertainment solutions to keep your pet happy and active.",
+        gradient: "from-sky-50 to-blue-50"
+    },
+    "Healthcare": {
+        title: "Pet Healthcare & Supplements",
+        description: "Prioritize your pet's well-being with affordable healthcare essentials. From joint supplements and dental care kits to first-aid supplies and flea treatments, we help you find the most competitive prices on trusted health brands.",
+        gradient: "from-cyan-50 to-blue-50"
+    }
+};
+
+const CategoryPillar = ({ category }: { category: string }) => {
+    const content = CATEGORY_SEO_CONTENT[category];
+    if (!content) return null;
+
+    return (
+        <section className={`mb-8 p-6 sm:p-8 rounded-4xl bg-linear-to-br ${content.gradient} border border-white shadow-sm relative overflow-hidden group`}>
+            {/* Decorative Icon or Pattern */}
+            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                <Target className="w-32 h-32 text-primary" />
+            </div>
+
+            <div className="relative z-10 max-w-3xl">
+                <h1 className="text-3xl sm:text-4xl font-black text-gray-900 mb-4 tracking-tight">
+                    {content.title}
+                </h1>
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed font-medium">
+                    {content.description}
+                </p>
+            </div>
+        </section>
+    );
+};
+
 function DiscoverContent() {
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
     const searchParams = useSearchParams();
@@ -36,10 +104,24 @@ function DiscoverContent() {
     const [showSortDropdown, setShowSortDropdown] = useState(false);
 
     // Sync search query from URL on load
-    // Sync search query from URL on load
     useEffect(() => {
         const q = searchParams.get('q');
         if (q) setSearchQuery(q);
+
+        const focusId = searchParams.get('focus');
+        if (focusId) {
+            // SOW Requirement: Focus product from Alert
+            // We should ensure the product is actually visible by clearing conflicting filters
+            // For now, we'll just try to scroll to it
+            setTimeout(() => {
+                const element = document.getElementById(`product-${focusId}`);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    element.classList.add('ring-4', 'ring-primary/20', 'ring-offset-4');
+                    setTimeout(() => element.classList.remove('ring-4', 'ring-primary/20', 'ring-offset-4'), 3000);
+                }
+            }, 500);
+        }
 
         const animalParam = searchParams.get('animal');
         if (animalParam) {
@@ -158,308 +240,320 @@ function DiscoverContent() {
     );
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-10">
-            {/* Breadcrumbs */}
-            <nav className="flex text-[10px] sm:text-xs text-muted-light mb-6 sm:mb-8 gap-2">
-                <a href="/" className="hover:text-primary transition-colors font-bold">Home</a>
-                <span>/</span>
-                <span className="text-muted font-bold">Discover Products</span>
-            </nav>
+        <div className="flex flex-col">
+            {/* SOW Requirement: Global Search Bar on Compare Page */}
+            <section className="bg-surface border-b border-border py-6 sm:py-10">
+                <SearchBar variant="simple" />
+            </section>
+
+            <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 lg:py-10">
+                {/* Breadcrumbs */}
+                <nav className="flex text-[10px] sm:text-xs text-muted-light mb-6 sm:mb-8 gap-2">
+                    <a href="/" className="hover:text-primary transition-colors font-bold">Home</a>
+                    <span>/</span>
+                    <span className="text-muted font-bold">Discover Products</span>
+                </nav>
 
 
 
-            <div className="flex flex-col lg:flex-row gap-6 sm:gap-8">
-                {/* Mobile Filter Toggle */}
-                <button
-                    className="lg:hidden w-full bg-white border border-border rounded-xl p-4 flex items-center justify-between font-bold text-foreground shadow-sm mb-4"
-                    onClick={() => setShowFilters(!showFilters)}
-                >
-                    <span className="flex items-center gap-2"><Filter className="w-5 h-5 text-primary" /> Filters</span>
-                    <ChevronDown className={`w-5 h-5 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-                </button>
+                <div className="flex flex-col lg:flex-row gap-6 sm:gap-8">
+                    {/* Mobile Filter Toggle */}
+                    <button
+                        className="lg:hidden w-full bg-white border border-border rounded-xl p-4 flex items-center justify-between font-bold text-foreground shadow-sm mb-4"
+                        onClick={() => setShowFilters(!showFilters)}
+                    >
+                        <span className="flex items-center gap-2"><Filter className="w-5 h-5 text-primary" /> Filters</span>
+                        <ChevronDown className={`w-5 h-5 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
+                    </button>
 
-                {/* Sidebar Filters */}
-                <aside className={`w-full lg:w-64 shrink-0 space-y-4 sm:space-y-6 ${showFilters ? 'block' : 'hidden lg:block'}`}>
-                    <div className="bg-white border border-border rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm">
-                        <div className="flex items-center justify-between mb-4 sm:mb-5">
-                            <h3 className="font-black text-base sm:text-lg flex items-center gap-2">
-                                <Filter className="w-4 h-4" /> Filters
-                            </h3>
-                            <button
-                                onClick={() => {
-                                    setSelectedAnimals([]);
-                                    setSelectedCategories([]);
-                                    setSelectedBrands([]);
-                                    setSelectedStores([]);
-                                    setSelectedLifeStages([]);
-                                    setSearchQuery("");
-                                    setPriceRange(500);
-                                }}
-                                className="text-[10px] font-black uppercase text-primary hover:underline tap-target"
-                            >
-                                Clear All
-                            </button>
-                        </div>
-
-                        <div className="space-y-4 sm:space-y-5">
-                            {/* 1. Pet Type (Target Animal) */}
-                            <div className="border-b border-border pb-3 sm:pb-4">
-                                <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Pet Type</h4>
-                                <div className="space-y-1.5 sm:space-y-2">
-                                    {['Dog', 'Cat', 'Bird', 'Fish', 'Small Pet', 'Reptile'].map((item) => (
-                                        <label key={item} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedAnimals.includes(item)}
-                                                onChange={() => toggleFilter(selectedAnimals, setSelectedAnimals, item)}
-                                                className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
-                                            />
-                                            <span className={`text-xs font-bold transition-colors ${selectedAnimals.includes(item) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{item}</span>
-                                        </label>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* 2. Brand (New) */}
-                            <div className="border-b border-border pb-3 sm:pb-4">
-                                <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Brand</h4>
-                                <div className="space-y-1.5 sm:space-y-2 max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
-                                    {Array.from(new Set(PRODUCTS.map(p => p.brand))).sort().map((brand) => (
-                                        <label key={brand} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedBrands.includes(brand)}
-                                                onChange={() => toggleFilter(selectedBrands, setSelectedBrands, brand)}
-                                                className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
-                                            />
-                                            <span className={`text-xs font-bold transition-colors ${selectedBrands.includes(brand) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{brand}</span>
-                                        </label>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* 3. Category (New) */}
-                            <div className="border-b border-border pb-3 sm:pb-4">
-                                <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Category</h4>
-                                <div className="space-y-1.5 sm:space-y-2 max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
-                                    {Array.from(new Set(PRODUCTS.map(p => p.category))).sort().map((cat) => (
-                                        <label key={cat} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedCategories.includes(cat)}
-                                                onChange={() => toggleFilter(selectedCategories, setSelectedCategories, cat)}
-                                                className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
-                                            />
-                                            <span className={`text-xs font-bold transition-colors ${selectedCategories.includes(cat) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{cat}</span>
-                                        </label>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* 4. Age Group (Life Stage) */}
-                            <div className="border-b border-border pb-3 sm:pb-4">
-                                <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Age Group</h4>
-                                <div className="space-y-1.5 sm:space-y-2">
-                                    {['Puppy', 'Adult', 'Senior', 'Kitten', 'All Ages'].map((item) => (
-                                        <label key={item} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedLifeStages.includes(item)}
-                                                onChange={() => toggleFilter(selectedLifeStages, setSelectedLifeStages, item)}
-                                                className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
-                                            />
-                                            <span className={`text-xs font-bold transition-colors ${selectedLifeStages.includes(item) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{item}</span>
-                                        </label>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* 5. Pet Shop (Pet Stores) */}
-                            <div className="border-b border-border pb-3 sm:pb-4">
-                                <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Pet Shop</h4>
-                                <div className="space-y-1.5 sm:space-y-2">
-                                    {RETAILERS.map((retailer) => (
-                                        <label key={retailer.id} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedStores.includes(retailer.id)}
-                                                onChange={() => toggleFilter(selectedStores, setSelectedStores, retailer.id)}
-                                                className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
-                                            />
-                                            <span className={`text-xs font-bold transition-colors ${selectedStores.includes(retailer.id) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{retailer.name}</span>
-                                        </label>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* 6. Price Range */}
-                            <div className="pb-2">
-                                <div className="flex justify-between items-center mb-2 sm:mb-3">
-                                    <h4 className="font-bold text-[10px] uppercase tracking-widest text-muted-light">Max Price</h4>
-                                    <span className="text-xs font-black text-primary">${priceRange}</span>
-                                </div>
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max="500"
-                                    step="10"
-                                    value={priceRange}
-                                    onChange={(e) => setPriceRange(parseInt(e.target.value))}
-                                    className="w-full h-1.5 bg-surface rounded-lg appearance-none cursor-pointer accent-primary"
-                                />
-                                <div className="flex justify-between text-[9px] font-black text-muted-light mt-2 uppercase">
-                                    <span>$0</span>
-                                    <span>$500+</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </aside>
-
-                {/* Main Content */}
-                <main className="flex-1">
-                    {/* Toolbar */}
-                    <div className="flex flex-col sm:flex-row justify-between items-end gap-4 mb-6">
-                        <div className="flex flex-col gap-1">
-                            <span className="text-lg sm:text-xl font-black text-foreground tracking-tight">
-                                Showing <span className="text-primary">{filteredAndSortedProducts.length}</span> results
-                            </span>
-                            {searchQuery && (
-                                <span className="text-[10px] font-bold text-muted-light uppercase tracking-widest">
-                                    Filtered by: "{searchQuery}"
-                                </span>
-                            )}
-                        </div>
-
-                        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-                            <div />
-
-                            <div className="relative flex-1 sm:flex-none min-w-[200px]">
+                    {/* Sidebar Filters */}
+                    <aside className={`w-full lg:w-64 shrink-0 space-y-4 sm:space-y-6 ${showFilters ? 'block' : 'hidden lg:block'}`}>
+                        <div className="bg-white border border-border rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm">
+                            <div className="flex items-center justify-between mb-4 sm:mb-5">
+                                <h3 className="font-black text-base sm:text-lg flex items-center gap-2">
+                                    <Filter className="w-4 h-4" /> Filters
+                                </h3>
                                 <button
-                                    onClick={() => setShowSortDropdown(!showSortDropdown)}
-                                    className="w-full appearance-none bg-white border border-border rounded-xl px-4 py-3 text-xs sm:text-sm font-bold focus:outline-none focus:ring-4 focus:ring-primary/10 cursor-pointer shadow-sm hover:border-primary transition-colors min-h-[44px] text-left flex items-center justify-between group"
-                                    type="button"
+                                    onClick={() => {
+                                        setSelectedAnimals([]);
+                                        setSelectedCategories([]);
+                                        setSelectedBrands([]);
+                                        setSelectedStores([]);
+                                        setSelectedLifeStages([]);
+                                        setSearchQuery("");
+                                        setPriceRange(500);
+                                    }}
+                                    className="text-[10px] font-black uppercase text-primary hover:underline tap-target"
                                 >
-                                    <span className="truncate mr-2">{sortOption}</span>
-                                    <ChevronDown className={`w-4 h-4 text-gray-400 group-hover:text-primary transition-transform duration-200 ${showSortDropdown ? 'rotate-180' : ''}`} />
+                                    Clear All
                                 </button>
+                            </div>
 
-                                {showSortDropdown && (
-                                    <>
-                                        <div
-                                            className="fixed inset-0 z-40 bg-transparent"
-                                            onClick={() => setShowSortDropdown(false)}
-                                        />
-                                        <div className="absolute top-full right-0 mt-2 w-full bg-white border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-100 origin-top-right">
-                                            <div className="py-1">
-                                                {["Best Match", "Price: Low to High", "Price: High to Low", "Last Price Update"].map((option) => (
-                                                    <button
-                                                        key={option}
-                                                        className={`w-full text-left px-4 py-2.5 text-xs sm:text-sm font-bold transition-colors ${sortOption === option
-                                                            ? 'bg-primary text-white'
-                                                            : 'text-foreground hover:bg-surface hover:text-primary'
-                                                            }`}
-                                                        onClick={() => {
-                                                            setSortOption(option);
-                                                            setShowSortDropdown(false);
-                                                        }}
-                                                        type="button"
-                                                    >
-                                                        {option}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </>
+                            <div className="space-y-4 sm:space-y-5">
+                                {/* 1. Pet Type (Target Animal) */}
+                                <div className="border-b border-border pb-3 sm:pb-4">
+                                    <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Pet Type</h4>
+                                    <div className="space-y-1.5 sm:space-y-2">
+                                        {['Dog', 'Cat', 'Bird', 'Fish', 'Small Pet', 'Reptile'].map((item) => (
+                                            <label key={item} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedAnimals.includes(item)}
+                                                    onChange={() => toggleFilter(selectedAnimals, setSelectedAnimals, item)}
+                                                    className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
+                                                />
+                                                <span className={`text-xs font-bold transition-colors ${selectedAnimals.includes(item) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{item}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* 2. Brand (New) */}
+                                <div className="border-b border-border pb-3 sm:pb-4">
+                                    <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Brand</h4>
+                                    <div className="space-y-1.5 sm:space-y-2 max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+                                        {Array.from(new Set(PRODUCTS.map(p => p.brand))).sort().map((brand) => (
+                                            <label key={brand} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedBrands.includes(brand)}
+                                                    onChange={() => toggleFilter(selectedBrands, setSelectedBrands, brand)}
+                                                    className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
+                                                />
+                                                <span className={`text-xs font-bold transition-colors ${selectedBrands.includes(brand) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{brand}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* 3. Category (New) */}
+                                <div className="border-b border-border pb-3 sm:pb-4">
+                                    <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Category</h4>
+                                    <div className="space-y-1.5 sm:space-y-2 max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+                                        {Array.from(new Set(PRODUCTS.map(p => p.category))).sort().map((cat) => (
+                                            <label key={cat} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedCategories.includes(cat)}
+                                                    onChange={() => toggleFilter(selectedCategories, setSelectedCategories, cat)}
+                                                    className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
+                                                />
+                                                <span className={`text-xs font-bold transition-colors ${selectedCategories.includes(cat) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{cat}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* 4. Age Group (Life Stage) */}
+                                <div className="border-b border-border pb-3 sm:pb-4">
+                                    <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Age Group</h4>
+                                    <div className="space-y-1.5 sm:space-y-2">
+                                        {['Puppy', 'Adult', 'Senior', 'Kitten', 'All Ages'].map((item) => (
+                                            <label key={item} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedLifeStages.includes(item)}
+                                                    onChange={() => toggleFilter(selectedLifeStages, setSelectedLifeStages, item)}
+                                                    className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
+                                                />
+                                                <span className={`text-xs font-bold transition-colors ${selectedLifeStages.includes(item) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{item}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* 5. Pet Shop (Pet Stores) */}
+                                <div className="border-b border-border pb-3 sm:pb-4">
+                                    <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Pet Shop</h4>
+                                    <div className="space-y-1.5 sm:space-y-2">
+                                        {RETAILERS.map((retailer) => (
+                                            <label key={retailer.id} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedStores.includes(retailer.id)}
+                                                    onChange={() => toggleFilter(selectedStores, setSelectedStores, retailer.id)}
+                                                    className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer transition-all"
+                                                />
+                                                <span className={`text-xs font-bold transition-colors ${selectedStores.includes(retailer.id) ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`}>{retailer.name}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* 6. Price Range */}
+                                <div className="pb-2">
+                                    <div className="flex justify-between items-center mb-2 sm:mb-3">
+                                        <h4 className="font-bold text-[10px] uppercase tracking-widest text-muted-light">Max Price</h4>
+                                        <span className="text-xs font-black text-primary">${priceRange}</span>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="500"
+                                        step="10"
+                                        value={priceRange}
+                                        onChange={(e) => setPriceRange(parseInt(e.target.value))}
+                                        className="w-full h-1.5 bg-surface rounded-lg appearance-none cursor-pointer accent-primary"
+                                    />
+                                    <div className="flex justify-between text-[9px] font-black text-muted-light mt-2 uppercase">
+                                        <span>$0</span>
+                                        <span>$500+</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </aside>
+
+                    {/* Main Content */}
+                    <main className="flex-1">
+                        {/* SOW Requirement: Category Pillar Page SEO Content */}
+                        {selectedCategories.length === 1 && (
+                            <CategoryPillar category={selectedCategories[0]} />
+                        )}
+
+                        {/* Toolbar */}
+                        <div className="flex flex-col sm:flex-row justify-between items-end gap-4 mb-6">
+                            <div className="flex flex-col gap-1">
+                                <span className="text-lg sm:text-xl font-black text-foreground tracking-tight">
+                                    Showing <span className="text-primary">{filteredAndSortedProducts.length}</span> results
+                                </span>
+                                {searchQuery && (
+                                    <span className="text-[10px] font-bold text-muted-light uppercase tracking-widest">
+                                        Filtered by: "{searchQuery}"
+                                    </span>
                                 )}
                             </div>
-                        </div>
-                    </div>
 
-                    {/* Product Grid */}
-                    {paginatedProducts.length > 0 ? (
-                        <div className="grid gap-4 grid-cols-1">
-                            {paginatedProducts.map((product, idx) => (
-                                <ProductCard key={`${product.id}-${idx}`} product={product} viewMode="list" />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="py-12 sm:py-20 text-center bg-surface rounded-2xl sm:rounded-[3rem] border border-dashed border-border" role="alert">
-                            <Info className="w-10 h-10 sm:w-12 sm:h-12 text-muted-light mx-auto mb-3 sm:mb-4" />
-                            <h3 className="text-lg sm:text-xl font-black mb-1 sm:mb-2">No matches found</h3>
-                            <p className="text-sm font-bold text-gray-500">Try adjusting your filters or search query.</p>
-                        </div>
-                    )}
+                            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                                <div />
 
-                    {/* Pagination - Dynamic with Ellipsis */}
-                    {filteredAndSortedProducts.length > itemsPerPage && (
-                        <div className="mt-12 sm:mt-20 flex flex-col items-center gap-6">
-                            <nav className="flex items-center gap-2 sm:gap-3">
-                                <button
-                                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                                    disabled={currentPage === 1}
-                                    className="px-6 py-3 sm:px-8 sm:py-4 border border-border rounded-xl sm:rounded-2xl text-[10px] sm:text-sm font-black hover:bg-surface transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest min-h-[44px]"
-                                >
-                                    Prev
-                                </button>
+                                <div className="relative flex-1 sm:flex-none min-w-[200px]">
+                                    <button
+                                        onClick={() => setShowSortDropdown(!showSortDropdown)}
+                                        className="w-full appearance-none bg-white border border-border rounded-xl px-4 py-3 text-xs sm:text-sm font-bold focus:outline-none focus:ring-4 focus:ring-primary/10 cursor-pointer shadow-sm hover:border-primary transition-colors min-h-[44px] text-left flex items-center justify-between group"
+                                        type="button"
+                                    >
+                                        <span className="truncate mr-2">{sortOption}</span>
+                                        <ChevronDown className={`w-4 h-4 text-gray-400 group-hover:text-primary transition-transform duration-200 ${showSortDropdown ? 'rotate-180' : ''}`} />
+                                    </button>
 
-                                {(() => {
-                                    const pages = [];
-                                    const padding = 2; // Show 2 pages on each side of current
-
-                                    if (totalPages <= 8) {
-                                        for (let i = 1; i <= totalPages; i++) pages.push(i);
-                                    } else {
-                                        // Always show first page
-                                        pages.push(1);
-
-                                        const start = Math.max(2, currentPage - padding);
-                                        const end = Math.min(totalPages - 1, currentPage + padding);
-
-                                        if (start > 2) pages.push('...');
-
-                                        for (let i = start; i <= end; i++) {
-                                            if (!pages.includes(i)) pages.push(i);
-                                        }
-
-                                        if (end < totalPages - 1) pages.push('...');
-
-                                        // Always show last page
-                                        if (!pages.includes(totalPages)) pages.push(totalPages);
-                                    }
-
-                                    return pages.map((page, idx) => (
-                                        typeof page === 'number' ? (
-                                            <button
-                                                key={idx}
-                                                onClick={() => setCurrentPage(page)}
-                                                className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl text-[10px] sm:text-sm font-black transition-all flex items-center justify-center ${page === currentPage ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-110' : 'hover:bg-surface text-foreground border border-transparent hover:border-border'}`}
-                                            >
-                                                {page}
-                                            </button>
-                                        ) : (
-                                            <span key={idx} className="w-8 text-center text-muted font-black tracking-widest flex items-center justify-center">...</span>
-                                        )
-                                    ));
-                                })()}
-
-                                <button
-                                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                                    disabled={currentPage === totalPages}
-                                    className="px-6 py-3 sm:px-8 sm:py-4 border border-border rounded-xl sm:rounded-2xl text-[10px] sm:text-sm font-black hover:bg-surface transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest min-h-[44px]"
-                                >
-                                    Next
-                                </button>
-                            </nav>
-
-                            <div className="text-[10px] sm:text-xs font-black text-muted-light uppercase tracking-widest bg-gray-50 px-4 py-2 rounded-full border border-border/50 shadow-sm animate-pulse-slow">
-                                Note: Prices last updated yesterday at 15:03 AEST
+                                    {showSortDropdown && (
+                                        <>
+                                            <div
+                                                className="fixed inset-0 z-40 bg-transparent"
+                                                onClick={() => setShowSortDropdown(false)}
+                                            />
+                                            <div className="absolute top-full right-0 mt-2 w-full bg-white border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-100 origin-top-right">
+                                                <div className="py-1">
+                                                    {["Best Match", "Price: Low to High", "Price: High to Low", "Last Price Update"].map((option) => (
+                                                        <button
+                                                            key={option}
+                                                            className={`w-full text-left px-4 py-2.5 text-xs sm:text-sm font-bold transition-colors ${sortOption === option
+                                                                ? 'bg-primary text-white'
+                                                                : 'text-foreground hover:bg-surface hover:text-primary'
+                                                                }`}
+                                                            onClick={() => {
+                                                                setSortOption(option);
+                                                                setShowSortDropdown(false);
+                                                            }}
+                                                            type="button"
+                                                        >
+                                                            {option}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    )}
-                </main>
+
+                        {/* Product Grid */}
+                        {paginatedProducts.length > 0 ? (
+                            <div className="grid gap-4 grid-cols-1">
+                                {paginatedProducts.map((product, idx) => (
+                                    <ProductCard key={`${product.id}-${idx}`} product={product} viewMode="list" />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="py-12 sm:py-20 text-center bg-surface rounded-2xl sm:rounded-[3rem] border border-dashed border-border" role="alert">
+                                <Info className="w-10 h-10 sm:w-12 sm:h-12 text-muted-light mx-auto mb-3 sm:mb-4" />
+                                <h3 className="text-lg sm:text-xl font-black mb-1 sm:mb-2">No matches found</h3>
+                                <p className="text-sm font-bold text-gray-500">Try adjusting your filters or search query.</p>
+                            </div>
+                        )}
+
+                        {/* Pagination - Dynamic with Ellipsis */}
+                        {filteredAndSortedProducts.length > itemsPerPage && (
+                            <div className="mt-12 sm:mt-20 flex flex-col items-center gap-6">
+                                <nav className="flex items-center gap-2 sm:gap-3">
+                                    <button
+                                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                        disabled={currentPage === 1}
+                                        className="px-6 py-3 sm:px-8 sm:py-4 border border-border rounded-xl sm:rounded-2xl text-[10px] sm:text-sm font-black hover:bg-surface transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest min-h-[44px]"
+                                    >
+                                        Prev
+                                    </button>
+
+                                    {(() => {
+                                        const pages = [];
+                                        const padding = 2; // Show 2 pages on each side of current
+
+                                        if (totalPages <= 8) {
+                                            for (let i = 1; i <= totalPages; i++) pages.push(i);
+                                        } else {
+                                            // Always show first page
+                                            pages.push(1);
+
+                                            const start = Math.max(2, currentPage - padding);
+                                            const end = Math.min(totalPages - 1, currentPage + padding);
+
+                                            if (start > 2) pages.push('...');
+
+                                            for (let i = start; i <= end; i++) {
+                                                if (!pages.includes(i)) pages.push(i);
+                                            }
+
+                                            if (end < totalPages - 1) pages.push('...');
+
+                                            // Always show last page
+                                            if (!pages.includes(totalPages)) pages.push(totalPages);
+                                        }
+
+                                        return pages.map((page, idx) => (
+                                            typeof page === 'number' ? (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => setCurrentPage(page)}
+                                                    className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl text-[10px] sm:text-sm font-black transition-all flex items-center justify-center ${page === currentPage ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-110' : 'hover:bg-surface text-foreground border border-transparent hover:border-border'}`}
+                                                >
+                                                    {page}
+                                                </button>
+                                            ) : (
+                                                <span key={idx} className="w-8 text-center text-muted font-black tracking-widest flex items-center justify-center">...</span>
+                                            )
+                                        ));
+                                    })()}
+
+                                    <button
+                                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                        disabled={currentPage === totalPages}
+                                        className="px-6 py-3 sm:px-8 sm:py-4 border border-border rounded-xl sm:rounded-2xl text-[10px] sm:text-sm font-black hover:bg-surface transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest min-h-[44px]"
+                                    >
+                                        Next
+                                    </button>
+                                </nav>
+
+                                <div className="text-[10px] sm:text-xs font-black text-muted-light uppercase tracking-widest bg-gray-50 px-4 py-2 rounded-full border border-border/50 shadow-sm animate-pulse-slow">
+                                    Note: Prices last updated yesterday at 15:03 AEST
+                                </div>
+                            </div>
+                        )}
+                    </main>
+                </div>
             </div>
         </div>
     );
