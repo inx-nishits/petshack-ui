@@ -8,8 +8,8 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const FeaturedDeals = () => {
-    // Generate 8 items for a more focused grid/slider
-    const displayProducts = [...PRODUCTS, ...PRODUCTS].slice(0, 8);
+    // Generate 12 items for a more focused grid/slider
+    const displayProducts = [...PRODUCTS, ...PRODUCTS].slice(0, 12);
 
     const [emblaRef, emblaApi] = useEmblaCarousel({
         align: "start",

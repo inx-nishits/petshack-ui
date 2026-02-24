@@ -33,9 +33,7 @@ export default function Home() {
 
       <BrandCarousel />
 
-      <div className="hidden">
-        <TrendingProducts />
-      </div>
+      <TrendingProducts />
 
       <MerchantShowcase />
 

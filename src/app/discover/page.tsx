@@ -199,20 +199,25 @@ function DiscoverContent() {
         });
 
         // Sorting Logic
-        if (sortOption === "Price: Low to High") {
-            result.sort((a, b) => a.bestPrice - b.bestPrice);
-        } else if (sortOption === "Price: High to Low") {
-            result.sort((a, b) => b.bestPrice - a.bestPrice);
-        } else if (sortOption === "Last Price Update") {
-            // SOW Requirement: Sort by Last Updated
-            // Logic: Find the most recent update in offers for each product
-            const getLastUpdate = (p: typeof PRODUCTS[0]) => {
-                if (!p.offers.length) return 0;
-                const dates = p.offers.map(o => new Date(o.lastUpdated).getTime());
-                return Math.max(...dates);
-            };
-            result.sort((a, b) => getLastUpdate(b) - getLastUpdate(a)); // Descending (Newest first)
-        }
+        result.sort((a, b) => {
+            // For Demo Purposes: Always keep the "45+ Retailers Compared" flagship product at the top
+            if (a.id === '1') return -1;
+            if (b.id === '1') return 1;
+
+            if (sortOption === "Price: Low to High") {
+                return a.bestPrice - b.bestPrice;
+            } else if (sortOption === "Price: High to Low") {
+                return b.bestPrice - a.bestPrice;
+            } else if (sortOption === "Last Price Update") {
+                const getLastUpdate = (p: typeof PRODUCTS[0]) => {
+                    if (!p.offers.length) return 0;
+                    const dates = p.offers.map(o => new Date(o.lastUpdated).getTime());
+                    return Math.max(...dates);
+                };
+                return getLastUpdate(b) - getLastUpdate(a);
+            }
+            return 0;
+        });
 
         return result;
     }, [searchQuery, selectedAnimals, selectedCategories, selectedBrands, selectedStores, selectedLifeStages, priceRange, sortOption]);

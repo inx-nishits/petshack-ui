@@ -12,7 +12,7 @@ export const PRODUCTS: Product[] = [
     {
         id: '1',
         sku: 'RC-MED-ADULT-15KG',
-        name: 'Royal Canin Medium Adult Dog Food 15kg',
+        name: 'Royal Canin Medium Adult Dog Food 15kg [45+ Retailers Compared]',
         brand: 'Royal Canin',
         category: 'Food',
         animalType: 'dog',
@@ -21,12 +21,12 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=800',
         attributes: { 'Age Range': 'Adult', 'Weight': '15kg', 'Breed Size': 'Medium' },
         offers: [
-            { retailerId: 'petcircle', price: 108.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-15T10:00:00Z', discount: '10% OFF' },
-            { retailerId: 'petbarn', price: 115.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-14T08:30:00Z' },
-            { retailerId: 'petstock', price: 112.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 5.99, url: 'https://www.petstock.com.au/', lastUpdated: '2026-02-16T09:00:00Z' },
+            { retailerId: 'petcircle', price: 98.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-15T10:00:00Z', discount: '10% OFF' },
+            { retailerId: 'petbarn', price: 105.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-14T08:30:00Z' },
+            { retailerId: 'petstock', price: 102.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 5.99, url: 'https://www.petstock.com.au/', lastUpdated: '2026-02-16T09:00:00Z' },
             ...Array.from({ length: 42 }).map((_, i) => ({
                 retailerId: ['petcircle', 'petbarn', 'petstock', 'budgetpetproducts', 'mypetwarehouse'][i % 5],
-                price: 115 + i + parseFloat((Math.random() * 5).toFixed(2)),
+                price: 105 + i + parseFloat((Math.random() * 5).toFixed(2)),
                 currency: 'AUD',
                 stockStatus: i % 4 === 0 ? 'out-of-stock' : 'in-stock',
                 shippingCost: i % 3 === 0 ? 0 : 5.99,
@@ -34,7 +34,7 @@ export const PRODUCTS: Product[] = [
                 lastUpdated: new Date().toISOString()
             }))
         ] as any,
-        bestPrice: 108.99,
+        bestPrice: 98.99,
         bestOffer: {
             shippingPrice: 0,
             stockStatus: 'In Stock',
@@ -177,6 +177,7 @@ export const PRODUCTS: Product[] = [
         attributes: { 'Type': 'Flakes', 'Weight': '200g' },
         offers: [
             { retailerId: 'petbarn', price: 18.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 5.00, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-16T12:00:00Z' },
+            { retailerId: 'petcircle', price: 19.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-16T12:00:00Z' },
         ],
         bestPrice: 18.99,
         bestOffer: {
@@ -223,11 +224,12 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1551843063-7eb58dbad3fb?q=80&w=800',
         attributes: { 'Color': 'Red', 'Size': 'Small' },
         offers: [
-            { retailerId: 'petstock', price: 34.95, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petstock.com.au/', lastUpdated: '2026-02-14T16:20:00Z' }
+            { retailerId: 'petstock', price: 34.95, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petstock.com.au/', lastUpdated: '2026-02-14T16:20:00Z' },
+            { retailerId: 'mypetwarehouse', price: 36.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 5.95, url: 'https://www.mypetwarehouse.com.au/', lastUpdated: '2026-02-15T10:00:00Z' }
         ],
         bestPrice: 34.95,
         bestOffer: {
-            shippingPrice: 7.00,
+            shippingPrice: 0.00,
             stockStatus: 'In Stock',
             retailerName: 'PETstock',
             retailerLogo: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?q=80&w=200',
@@ -246,15 +248,16 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1585664811087-47f65be69b48?q=80&w=800',
         attributes: { 'Type': 'Hay', 'Weight': '24oz' },
         offers: [
-            { retailerId: 'mypetwarehouse', price: 15.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 5.50, url: 'https://www.mypetwarehouse.com.au/', lastUpdated: '2026-02-15T13:00:00Z' }
+            { retailerId: 'mypetwarehouse', price: 15.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 5.50, url: 'https://www.mypetwarehouse.com.au/', lastUpdated: '2026-02-15T13:00:00Z' },
+            { retailerId: 'budgetpetproducts', price: 14.80, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 8.95, url: 'https://www.budgetpetproducts.com.au/', lastUpdated: '2026-02-15T13:00:00Z' }
         ],
-        bestPrice: 15.50,
+        bestPrice: 14.80,
         bestOffer: {
-            shippingPrice: 5.50,
+            shippingPrice: 8.95,
             stockStatus: 'In Stock',
-            retailerName: 'My Pet Warehouse',
-            retailerLogo: 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=200',
-            offerUrl: 'https://www.mypetwarehouse.com.au/'
+            retailerName: 'Budget Pet Products',
+            retailerLogo: 'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?q=80&w=200',
+            offerUrl: 'https://www.budgetpetproducts.com.au/'
         }
     },
     {
@@ -269,11 +272,12 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1506992120790-281df6972e39?q=80&w=800',
         attributes: { 'Type': 'Vitamins', 'Weight': '50g' },
         offers: [
-            { retailerId: 'petcircle', price: 24.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-14T10:00:00Z' }
+            { retailerId: 'petcircle', price: 24.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-14T10:00:00Z' },
+            { retailerId: 'petbarn', price: 27.00, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-14T10:00:00Z' }
         ],
         bestPrice: 24.99,
         bestOffer: {
-            shippingPrice: 9.99,
+            shippingPrice: 0.00,
             stockStatus: 'In Stock',
             retailerName: 'Pet Circle',
             retailerLogo: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=200',
@@ -292,15 +296,16 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=800',
         attributes: { 'Size': '50cm', 'Features': 'Waterproof' },
         offers: [
-            { retailerId: 'petbarn', price: 55.00, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-16T08:00:00Z' }
+            { retailerId: 'petbarn', price: 55.00, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-16T08:00:00Z' },
+            { retailerId: 'petstock', price: 52.95, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petstock.com.au/', lastUpdated: '2026-02-16T08:00:00Z' }
         ],
-        bestPrice: 55.00,
+        bestPrice: 52.95,
         bestOffer: {
             shippingPrice: 0.00,
             stockStatus: 'In Stock',
-            retailerName: 'Petbarn',
-            retailerLogo: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=200',
-            offerUrl: 'https://www.petbarn.com.au/'
+            retailerName: 'PETstock',
+            retailerLogo: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?q=80&w=200',
+            offerUrl: 'https://www.petstock.com.au/'
         }
     },
     {
@@ -339,15 +344,16 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?q=80&w=800',
         attributes: { 'Flow Rate': '400L/hr', 'Power': '6W' },
         offers: [
-            { retailerId: 'petbarn', price: 34.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-16T11:00:00Z' }
+            { retailerId: 'petbarn', price: 34.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-16T11:00:00Z' },
+            { retailerId: 'petstock', price: 32.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 5.00, url: 'https://www.petstock.com.au/', lastUpdated: '2026-02-16T11:00:00Z' }
         ],
-        bestPrice: 34.99,
+        bestPrice: 32.50,
         bestOffer: {
-            shippingPrice: 0.00,
+            shippingPrice: 5.00,
             stockStatus: 'In Stock',
-            retailerName: 'Petbarn',
-            retailerLogo: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=200',
-            offerUrl: 'https://www.petbarn.com.au/'
+            retailerName: 'PETstock',
+            retailerLogo: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?q=80&w=200',
+            offerUrl: 'https://www.petstock.com.au/'
         }
     },
     {
@@ -362,15 +368,16 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1552728089-57bdde30ebd1?q=80&w=800',
         attributes: { 'Dimensions': '60x40x40cm', 'Material': 'Steel' },
         offers: [
-            { retailerId: 'petcircle', price: 89.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-15T16:00:00Z' }
+            { retailerId: 'petcircle', price: 89.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-15T16:00:00Z' },
+            { retailerId: 'budgetpetproducts', price: 84.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 9.95, url: 'https://www.budgetpetproducts.com.au/', lastUpdated: '2026-02-15T16:00:00Z' }
         ],
-        bestPrice: 89.99,
+        bestPrice: 84.50,
         bestOffer: {
-            shippingPrice: 0.00,
+            shippingPrice: 9.95,
             stockStatus: 'In Stock',
-            retailerName: 'Pet Circle',
-            retailerLogo: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=200',
-            offerUrl: 'https://www.petcircle.com.au/'
+            retailerName: 'Budget Pet Products',
+            retailerLogo: 'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?q=80&w=200',
+            offerUrl: 'https://www.budgetpetproducts.com.au/'
         }
     },
     {
@@ -409,7 +416,8 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1585664811087-47f65be69b48?q=80&w=800',
         attributes: { 'Material': 'Fir Wood', 'Levels': '2' },
         offers: [
-            { retailerId: 'mypetwarehouse', price: 129.00, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 15.00, url: 'https://www.mypetwarehouse.com.au/', lastUpdated: '2026-02-15T11:00:00Z' }
+            { retailerId: 'mypetwarehouse', price: 129.00, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 15.00, url: 'https://www.mypetwarehouse.com.au/', lastUpdated: '2026-02-15T11:00:00Z' },
+            { retailerId: 'petstock', price: 135.00, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petstock.com.au/', lastUpdated: '2026-02-15T11:00:00Z' }
         ],
         bestPrice: 129.00,
         bestOffer: {
@@ -456,15 +464,16 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1551843063-7eb58dbad3fb?q=80&w=800',
         attributes: { 'Length': '8m', 'Color': 'Neon' },
         offers: [
-            { retailerId: 'petbarn', price: 69.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-16T12:00:00Z' }
+            { retailerId: 'petbarn', price: 69.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-16T12:00:00Z' },
+            { retailerId: 'petstock', price: 64.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 5.00, url: 'https://www.petstock.com.au/', lastUpdated: '2026-02-16T12:00:00Z' }
         ],
-        bestPrice: 69.99,
+        bestPrice: 64.50,
         bestOffer: {
-            shippingPrice: 0.00,
+            shippingPrice: 5.00,
             stockStatus: 'In Stock',
-            retailerName: 'Petbarn',
-            retailerLogo: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=200',
-            offerUrl: 'https://www.petbarn.com.au/'
+            retailerName: 'PETstock',
+            retailerLogo: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?q=80&w=200',
+            offerUrl: 'https://www.petstock.com.au/'
         }
     },
     {
@@ -479,15 +488,16 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1506992120790-281df6972e39?q=80&w=800',
         attributes: { 'Wattage': '75W', 'Type': 'Spot' },
         offers: [
-            { retailerId: 'petcircle', price: 18.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-16T11:00:00Z' }
+            { retailerId: 'petcircle', price: 18.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-16T11:00:00Z' },
+            { retailerId: 'budgetpetproducts', price: 16.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 6.95, url: 'https://www.budgetpetproducts.com.au/', lastUpdated: '2026-02-16T11:00:00Z' }
         ],
-        bestPrice: 18.50,
+        bestPrice: 16.99,
         bestOffer: {
-            shippingPrice: 0.00,
+            shippingPrice: 6.95,
             stockStatus: 'In Stock',
-            retailerName: 'Pet Circle',
-            retailerLogo: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=200',
-            offerUrl: 'https://www.petcircle.com.au/'
+            retailerName: 'Budget Pet Products',
+            retailerLogo: 'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?q=80&w=200',
+            offerUrl: 'https://www.budgetpetproducts.com.au/'
         }
     },
     {
@@ -502,7 +512,8 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1585664811087-47f65be69b48?q=80&w=800',
         attributes: { 'Size': '7 Inch', 'Color': 'Clear' },
         offers: [
-            { retailerId: 'petstock', price: 12.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petstock.com.au/', lastUpdated: '2026-02-16T10:00:00Z' }
+            { retailerId: 'petstock', price: 12.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petstock.com.au/', lastUpdated: '2026-02-16T10:00:00Z' },
+            { retailerId: 'petbarn', price: 14.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-16T10:00:00Z' }
         ],
         bestPrice: 12.99,
         bestOffer: {
@@ -549,15 +560,16 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=800',
         attributes: { 'Count': '120', 'Scent': 'Lavender' },
         offers: [
-            { retailerId: 'petcircle', price: 14.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-16T11:00:00Z' }
+            { retailerId: 'petcircle', price: 14.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-16T11:00:00Z' },
+            { retailerId: 'mypetwarehouse', price: 12.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 6.95, url: 'https://www.mypetwarehouse.com.au/', lastUpdated: '2026-02-16T11:00:00Z' }
         ],
-        bestPrice: 14.99,
+        bestPrice: 12.50,
         bestOffer: {
-            shippingPrice: 0.00,
+            shippingPrice: 6.95,
             stockStatus: 'In Stock',
-            retailerName: 'Pet Circle',
-            retailerLogo: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=200',
-            offerUrl: 'https://www.petcircle.com.au/'
+            retailerName: 'My Pet Warehouse',
+            retailerLogo: 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=200',
+            offerUrl: 'https://www.mypetwarehouse.com.au/'
         }
     },
     {
@@ -572,15 +584,16 @@ export const PRODUCTS: Product[] = [
         image: 'https://images.unsplash.com/photo-1552728089-57bdde30ebd1?q=80&w=800',
         attributes: { 'Weight': '2kg', 'Type': 'Seed Mix' },
         offers: [
-            { retailerId: 'woolworths', price: 8.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.woolworths.com.au/', lastUpdated: '2026-02-16T10:00:00Z' }
+            { retailerId: 'petcircle', price: 8.50, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-16T10:00:00Z' },
+            { retailerId: 'petbarn', price: 9.99, currency: 'AUD', stockStatus: 'in-stock', shippingCost: 0, url: 'https://www.petbarn.com.au/', lastUpdated: '2026-02-16T10:00:00Z' }
         ],
         bestPrice: 8.50,
         bestOffer: {
             shippingPrice: 0.00,
             stockStatus: 'In Stock',
-            retailerName: 'Woolworths',
-            retailerLogo: '',
-            offerUrl: 'https://www.woolworths.com.au/'
+            retailerName: 'Pet Circle',
+            retailerLogo: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=200',
+            offerUrl: 'https://www.petcircle.com.au/'
         }
     },
     // Adding 80 more products to trigger pagination ellipsis with 10 items per page
@@ -595,9 +608,15 @@ export const PRODUCTS: Product[] = [
         description: 'High quality pet supply with guaranteed lowest price across all stores.',
         image: `https://images.unsplash.com/photo-${1500000000000 + (i * 1000)}?q=80&w=800`,
         attributes: { 'Size': 'Standard', 'Weight': '5kg' },
-        offers: [
-            { retailerId: 'petcircle', price: 50 + i, currency: 'AUD', stockStatus: ('in-stock' as const), shippingCost: 0, url: 'https://www.petcircle.com.au/', lastUpdated: '2026-02-16T10:00:00Z' }
-        ],
+        offers: Array.from({ length: 2 + (i % 5) }).map((_, j) => ({
+            retailerId: ['petcircle', 'petbarn', 'petstock', 'budgetpetproducts', 'mypetwarehouse'][j % 5],
+            price: 50 + i + j,
+            currency: 'AUD',
+            stockStatus: ('in-stock' as const),
+            shippingCost: j === 0 ? 0 : 5.95,
+            url: '#',
+            lastUpdated: '2026-02-24T10:00:00Z'
+        })),
         bestPrice: 50 + i,
         bestOffer: {
             shippingPrice: 0.00,
