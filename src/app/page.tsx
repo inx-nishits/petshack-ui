@@ -51,9 +51,9 @@ export default function Home() {
               <p className="text-gray-600 mb-6 sm:mb-8 lg:mb-10 leading-relaxed text-sm sm:text-base lg:text-lg font-medium">
                 From Brissy to Perth, thousands of Aussie pet lovers are already digging up the best bargains and sniffing out hidden savings.
               </p>
-              <button className="w-full sm:w-auto bg-foreground text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 rounded-2xl font-black text-sm sm:text-base lg:text-lg hover:bg-black transition-preset shadow-xl shadow-black/20 flex items-center justify-center gap-2 mx-auto lg:mx-0 min-h-[44px]">
-                Subscribe Now <Send className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
+              <a href="/signup" className="w-full sm:w-auto bg-foreground text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 rounded-2xl font-black text-sm sm:text-base lg:text-lg hover:bg-black transition-preset shadow-xl shadow-black/20 flex items-center justify-center gap-2 mx-auto lg:mx-0 min-h-[44px]">
+                Join Free
+              </a>
             </div>
             <div className="flex justify-center">
               <img

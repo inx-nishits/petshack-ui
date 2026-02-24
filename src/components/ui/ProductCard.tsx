@@ -78,18 +78,24 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                         </h3>
 
                         {/* Status & Update Info */}
-                        <div className="flex flex-wrap items-center gap-2 mt-1">
+                        <div className="flex flex-col gap-2 mt-1">
                             {product.bestOffer?.stockStatus && (
-                                <span className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded border ${product.bestOffer.stockStatus.toLowerCase().includes('in stock')
-                                    ? 'bg-green-50 text-green-700 border-green-200'
-                                    : 'bg-red-50 text-red-700 border-red-200'
-                                    }`}>
-                                    {product.bestOffer.stockStatus}
-                                </span>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[10px] font-black text-muted-light uppercase tracking-tight">Stock Availability:</span>
+                                    <span className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded border ${product.bestOffer.stockStatus.toLowerCase().includes('in stock')
+                                        ? 'bg-green-50 text-green-700 border-green-200'
+                                        : 'bg-red-50 text-red-700 border-red-200'
+                                        }`}>
+                                        {product.bestOffer.stockStatus}
+                                    </span>
+                                </div>
                             )}
-                            <span className="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded border bg-gray-50 text-muted border-border flex items-center gap-1">
-                                <Clock className="w-2.5 h-2.5" /> {lastUpdated}
-                            </span>
+                            <div className="flex items-center gap-2">
+                                <span className="text-[10px] font-black text-muted-light uppercase tracking-tight">Last Price Update:</span>
+                                <span className="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded border bg-gray-50 text-muted border-border flex items-center gap-1">
+                                    <Clock className="w-2.5 h-2.5" /> {lastUpdated}
+                                </span>
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mt-1">
@@ -121,7 +127,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) =>
                                 </div>
                             </div>
                             <div className="text-right">
-                                <span className="text-[9px] font-black text-muted-light uppercase tracking-tight block mb-0.5">Shipping</span>
+                                <span className="text-[10px] font-black text-muted-light uppercase tracking-tight block mb-0.5">Shipping Price</span>
                                 <div className="flex items-center justify-end gap-1 text-gray-900">
                                     <Truck className="w-3 h-3 text-muted-light" />
                                     <span className="text-xs font-black">

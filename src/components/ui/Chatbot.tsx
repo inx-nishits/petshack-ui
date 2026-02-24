@@ -153,23 +153,29 @@ export const Chatbot = () => {
                         <div ref={messagesEndRef} />
                     </div>
 
-                    {/* Predefined Questions */}
-                    {messages.length <= 2 && (
-                        <div className="px-4 py-3 bg-white border-t border-border shrink-0">
-                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-light mb-2">Quick Questions</p>
-                            <div className="flex flex-wrap gap-2">
-                                {PREDEFINED_QUESTIONS.slice(0, 4).map((q) => (
-                                    <button
-                                        key={q.id}
-                                        onClick={() => handlePredefinedQuestion(q.question, q.answer)}
-                                        className="text-xs font-bold px-3 py-2 bg-surface hover:bg-primary hover:text-white border border-border rounded-full transition-all min-h-[32px]"
-                                    >
-                                        {q.question}
-                                    </button>
-                                ))}
-                            </div>
+                    {/* Predefined Questions / Suggestions - Always accessible */}
+                    <div className="px-4 py-3 bg-white border-t border-border shrink-0">
+                        <div className="flex items-center justify-between mb-2">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-light">Quick Questions</p>
+                            <button
+                                onClick={handleRestartChat}
+                                className="text-[10px] font-black text-primary hover:underline uppercase tracking-widest flex items-center gap-1"
+                            >
+                                <RotateCcw className="w-2.5 h-2.5" /> Reset
+                            </button>
                         </div>
-                    )}
+                        <div className="flex flex-wrap gap-2">
+                            {PREDEFINED_QUESTIONS.slice(0, 4).map((q) => (
+                                <button
+                                    key={q.id}
+                                    onClick={() => handlePredefinedQuestion(q.question, q.answer)}
+                                    className="text-[10px] sm:text-xs font-bold text-gray-600 bg-surface border border-border px-3 py-1.5 rounded-full hover:border-primary hover:text-primary transition-all whitespace-nowrap"
+                                >
+                                    {q.question}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
 
                     {/* Input */}
                     <form onSubmit={handleSendMessage} className="p-3 bg-white border-t border-border shrink-0">

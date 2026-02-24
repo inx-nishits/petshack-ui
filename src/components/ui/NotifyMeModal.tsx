@@ -62,9 +62,9 @@ export const NotifyMeModal = ({ isOpen, onClose, productName, targetPrice }: Not
 
 
     return createPortal(
-        <div className="fixed inset-0 z-9999 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-9999 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300" onClick={handleClose}>
             {/* Modal Container: Rounded and shadow, max-height constrained */}
-            <div className="bg-white rounded-4xl sm:rounded-[3rem] w-full max-w-lg shadow-2xl relative animate-in zoom-in-95 duration-300 flex flex-col max-h-[85vh] overflow-hidden border border-white/20">
+            <div className="bg-white rounded-4xl sm:rounded-[3rem] w-full max-w-lg shadow-2xl relative animate-in zoom-in-95 duration-300 flex flex-col max-h-[85vh] overflow-hidden border border-white/20" onClick={(e) => e.stopPropagation()}>
                 {/* Fixed Close Button - stays in place while content scrolls */}
                 <button
                     onClick={handleClose}

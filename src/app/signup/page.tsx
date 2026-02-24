@@ -5,9 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, User, CheckCircle2, ArrowRight, ShieldCheck, Eye, EyeOff } from "lucide-react";
 import { AuthLayout } from "@/components/auth/AuthLayout";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SignupPage() {
     const router = useRouter();
+    const { login } = useAuth();
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -217,12 +219,15 @@ export default function SignupPage() {
                     <div className="space-y-4">
                         <div className="p-4 bg-surface border border-border rounded-xl sm:rounded-2xl">
                             <p className="text-[9px] sm:text-[10px] font-bold text-muted uppercase tracking-widest mb-2">Simulated Link (Demo Only)</p>
-                            <Link
-                                href="/verify-email"
+                            <button
+                                onClick={() => {
+                                    login(formData.email);
+                                    router.push("/verify-email");
+                                }}
                                 className="inline-flex items-center gap-2 text-primary font-black hover:underline text-sm sm:text-base min-h-[44px]"
                             >
                                 Click to Verify Account <ArrowRight className="w-4 h-4" />
-                            </Link>
+                            </button>
                         </div>
 
                         <button

@@ -1,55 +1,109 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { CheckCircle2, ArrowRight, ShieldCheck, Mail } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Mail, ArrowRight, ShieldCheck, RefreshCw } from "lucide-react";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 
 export default function VerifyEmailPage() {
-    const [verifying, setVerifying] = useState(true);
+    const [code, setCode] = useState(["", "", "", "", ""]);
+    const [isVerifying, setIsVerifying] = useState(false);
+    const [error, setError] = useState("");
+    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+    const router = useRouter();
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setVerifying(false);
-        }, 2000);
-        return () => clearTimeout(timer);
-    }, []);
+    const handleChange = (index: number, value: string) => {
+        if (value.length > 1) value = value[value.length - 1];
+        const newCode = [...code];
+        newCode[index] = value;
+        setCode(newCode);
+
+        // Move to next input if value is entered
+        if (value && index < 4) {
+            inputRefs.current[index + 1]?.focus();
+        }
+    };
+
+    const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Backspace" && !code[index] && index > 0) {
+            inputRefs.current[index - 1]?.focus();
+        }
+    };
+
+    const handleVerify = (e: React.FormEvent) => {
+        e.preventDefault();
+        const verificationCode = code.join("");
+        if (verificationCode.length < 5) {
+            setError("Please enter the full 5-digit code");
+            return;
+        }
+
+        setIsVerifying(true);
+        setError("");
+
+        // Simulation
+        setTimeout(() => {
+            setIsVerifying(false);
+            router.push("/dashboard?welcome=true");
+        }, 1500);
+    };
 
     return (
         <AuthLayout>
-            <div className="text-left py-6 animate-in fade-in zoom-in duration-500 shrink-0">
-                {verifying ? (
-                    <>
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 animate-pulse">
-                            <ShieldCheck className="w-8 h-8 text-primary opacity-50" />
-                        </div>
-                        <h2 className="text-4xl font-bold mb-4 tracking-tight">Verifying Email...</h2>
-                        <p className="text-muted font-medium mb-10 leading-relaxed tracking-tight max-w-sm text-sm sm:text-base">
-                            Please wait while we secure your account and verify your identity.
-                        </p>
-                    </>
-                ) : (
-                    <>
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-green-50 rounded-2xl flex items-center justify-center mb-6 transition-transform hover:scale-105 border border-green-100">
-                            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-green-100/50 rounded-xl flex items-center justify-center">
-                                <CheckCircle2 className="w-6 h-6 sm:w-8 sm:h-8 text-green-500" />
-                            </div>
-                        </div>
-                        <h2 className="text-4xl font-bold mb-4 tracking-tight">Account Verified!</h2>
-                        <p className="text-muted font-medium mb-10 leading-relaxed tracking-tight max-w-sm text-sm sm:text-base">
-                            Your email has been successfully verified. Your account is now active and ready to use.
-                        </p>
+            <div className="mb-8 text-left">
+                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+                    <Mail className="w-6 h-6 text-primary" />
+                </div>
+                <h2 className="text-3xl font-black text-gray-900 mb-2 font-display tracking-tight">Check your email</h2>
+                <p className="text-muted font-medium text-sm leading-relaxed">
+                    We've sent a 5-digit verification code to your email address. Please enter it below to continue.
+                </p>
+            </div>
 
-                        <Link
-                            href="/login"
-                            className="w-full bg-foreground text-white py-5 rounded-2xl font-bold text-lg shadow-[0_20px_40px_-5px_rgba(0,0,0,0.2)] hover:translate-y-[-2px] hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.3)] active:translate-y-px transition-all flex items-center justify-center gap-2 group cursor-pointer max-w-xs"
-                        >
-                            Log In to Your Account <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                        </Link>
-                    </>
+            <form onSubmit={handleVerify} className="space-y-8">
+                <div className="flex justify-between gap-2 sm:gap-4">
+                    {code.map((digit, index) => (
+                        <input
+                            key={index}
+                            ref={(el) => { inputRefs.current[index] = el; }}
+                            type="text"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            value={digit}
+                            onChange={(e) => handleChange(index, e.target.value)}
+                            onKeyDown={(e) => handleKeyDown(index, e)}
+                            className="w-full h-14 sm:h-20 text-center text-2xl font-black bg-surface border border-border rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all"
+                        />
+                    ))}
+                </div>
+
+                {error && (
+                    <p className="text-xs font-bold text-red-500 text-center animate-in shake duration-300">
+                        {error}
+                    </p>
                 )}
+
+                <button
+                    type="submit"
+                    disabled={isVerifying}
+                    className="w-full bg-primary text-white py-4 sm:py-5 rounded-2xl font-black text-base sm:text-lg shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all flex items-center justify-center gap-2 group disabled:opacity-50"
+                >
+                    {isVerifying ? "Verifying..." : (
+                        <>
+                            Verify Account <ShieldCheck className="w-5 h-5 transition-transform group-hover:scale-110" />
+                        </>
+                    )}
+                </button>
+            </form>
+
+            <div className="mt-10 text-center space-y-4">
+                <p className="text-xs sm:text-sm text-muted font-bold tracking-tight">
+                    Didn't receive the code?
+                </p>
+                <button className="text-primary font-black hover:underline flex items-center gap-2 mx-auto text-xs uppercase tracking-widest">
+                    <RefreshCw className="w-3 h-3" /> Resend Code
+                </button>
             </div>
         </AuthLayout>
     );
 }
-

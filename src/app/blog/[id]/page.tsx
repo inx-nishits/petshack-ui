@@ -1,5 +1,5 @@
 import { BLOG_POSTS } from "@/data/mock";
-import { Clock, User, ArrowLeft, Facebook, Twitter, Link2 } from "lucide-react";
+import { Clock, User, ArrowLeft, Facebook, Twitter, Link2, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SafeImage } from "@/components/ui/SafeImage";
@@ -90,22 +90,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                         </p>
                     </div>
 
-                    <footer className="bg-surface border border-border rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center mb-12 sm:mb-16">
-                        <h3 className="text-lg sm:text-2xl font-black mb-3 sm:mb-4">Found this advice helpful?</h3>
-                        <p className="text-xs sm:text-base text-muted mb-6 sm:mb-8 max-w-md mx-auto">
-                            Sign up for our newsletter to get weekly expert tips and the best price alerts for your pets.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                className="grow px-4 sm:px-6 py-3 sm:py-4 rounded-xl border border-border focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all min-h-[44px] text-sm sm:text-base"
-                            />
-                            <button className="bg-primary text-white px-8 sm:px-10 py-3 sm:py-4 rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-preset min-h-[44px] text-sm sm:text-base">
-                                Join
-                            </button>
-                        </div>
-                    </footer>
+
 
                     {/* More from Author/PetShack */}
                     <div className="border-t border-border pt-12 sm:pt-16 pb-8">
@@ -117,24 +102,37 @@ export default async function BlogDetailPage({ params }: PageProps) {
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                             {relatedPosts.map((relatedPost) => (
-                                <Link key={relatedPost.id} href={`/blog/${relatedPost.id}`} className="group flex flex-col h-full">
-                                    <div className="aspect-video rounded-2xl overflow-hidden mb-4 bg-gray-100 border border-border relative">
+                                <Link key={relatedPost.id} href={`/blog/${relatedPost.id}`} className="group flex flex-col h-full bg-white rounded-3xl border border-border overflow-hidden hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500">
+                                    <div className="aspect-16/10 overflow-hidden relative">
                                         <SafeImage
                                             src={relatedPost.image}
                                             alt={relatedPost.title}
-                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                         />
-                                        <div className="absolute top-3 left-3">
-                                            <span className="bg-black/30 backdrop-blur-md text-white text-[9px] font-black px-2 py-1 rounded-full uppercase tracking-widest">
+                                        <div className="absolute top-4 left-4">
+                                            <span className="bg-primary text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg shadow-primary/20">
                                                 {relatedPost.tags[0]}
                                             </span>
                                         </div>
                                     </div>
-                                    <h4 className="font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-tight mb-2 text-lg">
-                                        {relatedPost.title}
-                                    </h4>
-                                    <div className="mt-auto flex items-center gap-2 text-xs font-bold text-muted-light uppercase tracking-widest">
-                                        <Clock className="w-3 h-3" /> {relatedPost.date}
+                                    <div className="p-6 flex flex-col flex-1">
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <div className="flex items-center gap-1.5 text-[10px] font-black text-muted-light uppercase tracking-widest">
+                                                <Clock className="w-3 h-3" /> 5 min read
+                                            </div>
+                                            <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                                            <div className="text-[10px] font-black text-muted-light uppercase tracking-widest">
+                                                {relatedPost.date}
+                                            </div>
+                                        </div>
+                                        <h4 className="font-black text-gray-900 group-hover:text-primary transition-colors line-clamp-2 leading-tight mb-4 text-xl">
+                                            {relatedPost.title}
+                                        </h4>
+                                        <div className="mt-auto flex items-center justify-between">
+                                            <span className="text-xs font-bold text-primary group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                                                Read Entry <ArrowRight className="w-4 h-4" />
+                                            </span>
+                                        </div>
                                     </div>
                                 </Link>
                             ))}

@@ -99,7 +99,7 @@ function DiscoverContent() {
     const [selectedLifeStages, setSelectedLifeStages] = useState<string[]>([]);
 
     const [priceRange, setPriceRange] = useState(500);
-    const [sortOption, setSortOption] = useState("Best Match");
+    const [sortOption, setSortOption] = useState("Price: Low to High");
     const [showFilters, setShowFilters] = useState(false);
     const [showSortDropdown, setShowSortDropdown] = useState(false);
 
@@ -165,7 +165,7 @@ function DiscoverContent() {
         if (selectedStores.length > 0) params.set('store', selectedStores.join(','));
         if (selectedLifeStages.length > 0) params.set('lifestage', selectedLifeStages.join(','));
 
-        if (sortOption && sortOption !== "Best Match") params.set('sort', sortOption);
+        if (sortOption && sortOption !== "Price: Low to High") params.set('sort', sortOption);
 
         // Update URL
         const newUrl = `/discover?${params.toString()}`;
@@ -344,9 +344,9 @@ function DiscoverContent() {
                                     </div>
                                 </div>
 
-                                {/* 4. Age Group (Life Stage) */}
+                                {/* 4. Life Stage (SOW 3.2 Compliance) */}
                                 <div className="border-b border-border pb-3 sm:pb-4">
-                                    <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Age Group</h4>
+                                    <h4 className="font-bold mb-2 sm:mb-3 text-[10px] uppercase tracking-widest text-muted-light">Life Stage</h4>
                                     <div className="space-y-1.5 sm:space-y-2">
                                         {['Puppy', 'Adult', 'Senior', 'Kitten', 'All Ages'].map((item) => (
                                             <label key={item} className="flex items-center gap-2 cursor-pointer group min-h-[24px]">
@@ -447,7 +447,7 @@ function DiscoverContent() {
                                             />
                                             <div className="absolute top-full right-0 mt-2 w-full bg-white border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-100 origin-top-right">
                                                 <div className="py-1">
-                                                    {["Best Match", "Price: Low to High", "Price: High to Low", "Last Price Update"].map((option) => (
+                                                    {["Price: Low to High", "Price: High to Low"].map((option) => (
                                                         <button
                                                             key={option}
                                                             className={`w-full text-left px-4 py-2.5 text-xs sm:text-sm font-bold transition-colors ${sortOption === option

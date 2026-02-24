@@ -14,10 +14,13 @@ import {
     Sparkles,
     Users,
     Globe,
-    ExternalLink
+    ExternalLink,
+    Bell
 } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { SafeImage } from "@/components/ui/SafeImage";
+import { useAuth } from "@/context/AuthContext";
+import { LayoutDashboard, Heart, Bell as BellIcon, LogOut, MessageSquare as FeedbackIcon } from "lucide-react";
 
 const NAV_ITEMS = [
     { label: "Home", href: "/" },
@@ -98,7 +101,18 @@ export const Header = () => {
     const headerRef = useRef<HTMLElement>(null);
     const pathname = usePathname();
     const [searchQuery, setSearchQuery] = useState("");
+    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const notificationRef = useRef<HTMLDivElement>(null);
+    const userMenuRef = useRef<HTMLDivElement>(null);
+    const { user, logout, isLoggedIn } = useAuth();
     const router = useRouter();
+
+    const notifications = [
+        { id: 1, text: "Royal Canin price dropped by 15%!", time: "2h ago", unread: true },
+        { id: 2, text: "New blog post: Top 10 Puppy Foods", time: "5h ago", unread: true },
+        { id: 3, text: "Welcome to PetShack Pro!", time: "1d ago", unread: false },
+    ];
 
     const isActive = (path: string) => pathname === path;
 
@@ -124,6 +138,12 @@ export const Header = () => {
         const handleClickOutside = (event: MouseEvent) => {
             if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
                 setActiveMegaMenu(null);
+            }
+            if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+                setIsNotificationsOpen(false);
+            }
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+                setIsUserMenuOpen(false);
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
@@ -272,20 +292,102 @@ export const Header = () => {
                         </Link>
                     </nav>
 
-                    {/* Auth CTAs for Desktop */}
+                    {/* Auth CTAs / User Profile for Desktop */}
                     <div className="hidden lg:flex items-center gap-3 xl:gap-6">
-                        <Link
-                            href="/login"
-                            className={`text-[13px] xl:text-[15px] font-bold transition-colors ${isActive("/login") ? "text-primary" : "text-gray-600 hover:text-primary"}`}
-                        >
-                            Sign In
-                        </Link>
-                        <Link
-                            href="/signup"
-                            className="bg-primary text-white px-4 xl:px-7 py-2 xl:py-3 rounded-xl text-[13px] xl:text-[15px] font-bold shadow-lg shadow-primary/20 hover:bg-primary-dark transition-all active:scale-95"
-                        >
-                            Join Free
-                        </Link>
+                        {isLoggedIn ? (
+                            <>
+                                {/* Notification Bell */}
+                                <div className="relative" ref={notificationRef}>
+                                    <button
+                                        onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                                        className={`p-2 rounded-full transition-all relative ${isNotificationsOpen ? 'bg-primary/10 text-primary' : 'text-gray-400 hover:text-primary'}`}
+                                    >
+                                        <Bell className="w-6 h-6" />
+                                        <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+                                    </button>
+
+                                    {isNotificationsOpen && (
+                                        <div className="absolute top-full right-0 mt-2 w-80 bg-white border border-border shadow-2xl rounded-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+                                            <div className="p-4 border-b border-border flex justify-between items-center">
+                                                <h3 className="font-black text-sm uppercase tracking-widest">Notifications</h3>
+                                                <Link href="/alerts" className="text-[10px] font-bold text-primary hover:underline" onClick={() => setIsNotificationsOpen(false)}>Manage Alerts</Link>
+                                            </div>
+                                            <div className="max-h-80 overflow-y-auto divide-y divide-gray-50">
+                                                {notifications.map((n) => (
+                                                    <div key={n.id} className={`p-4 hover:bg-surface transition-colors cursor-pointer ${n.unread ? 'bg-primary/5' : ''}`}>
+                                                        <p className="text-sm font-medium text-gray-900 mb-1">{n.text}</p>
+                                                        <span className="text-[10px] font-bold text-muted-light uppercase tracking-widest">{n.time}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className="p-3 bg-gray-50 text-center">
+                                                <button className="text-[11px] font-black text-muted-light hover:text-primary transition-colors uppercase tracking-widest">Mark all as read</button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="relative" ref={userMenuRef}>
+                                    <button
+                                        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                                        className="flex items-center gap-2 group p-1 pr-3 rounded-full hover:bg-surface transition-all border border-transparent hover:border-border"
+                                    >
+                                        <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-black text-sm shadow-lg shadow-primary/20 transition-transform group-hover:scale-105">
+                                            {user?.firstName[0]}{user?.lastName[0]}
+                                        </div>
+                                        <div className="text-left hidden xl:block">
+                                            <div className="text-[13px] font-black leading-none mb-0.5">{user?.firstName}</div>
+                                            <div className="text-[10px] font-bold text-muted-light uppercase tracking-widest">Pro Member</div>
+                                        </div>
+                                        <ChevronDown className={`w-4 h-4 text-muted-light transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} />
+                                    </button>
+
+                                    {isUserMenuOpen && (
+                                        <div className="absolute top-full right-0 mt-2 w-56 bg-white border border-border shadow-2xl rounded-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+                                            <div className="p-2 space-y-1">
+                                                <Link href="/dashboard" className="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-primary hover:bg-primary/5 rounded-xl transition-all" onClick={() => setIsUserMenuOpen(false)}>
+                                                    <LayoutDashboard className="w-4 h-4" /> Dashboard
+                                                </Link>
+                                                <Link href="/profile" className="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-primary hover:bg-primary/5 rounded-xl transition-all" onClick={() => setIsUserMenuOpen(false)}>
+                                                    <User className="w-4 h-4" /> My Profile
+                                                </Link>
+                                                <Link href="/alerts" className="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-primary hover:bg-primary/5 rounded-xl transition-all" onClick={() => setIsUserMenuOpen(false)}>
+                                                    <BellIcon className="w-4 h-4" /> My Alerts
+                                                </Link>
+                                                <Link href="/feedback" className="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-primary hover:bg-primary/5 rounded-xl transition-all" onClick={() => setIsUserMenuOpen(false)}>
+                                                    <FeedbackIcon className="w-4 h-4" /> Feedbacks
+                                                </Link>
+                                                <div className="h-px bg-border/50 my-1 mx-2" />
+                                                <button
+                                                    onClick={() => {
+                                                        logout();
+                                                        setIsUserMenuOpen(false);
+                                                    }}
+                                                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                                                >
+                                                    <LogOut className="w-4 h-4" /> Sign Out
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    href="/login"
+                                    className={`text-[13px] xl:text-[15px] font-bold transition-colors ${isActive("/login") ? "text-primary" : "text-gray-600 hover:text-primary"}`}
+                                >
+                                    Sign In
+                                </Link>
+                                <Link
+                                    href="/signup"
+                                    className="bg-primary text-white px-4 xl:px-7 py-2 xl:py-3 rounded-xl text-[13px] xl:text-[15px] font-bold shadow-lg shadow-primary/20 hover:bg-primary-dark transition-all active:scale-95"
+                                >
+                                    Join Free
+                                </Link>
+                            </>
+                        )}
                     </div>
 
                     {/* Mobile menu button */}
@@ -466,20 +568,48 @@ export const Header = () => {
                             </div>
                         </div>
 
-                        <Link
-                            href="/login"
-                            className="flex items-center gap-2 py-3 font-semibold text-gray-900 border-t border-border mt-2"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            <User className="w-5 h-5" /> Sign In
-                        </Link>
-                        <Link
-                            href="/signup"
-                            className="bg-primary text-white text-center py-4 rounded-xl font-semibold shadow-lg shadow-primary/20 mt-2 active:scale-95 transition-transform"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            Join Free
-                        </Link>
+                        {isLoggedIn ? (
+                            <div className="pt-4 border-t border-border mt-2 space-y-2">
+                                <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-2xl mb-4">
+                                    <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-black">
+                                        {user?.firstName[0]}{user?.lastName[0]}
+                                    </div>
+                                    <div>
+                                        <div className="font-black text-gray-900">{user?.firstName} {user?.lastName}</div>
+                                        <div className="text-[10px] font-bold text-primary uppercase tracking-widest">Pro Member</div>
+                                    </div>
+                                </div>
+                                <Link href="/dashboard" className="flex items-center gap-3 p-3 text-sm font-bold text-gray-600 hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+                                    <LayoutDashboard className="w-5 h-5" /> Dashboard
+                                </Link>
+                                <Link href="/alerts" className="flex items-center gap-3 p-3 text-sm font-bold text-gray-600 hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+                                    <BellIcon className="w-5 h-5" /> My Alerts
+                                </Link>
+                                <Link href="/feedback" className="flex items-center gap-3 p-3 text-sm font-bold text-gray-600 hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+                                    <FeedbackIcon className="w-5 h-5" /> Feedbacks
+                                </Link>
+                                <button onClick={() => { logout(); setIsMenuOpen(false); }} className="w-full flex items-center gap-3 p-3 text-sm font-bold text-red-500 hover:bg-red-50 rounded-xl">
+                                    <LogOut className="w-5 h-5" /> Sign Out
+                                </button>
+                            </div>
+                        ) : (
+                            <>
+                                <Link
+                                    href="/login"
+                                    className="flex items-center gap-2 py-3 font-semibold text-gray-900 border-t border-border mt-2"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    <User className="w-5 h-5" /> Sign In
+                                </Link>
+                                <Link
+                                    href="/signup"
+                                    className="bg-primary text-white text-center py-4 rounded-xl font-semibold shadow-lg shadow-primary/20 mt-2 active:scale-95 transition-transform"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Join Free
+                                </Link>
+                            </>
+                        )}
                     </nav>
                 </div>
             )}

@@ -25,9 +25,10 @@ export function AlertModal({ isOpen, onClose, title = "Alert", message }: AlertM
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}>
             <div
                 className="bg-white rounded-2xl w-full max-w-sm shadow-2xl scale-100 animate-in zoom-in-95 duration-200 overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
                 role="alertdialog"
                 aria-modal="true"
             >

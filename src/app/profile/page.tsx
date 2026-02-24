@@ -26,6 +26,43 @@ export default function ProfilePage() {
         confirm: ""
     });
 
+    const [passwordErrors, setPasswordErrors] = useState<Record<string, string>>({});
+    const [passwordSuccess, setPasswordSuccess] = useState(false);
+
+    const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
+
+    const passwordRules = [
+        { label: "At least 1 uppercase character", test: (v: string) => /[A-Z]/.test(v) },
+        { label: "At least 1 lowercase character", test: (v: string) => /[a-z]/.test(v) },
+        { label: "At least 1 number", test: (v: string) => /\d/.test(v) },
+        { label: "At least 1 symbol", test: (v: string) => /[^a-zA-Z0-9]/.test(v) },
+        { label: "Minimum 8 characters", test: (v: string) => v.length >= 8 },
+    ];
+
+    const validatePasswordForm = () => {
+        const errs: Record<string, string> = {};
+        if (!passwordForm.current) errs.current = "Current password is required";
+        if (!PASSWORD_REGEX.test(passwordForm.new)) {
+            errs.new = "Password does not meet all requirements";
+        }
+        if (!passwordForm.confirm) {
+            errs.confirm = "Please confirm your new password";
+        } else if (passwordForm.new !== passwordForm.confirm) {
+            errs.confirm = "Passwords do not match";
+        }
+        setPasswordErrors(errs);
+        return Object.keys(errs).length === 0;
+    };
+
+    const handlePasswordUpdate = () => {
+        if (validatePasswordForm()) {
+            setPasswordSuccess(true);
+            setPasswordForm({ current: "", new: "", confirm: "" });
+            setPasswordErrors({});
+            setTimeout(() => setPasswordSuccess(false), 4000);
+        }
+    };
+
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleSaveProfile = () => {
@@ -112,9 +149,6 @@ export default function ProfilePage() {
                                 <Link href="#" className="flex items-center gap-3 px-4 py-3 sm:px-5 sm:py-4 text-gray-500 hover:text-foreground hover:bg-surface rounded-xl font-bold text-sm sm:text-base transition-all">
                                     <Bell className="w-5 h-5" /> Data Alerts
                                 </Link>
-                                <Link href="#" className="flex items-center gap-3 px-4 py-3 sm:px-5 sm:py-4 text-gray-500 hover:text-foreground hover:bg-surface rounded-xl font-bold text-sm sm:text-base transition-all">
-                                    <CreditCard className="w-5 h-5" /> Subscription
-                                </Link>
                                 <div className="h-px bg-border/50 my-2" />
                                 <button className="w-full flex items-center gap-3 px-4 py-3 sm:px-5 sm:py-4 text-red-500 hover:bg-red-50 rounded-xl font-bold text-sm sm:text-base transition-all">
                                     <LogOut className="w-5 h-5" /> Sign Out
@@ -168,36 +202,7 @@ export default function ProfilePage() {
                                         <div className="text-base sm:text-lg font-bold text-foreground border-b border-border pb-2">{user.lastName}</div>
                                     )}
                                 </div>
-                                <div>
-                                    <label className="block text-[10px] sm:text-xs font-black text-muted-light uppercase tracking-widest mb-2">Phone Number</label>
-                                    {isEditing ? (
-                                        <input
-                                            type="tel"
-                                            value={editForm.phone}
-                                            onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
-                                            className="w-full px-4 py-2 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 font-bold"
-                                        />
-                                    ) : (
-                                        <div className="flex items-center gap-3 text-base sm:text-lg font-bold text-foreground border-b border-border pb-2">
-                                            <Phone className="w-4 h-4 text-primary" /> {user.phone}
-                                        </div>
-                                    )}
-                                </div>
-                                <div>
-                                    <label className="block text-[10px] sm:text-xs font-black text-muted-light uppercase tracking-widest mb-2">Location</label>
-                                    {isEditing ? (
-                                        <input
-                                            type="text"
-                                            value={editForm.location}
-                                            onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
-                                            className="w-full px-4 py-2 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 font-bold"
-                                        />
-                                    ) : (
-                                        <div className="flex items-center gap-3 text-base sm:text-lg font-bold text-foreground border-b border-border pb-2">
-                                            <MapPin className="w-4 h-4 text-primary" /> {user.location}
-                                        </div>
-                                    )}
-                                </div>
+
                                 <div className="sm:col-span-2">
                                     <label className="block text-[10px] sm:text-xs font-black text-muted-light uppercase tracking-widest mb-2">Bio</label>
                                     {isEditing ? (
@@ -225,60 +230,98 @@ export default function ProfilePage() {
                             <h2 className="text-xl font-black text-foreground mb-6 sm:mb-8 flex items-center gap-3">
                                 <Lock className="w-6 h-6 text-primary" /> Change Password
                             </h2>
-                            <div className="grid grid-cols-1 gap-4 max-w-lg">
+
+                            {passwordSuccess && (
+                                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 font-bold text-sm flex items-center gap-2">
+                                    ✓ Password updated successfully.
+                                </div>
+                            )}
+
+                            <div className="grid grid-cols-1 gap-5 max-w-lg">
+                                {/* Current Password */}
                                 <div>
                                     <label className="block text-[10px] sm:text-xs font-black text-muted-light uppercase tracking-widest mb-2">Current Password</label>
                                     <input
                                         type="password"
                                         placeholder="••••••••"
-                                        className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 bg-surface font-bold"
+                                        className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 bg-surface font-bold ${passwordErrors.current ? "border-red-400" : "border-border"
+                                            }`}
                                         value={passwordForm.current}
-                                        onChange={e => setPasswordForm({ ...passwordForm, current: e.target.value })}
+                                        onChange={e => {
+                                            setPasswordForm({ ...passwordForm, current: e.target.value });
+                                            if (passwordErrors.current) setPasswordErrors(prev => ({ ...prev, current: "" }));
+                                        }}
                                     />
+                                    {passwordErrors.current && (
+                                        <span className="text-[10px] text-red-500 font-bold mt-1 block">{passwordErrors.current}</span>
+                                    )}
                                 </div>
+
+                                {/* New Password */}
                                 <div>
                                     <label className="block text-[10px] sm:text-xs font-black text-muted-light uppercase tracking-widest mb-2">New Password</label>
                                     <input
                                         type="password"
                                         placeholder="Enter new password"
-                                        className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 bg-surface font-bold"
+                                        className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 bg-surface font-bold ${passwordErrors.new ? "border-red-400" : "border-border"
+                                            }`}
                                         value={passwordForm.new}
-                                        onChange={e => setPasswordForm({ ...passwordForm, new: e.target.value })}
+                                        onChange={e => {
+                                            setPasswordForm({ ...passwordForm, new: e.target.value });
+                                            if (passwordErrors.new) setPasswordErrors(prev => ({ ...prev, new: "" }));
+                                        }}
                                     />
+                                    {/* SOW password rule checklist */}
+                                    {passwordForm.new.length > 0 && (
+                                        <ul className="mt-2 space-y-1">
+                                            {passwordRules.map(rule => (
+                                                <li key={rule.label} className={`flex items-center gap-1.5 text-[10px] font-bold ${rule.test(passwordForm.new) ? "text-green-600" : "text-red-400"
+                                                    }`}>
+                                                    <span className="shrink-0">{rule.test(passwordForm.new) ? "✓" : "✗"}</span>
+                                                    {rule.label}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                    {passwordErrors.new && (
+                                        <span className="text-[10px] text-red-500 font-bold mt-1 block">{passwordErrors.new}</span>
+                                    )}
                                 </div>
+
+                                {/* Confirm New Password */}
                                 <div>
                                     <label className="block text-[10px] sm:text-xs font-black text-muted-light uppercase tracking-widest mb-2">Confirm New Password</label>
                                     <input
                                         type="password"
                                         placeholder="Confirm new password"
-                                        className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 bg-surface font-bold"
+                                        className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 bg-surface font-bold ${passwordErrors.confirm ? "border-red-400" :
+                                                passwordForm.confirm && passwordForm.new === passwordForm.confirm ? "border-green-400" : "border-border"
+                                            }`}
                                         value={passwordForm.confirm}
-                                        onChange={e => setPasswordForm({ ...passwordForm, confirm: e.target.value })}
+                                        onChange={e => {
+                                            setPasswordForm({ ...passwordForm, confirm: e.target.value });
+                                            if (passwordErrors.confirm) setPasswordErrors(prev => ({ ...prev, confirm: "" }));
+                                        }}
                                     />
+                                    {passwordErrors.confirm && (
+                                        <span className="text-[10px] text-red-500 font-bold mt-1 block">{passwordErrors.confirm}</span>
+                                    )}
+                                    {passwordForm.confirm && passwordForm.new === passwordForm.confirm && !passwordErrors.confirm && (
+                                        <span className="text-[10px] text-green-600 font-bold mt-1 block">✓ Passwords match</span>
+                                    )}
                                 </div>
+
                                 <div className="mt-2">
-                                    <button className="px-6 py-3 bg-white border border-border rounded-xl font-bold text-sm hover:bg-surface hover:border-primary/50 transition-all">
+                                    <button
+                                        onClick={handlePasswordUpdate}
+                                        className="px-6 py-3 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary-dark transition-all shadow-md shadow-primary/20 hover:-translate-y-0.5"
+                                    >
                                         Update Password
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Mock Stats */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-                            <div className="bg-white p-6 rounded-2xl border border-border shadow-sm text-center">
-                                <div className="text-3xl font-black text-primary mb-1">2</div>
-                                <div className="text-xs font-bold text-muted-light uppercase tracking-widest">Active Alerts</div>
-                            </div>
-                            <div className="bg-white p-6 rounded-2xl border border-border shadow-sm text-center">
-                                <div className="text-3xl font-black text-primary mb-1">5</div>
-                                <div className="text-xs font-bold text-muted-light uppercase tracking-widest">Saved Items</div>
-                            </div>
-                            <div className="bg-white p-6 rounded-2xl border border-border shadow-sm text-center">
-                                <div className="text-3xl font-black text-primary mb-1">FREE</div>
-                                <div className="text-xs font-bold text-muted-light uppercase tracking-widest">Current Plan</div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -13,17 +13,17 @@ const BANNERS = [
         title: "Never Overpay for Pet Food Again!",
         subtitle: "Compare 40+ Aussie retailers instantly.",
         cta: "Compare Now",
-        link: "#", // External merchant example
+        link: "/discover",
         image: "/assets/hero-banner.png",
         bgColor: "bg-primary",
-        external: true
+        external: false
     },
     {
         id: 2,
         title: "Join the Club & Save Big!",
         subtitle: "Exclusive discounts for PetShack members.",
         cta: "Join Free",
-        link: "/signup", // Internal
+        link: "/signup",
         image: "/assets/promo-app.png",
         bgColor: "bg-blue-600",
         external: false
@@ -33,10 +33,10 @@ const BANNERS = [
         title: "Top Deals on Pet Essentials",
         subtitle: "Sniff out the best bargains at PetBarn today.",
         cta: "Shop Now",
-        link: "#", // External merchant example
+        link: "/discover",
         image: "/assets/cat-dog.png",
         bgColor: "bg-purple-600",
-        external: true
+        external: false
     }
 ];
 
@@ -70,23 +70,7 @@ export const Hero = () => {
             <div className="overflow-hidden" ref={emblaRef}>
                 <div className="flex">
                     {BANNERS.map((banner) => (
-                        <div key={banner.id} className={`flex-[0_0_100%] min-w-0 relative ${banner.bgColor} text-white pt-8 sm:pt-12 lg:pt-20 pb-20 sm:pb-24 lg:pb-28 cursor-pointer`}>
-                            {/* Stretched Link for Full Slide Clickability */}
-                            {banner.external ? (
-                                <a
-                                    href={banner.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="absolute inset-0 z-10"
-                                    aria-label={banner.title}
-                                />
-                            ) : (
-                                <Link
-                                    href={banner.link}
-                                    className="absolute inset-0 z-10"
-                                    aria-label={banner.title}
-                                />
-                            )}
+                        <div key={banner.id} className={`flex-[0_0_100%] min-w-0 relative ${banner.bgColor} text-white pt-8 sm:pt-12 lg:pt-20 pb-20 sm:pb-24 lg:pb-28`}>
 
                             <div className="container mx-auto px-4 sm:px-6 relative z-0">
                                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-12">
@@ -104,8 +88,25 @@ export const Hero = () => {
                                         </p>
 
                                         <div className="space-y-4 sm:space-y-6">
-                                            <div className="flex bg-[#2b2b2b] text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-3.5 lg:py-4 rounded-full font-black text-sm sm:text-base lg:text-lg hover:bg-black transition-all shadow-xl shadow-black/20 relative z-20 pointer-events-none text-center min-h-[44px] items-center justify-center">
-                                                {banner.cta}
+                                            {/* CTA — only the button is clickable, not the full banner */}
+                                            <div className="flex justify-center lg:justify-start">
+                                                {banner.external ? (
+                                                    <a
+                                                        href={banner.link}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center justify-center bg-[#2b2b2b] text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-3.5 lg:py-4 rounded-full font-black text-sm sm:text-base lg:text-lg hover:bg-black transition-all shadow-xl shadow-black/20 min-h-[44px] relative z-20"
+                                                    >
+                                                        {banner.cta}
+                                                    </a>
+                                                ) : (
+                                                    <Link
+                                                        href={banner.link}
+                                                        className="inline-flex items-center justify-center bg-[#2b2b2b] text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-3.5 lg:py-4 rounded-full font-black text-sm sm:text-base lg:text-lg hover:bg-black transition-all shadow-xl shadow-black/20 min-h-[44px] relative z-20"
+                                                    >
+                                                        {banner.cta}
+                                                    </Link>
+                                                )}
                                             </div>
 
                                             <div className="flex items-center justify-center lg:justify-start gap-2 mt-6 sm:mt-8">
@@ -131,7 +132,7 @@ export const Hero = () => {
                                 </div>
                             </div>
 
-                            {/* Decorative patterns - Behind content */}
+                            {/* Decorative patterns */}
                             <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none -z-10">
                                 <svg width="100%" height="100%"><pattern id={`pattern-${banner.id}`} width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="40" fill="none" stroke="white" strokeWidth="1" /></pattern><rect width="100%" height="100%" fill={`url(#pattern-${banner.id})`} /></svg>
                             </div>
@@ -161,4 +162,3 @@ export const Hero = () => {
         </section>
     );
 };
-

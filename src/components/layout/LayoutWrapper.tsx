@@ -5,6 +5,8 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { Chatbot } from "@/components/ui/Chatbot";
 import { ModalProvider } from "@/context/ModalContext";
+import { AuthProvider } from "@/context/AuthContext";
+import { Suspense } from "react";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -12,20 +14,30 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
     const isAuthPage = authPages.includes(pathname);
 
     if (isAuthPage) {
-        return <main className="min-h-screen">{children}</main>;
+        return (
+            <AuthProvider>
+                <Suspense fallback={null}>
+                    <main className="min-h-screen">{children}</main>
+                </Suspense>
+            </AuthProvider>
+        );
     }
 
     return (
-        <ModalProvider>
-            <div className="flex flex-col min-h-screen">
-                <Header />
-                <main className="grow">
-                    {children}
-                </main>
-                <Footer />
-                <Chatbot />
-            </div>
-        </ModalProvider>
+        <AuthProvider>
+            <ModalProvider>
+                <div className="flex flex-col min-h-screen">
+                    <Header />
+                    <Suspense fallback={null}>
+                        <main className="grow">
+                            {children}
+                        </main>
+                    </Suspense>
+                    <Footer />
+                    <Chatbot />
+                </div>
+            </ModalProvider>
+        </AuthProvider>
     );
 }
 

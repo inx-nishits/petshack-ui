@@ -200,31 +200,7 @@ export default function BlogListingPage() {
                 )}
             </div>
 
-            {/* Newsletter CTA - Consistent with Brand */}
-            <section className="pb-8 sm:pb-12 lg:pb-16">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="bg-[#0F172A] rounded-3xl sm:rounded-[4rem] p-8 sm:p-12 md:p-24 text-center relative overflow-hidden">
-                        <div className="relative z-10 max-w-3xl mx-auto">
-                            <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-white mb-4 sm:mb-8 tracking-tighter">Stay paw-sitively updated.</h2>
-                            <p className="text-white/60 text-sm sm:text-lg md:text-xl font-medium mb-8 sm:mb-12 leading-relaxed">
-                                Subscribe to our newsletter to get our latest updates, price comparison guides, and exclusive news delivered straight to your inbox.
-                            </p>
-                            <form className="flex flex-col sm:flex-row gap-4">
-                                <input
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    className="flex-1 bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl px-6 sm:px-8 py-3 sm:py-5 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/50 text-base sm:text-lg min-h-[44px]"
-                                />
-                                <button className="bg-primary text-white px-6 sm:px-10 py-3 sm:py-5 rounded-xl sm:rounded-2xl font-black text-base sm:text-lg hover:bg-primary-dark transition-all shadow-xl shadow-primary/20 min-h-[44px]">
-                                    Subscribe Now
-                                </button>
-                            </form>
-                        </div>
-                        {/* Highlights */}
-                        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] translate-x-1/2 -translate-y-1/2" />
-                    </div>
-                </div>
-            </section>
+
         </div>
     );
 }
